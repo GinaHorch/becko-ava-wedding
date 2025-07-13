@@ -1,4 +1,4 @@
-import GallerySwiper from './components/GallerySwiper';
+import GallerySwiper from '../components/GallerySwiper';
 
 export default function Gallery() {
   return (

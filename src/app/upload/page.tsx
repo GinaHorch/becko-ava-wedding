@@ -1,5 +1,5 @@
-import ImageUploader from './components/ImageUploader';
-import GuestMessageForm from './components/GuestMessageForm';
+import ImageUploader from '../components/ImageUploader';
+import GuestMessageForm from '../components/GuestMessageForm';
 
 export default function Guestbook() {
   return (
