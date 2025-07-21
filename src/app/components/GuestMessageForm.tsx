@@ -1,15 +1,11 @@
-"use client"
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-
+"use client";
 
 export default function GuestMessageForm() {
   return (
-    <form className="space-y-4">
-      <Input placeholder="Your Name" required />
-      <Textarea placeholder="Your Message" required />
-      <Button type="submit">Submit Message</Button>
+    <form className="guest-form">
+      <input type="text" placeholder="Your Name" required />
+      <textarea placeholder="Your Message" required />
+      <button type="submit">Submit Message</button>
     </form>
   );
 }
