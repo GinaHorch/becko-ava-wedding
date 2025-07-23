@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alice&display=swap');
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -36,7 +39,48 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Geist', sans-serif;
+  font-family: 'Alice', serif;;
 }
 
-/* I added this randomly - Bianca you can add, delete, edit, etc. as you see fit */
+.sacramento {
+  font-family: 'Sacramento', cursive;
+  font-size: 4rem;
+}
+
+
+.landing-container {
+  background-color: #f0c3ce;
+  color: #ef471f;
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* 👈 align to top */
+  text-align: center;
+  padding-top: 4rem; /* 👈 adjust upward spacing here */
+}
+
+.landing-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  line-height: 3rem;
+}
+
+.landing-navigation ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 1rem;
+  font-size: 1.2rem;
+}
+
+.landing-navigation a {
+  text-decoration: none;
+  color: #ef471f;
+}
+
+.landing-description {
+  margin-top: 2rem;
+  font-size: 1.2rem;
+}
