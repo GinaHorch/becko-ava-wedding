@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import Image from 'next/image';
 import weddingIcon1 from './images/wedding-icon-1.png';
 import weddingIcon2 from './images/wedding-icon-2.png';
-import petalImage from './images/petal-icon.png'; // Import your local petal image
+import soccerBallImage from './images/rainbow-soccer-ball.png';
 
 // Heart icon component
 const HeartIcon = ({ color = '#ef471f', size = 16 }) => (
@@ -31,7 +31,7 @@ export default function Home() {
 
     for (let i = 0; i < numPetals; i++) {
       const petal = document.createElement('img');
-      petal.src = petalImage.src; // Use local petal image path here
+      petal.src = soccerBallImage.src; 
       petal.className = 'petal';
       petal.style.left = `${Math.random() * 100}vw`;
       petal.style.animationDuration = `${5 + Math.random() * 5}s`;
