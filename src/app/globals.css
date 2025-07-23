@@ -39,7 +39,9 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Alice', serif;;
+  font-family: 'Alice', serif;
+   position: relative; 
+  overflow-x: hidden;  
 }
 
 .sacramento {
@@ -83,4 +85,26 @@ body {
 .landing-description {
   margin-top: 2rem;
   font-size: 1.2rem;
+}
+
+/* Petal animation */
+.petal {
+  position: absolute;
+  top: -50px;
+  width: 30px;
+  opacity: 0.8;
+  animation: fall linear infinite;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
 }
