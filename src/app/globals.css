@@ -80,11 +80,14 @@ body {
 .landing-navigation a {
   text-decoration: none;
   color: #ef471f;
+  display: inline-flex;
+  align-items: center;
 }
 
 .landing-description {
   margin-top: 2rem;
   font-size: 1.2rem;
+  padding-bottom: 10rem;
 }
 
 /* Ball wrapper */
@@ -97,6 +100,7 @@ body {
   animation: bounceRight linear infinite;
   pointer-events: none;
   z-index: 1000;
+  /* Optionally tweak left or add transform if you want */
 }
 
 /* Base image */
@@ -108,41 +112,41 @@ body {
   border-radius: 50%;
 }
 
-/* Bouncing animation */
+/* Bouncing animation with more vertical movement and alternating */
 @keyframes bounceRight {
   0% {
     transform: translateX(0) translateY(0);
     opacity: 1;
   }
   10% {
-    transform: translateX(10vw) translateY(-50px);
+    transform: translateX(12vw) translateY(-60px);
   }
   20% {
-    transform: translateX(20vw) translateY(0);
+    transform: translateX(24vw) translateY(0);
   }
   30% {
-    transform: translateX(30vw) translateY(-45px);
+    transform: translateX(36vw) translateY(-55px);
   }
   40% {
-    transform: translateX(40vw) translateY(0);
+    transform: translateX(48vw) translateY(0);
   }
   50% {
-    transform: translateX(50vw) translateY(-40px);
+    transform: translateX(60vw) translateY(-50px);
   }
   60% {
-    transform: translateX(60vw) translateY(0);
+    transform: translateX(72vw) translateY(0);
   }
   70% {
-    transform: translateX(70vw) translateY(-35px);
+    transform: translateX(84vw) translateY(-45px);
   }
   80% {
-    transform: translateX(80vw) translateY(0);
+    transform: translateX(96vw) translateY(0);
   }
   90% {
-    transform: translateX(90vw) translateY(-30px);
+    transform: translateX(108vw) translateY(-40px);
   }
   100% {
-    transform: translateX(100vw) translateY(0);
+    transform: translateX(120vw) translateY(0);
     opacity: 0;
   }
 }
