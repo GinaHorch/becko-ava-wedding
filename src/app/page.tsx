@@ -32,7 +32,6 @@ export default function Home() {
     for (let i = 0; i < numBalls; i++) {
       const ball = document.createElement('img');
 
-      // Decide if this ball is rainbow or black & white
       const isRainbow = Math.random() < 0.5;
 
       ball.src = isRainbow ? soccerBallImage.src : blackWhiteSoccerBall.src;
@@ -42,11 +41,11 @@ export default function Home() {
       ball.style.setProperty('--random-top', topPosition.toString());
 
       if (isRainbow) {
-        const size = 95; // Slightly bigger for rainbow balls
+        const size = 95; // sizing for rainbow balls
         ball.style.width = `${size}px`;
         ball.style.height = `${size}px`;
       } else {
-        const size = 80; // Original size for black & white balls
+        const size = 80; // sizing for black & white balls
         ball.style.width = `${size}px`;
         ball.style.height = `${size}px`;
       }
