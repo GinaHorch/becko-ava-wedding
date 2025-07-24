@@ -5,8 +5,8 @@ import Image from 'next/image';
 import weddingIcon1 from './images/wedding-icon-1.png';
 import weddingIcon2 from './images/wedding-icon-2.png';
 import soccerBallImage from './images/rainbow-soccer-ball.png';
+import blackWhiteSoccerBall from './images/black-white-soccer-ball.png'; // <-- make sure you have this image imported
 
-// Heart icon component
 const HeartIcon = ({ color = '#ef471f', size = 16 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -26,17 +26,35 @@ const HeartIcon = ({ color = '#ef471f', size = 16 }) => (
 
 export default function Home() {
   useEffect(() => {
-    const numPetals = 20;
+    const numBalls = 7;
     const container = document.body;
 
-    for (let i = 0; i < numPetals; i++) {
-      const petal = document.createElement('img');
-      petal.src = soccerBallImage.src; 
-      petal.className = 'petal';
-      petal.style.left = `${Math.random() * 100}vw`;
-      petal.style.animationDuration = `${5 + Math.random() * 5}s`;
-      petal.style.animationDelay = `${Math.random() * 5}s`;
-      container.appendChild(petal);
+    for (let i = 0; i < numBalls; i++) {
+      const ball = document.createElement('img');
+
+      // Decide if this ball is rainbow or black & white
+      const isRainbow = Math.random() < 0.5;
+
+      ball.src = isRainbow ? soccerBallImage.src : blackWhiteSoccerBall.src;
+      ball.className = 'petal';
+
+      const topPosition = Math.random() * 0.9;
+      ball.style.setProperty('--random-top', topPosition.toString());
+
+      if (isRainbow) {
+        const size = 95; // Slightly bigger for rainbow balls
+        ball.style.width = `${size}px`;
+        ball.style.height = `${size}px`;
+      } else {
+        const size = 80; // Original size for black & white balls
+        ball.style.width = `${size}px`;
+        ball.style.height = `${size}px`;
+      }
+
+      ball.style.animationDuration = `${5 + Math.random() * 5}s`;
+      ball.style.animationDelay = `${Math.random() * 5}s`;
+
+      container.appendChild(ball);
     }
 
     return () => {

@@ -58,9 +58,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* 👈 align to top */
+  justify-content: flex-start; 
   text-align: center;
-  padding-top: 4rem; /* 👈 adjust upward spacing here */
+  padding-top: 4rem; 
 }
 
 .landing-title {
@@ -87,24 +87,54 @@ body {
   font-size: 1.2rem;
 }
 
-/* Petal animation */
 .petal {
   position: absolute;
-  top: -50px;
+  left: -80px;
+  top: calc(100vh * var(--random-top));
   width: 80px;
-  opacity: 1;
-  animation: fall linear infinite;
+  height: 80px;
+  object-fit: contain; /* ✅ Preserves image aspect ratio */
+  border-radius: 50%;   /* ✅ Ensures round shape */
+  opacity: 0.9;
+  animation: bounceRight linear infinite;
   pointer-events: none;
   z-index: 1000;
 }
 
-@keyframes fall {
+@keyframes bounceRight {
   0% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 0.9;
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+  10% {
+    transform: translateX(10vw) translateY(-50px); /* bigger bounce */
+  }
+  20% {
+    transform: translateX(20vw) translateY(0);
+  }
+  30% {
+    transform: translateX(30vw) translateY(-45px);
+  }
+  40% {
+    transform: translateX(40vw) translateY(0);
+  }
+  50% {
+    transform: translateX(50vw) translateY(-40px);
+  }
+  60% {
+    transform: translateX(60vw) translateY(0);
+  }
+  70% {
+    transform: translateX(70vw) translateY(-35px);
+  }
+  80% {
+    transform: translateX(80vw) translateY(0);
+  }
+  90% {
+    transform: translateX(90vw) translateY(-30px);
   }
   100% {
-    transform: translateY(100vh) rotate(360deg);
+    transform: translateX(100vw) translateY(0);
     opacity: 0;
   }
 }
