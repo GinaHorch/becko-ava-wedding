@@ -43,11 +43,11 @@ export default function Home() {
       wrapper.style.setProperty('--random-top', topPosition.toString());
 
       if (isRainbow) {
-        wrapper.style.width = '107px';  // increased size for rainbow balls
+        wrapper.style.width = '107px'; // Rainbow balls slightly larger
         wrapper.style.height = '107px';
         ball.classList.add('rainbow');
       } else {
-        wrapper.style.width = '65px';   // reduced size for black & white balls
+        wrapper.style.width = '65px';  // Black and white balls slightly smaller
         wrapper.style.height = '65px';
         ball.classList.add('black-white');
       }
@@ -69,7 +69,7 @@ export default function Home() {
     <main className="landing-container">
       <h1 className="landing-title">
         <span className="sacramento">Becko & Ava’s</span><br />
-        Wedding Guestbook 
+        Wedding Guestbook
       </h1>
 
       <nav className="landing-navigation">
@@ -91,8 +91,7 @@ export default function Home() {
         <Image
           src={weddingIcon2}
           alt="Wedding icon below navigation"
-          width={130}
-          height={100}
+          height={100} // Only height set, width adjusts automatically
         />
       </div>
 
