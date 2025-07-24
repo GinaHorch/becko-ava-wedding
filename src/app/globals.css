@@ -1,3 +1,4 @@
+/* Font imports */
 @import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Alice&display=swap');
 
@@ -86,7 +87,7 @@ body {
   font-size: 1.2rem;
 }
 
-/* 🟣 Wrapper that ensures perfect circle */
+/* Ball wrapper */
 .ball-wrapper {
   position: absolute;
   left: -80px;
@@ -98,35 +99,16 @@ body {
   z-index: 1000;
 }
 
-/* 🟣 Base animated image inside wrapper */
+/* Base image */
 .petal {
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
-}
-
-/* ⚫️ Black & white soccer ball tweaks */
-.black-white {
   border-radius: 50%;
-  object-fit: cover;
-  clip-path: circle(50% at 50% 50%);
-  width: 100%;
-  height: 100%;
-  display: block;
-
-  /* Subtle horizontal stretch to make ball look rounder */
-  transform: scaleX(1.05);
-  /* You can experiment with values between 1.02 and 1.1 */
 }
 
-/* 🌈 Rainbow soccer ball styling (optional) */
-.rainbow {
-  border-radius: 50%;
-  object-fit: contain;
-}
-
-/* 💨 Bouncing animation */
+/* Bouncing animation */
 @keyframes bounceRight {
   0% {
     transform: translateX(0) translateY(0);
