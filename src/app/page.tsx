@@ -69,7 +69,7 @@ export default function Home() {
     <main className="landing-container">
       <h1 className="landing-title">
         <span className="sacramento">Becko & Ava’s</span><br />
-        Wedding Guestbook
+        Wedding Guestbook 
       </h1>
 
       <nav className="landing-navigation">
@@ -98,7 +98,7 @@ export default function Home() {
 
       <div className="landing-description">
         <p>
-          Welcome! Join us in celebrating Becko & Ava by leaving your heartfelt messages and beautiful photos.
+          ⚽ Welcome! Join us in celebrating Becko & Ava by leaving your heartfelt messages and beautiful photos ⚽
         </p>
 
         <Image
