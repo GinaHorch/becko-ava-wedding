@@ -40,15 +40,14 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: 'Alice', serif;
-   position: relative; 
-  overflow-x: hidden;  
+  position: relative;
+  overflow-x: hidden;
 }
 
 .sacramento {
   font-family: 'Sacramento', cursive;
   font-size: 4rem;
 }
-
 
 .landing-container {
   background-color: #f0c3ce;
@@ -58,9 +57,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; 
+  justify-content: flex-start;
   text-align: center;
-  padding-top: 4rem; 
+  padding-top: 4rem;
 }
 
 .landing-title {
@@ -87,27 +86,54 @@ body {
   font-size: 1.2rem;
 }
 
-.petal {
+/* 🟣 Wrapper that ensures perfect circle */
+.ball-wrapper {
   position: absolute;
   left: -80px;
   top: calc(100vh * var(--random-top));
-  width: 80px;
-  height: 80px;
-  object-fit: contain; /* ✅ Preserves image aspect ratio */
-  border-radius: 50%;   /* ✅ Ensures round shape */
-  opacity: 0.9;
+  border-radius: 50%;
+  overflow: hidden;
   animation: bounceRight linear infinite;
   pointer-events: none;
   z-index: 1000;
 }
 
+/* 🟣 Base animated image inside wrapper */
+.petal {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* ⚫️ Black & white soccer ball tweaks */
+.black-white {
+  border-radius: 50%;
+  object-fit: cover;
+  clip-path: circle(50% at 50% 50%);
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  /* Subtle horizontal stretch to make ball look rounder */
+  transform: scaleX(1.05);
+  /* You can experiment with values between 1.02 and 1.1 */
+}
+
+/* 🌈 Rainbow soccer ball styling (optional) */
+.rainbow {
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+/* 💨 Bouncing animation */
 @keyframes bounceRight {
   0% {
     transform: translateX(0) translateY(0);
     opacity: 1;
   }
   10% {
-    transform: translateX(10vw) translateY(-50px); /* bigger bounce */
+    transform: translateX(10vw) translateY(-50px);
   }
   20% {
     transform: translateX(20vw) translateY(0);

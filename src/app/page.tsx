@@ -5,7 +5,7 @@ import Image from 'next/image';
 import weddingIcon1 from './images/wedding-icon-1.png';
 import weddingIcon2 from './images/wedding-icon-2.png';
 import soccerBallImage from './images/rainbow-soccer-ball.png';
-import blackWhiteSoccerBall from './images/black-white-soccer-ball.png'; // <-- make sure you have this image imported
+import blackWhiteSoccerBall from './images/black-white-soccer-ball.png';
 
 const HeartIcon = ({ color = '#ef471f', size = 16 }) => (
   <svg
@@ -30,35 +30,38 @@ export default function Home() {
     const container = document.body;
 
     for (let i = 0; i < numBalls; i++) {
-      const ball = document.createElement('img');
+      const wrapper = document.createElement('div');
+      wrapper.className = 'ball-wrapper';
 
+      const ball = document.createElement('img');
       const isRainbow = Math.random() < 0.5;
 
       ball.src = isRainbow ? soccerBallImage.src : blackWhiteSoccerBall.src;
       ball.className = 'petal';
 
       const topPosition = Math.random() * 0.9;
-      ball.style.setProperty('--random-top', topPosition.toString());
+      wrapper.style.setProperty('--random-top', topPosition.toString());
 
       if (isRainbow) {
-        const size = 95; // sizing for rainbow balls
-        ball.style.width = `${size}px`;
-        ball.style.height = `${size}px`;
+        wrapper.style.width = '107px';  // increased size for rainbow balls
+        wrapper.style.height = '107px';
+        ball.classList.add('rainbow');
       } else {
-        const size = 80; // sizing for black & white balls
-        ball.style.width = `${size}px`;
-        ball.style.height = `${size}px`;
+        wrapper.style.width = '65px';   // reduced size for black & white balls
+        wrapper.style.height = '65px';
+        ball.classList.add('black-white');
       }
 
-      ball.style.animationDuration = `${5 + Math.random() * 5}s`;
-      ball.style.animationDelay = `${Math.random() * 5}s`;
+      wrapper.style.animationDuration = `${5 + Math.random() * 5}s`;
+      wrapper.style.animationDelay = `${Math.random() * 5}s`;
 
-      container.appendChild(ball);
+      wrapper.appendChild(ball);
+      container.appendChild(wrapper);
     }
 
     return () => {
-      const petals = document.querySelectorAll('.petal');
-      petals.forEach(petal => petal.remove());
+      const wrappers = document.querySelectorAll('.ball-wrapper');
+      wrappers.forEach(w => w.remove());
     };
   }, []);
 
