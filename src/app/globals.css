@@ -43,6 +43,10 @@ body {
   font-family: 'Alice', serif;
   position: relative;
   overflow-x: hidden;
+  border: double 6px black; /* 👈 Add this line */
+  padding: 1rem;            /* 👈 Ensure content doesn't touch border */
+  box-sizing: border-box;
+  min-height: 100vh;
 }
 
 .sacramento {
@@ -61,6 +65,8 @@ body {
   justify-content: flex-start;
   text-align: center;
   padding-top: 4rem;
+  border: double 6px black; /* 👈 Add this */
+  box-sizing: border-box;
 }
 
 .landing-title {
