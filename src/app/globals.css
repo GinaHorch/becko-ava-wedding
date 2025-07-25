@@ -43,14 +43,13 @@ body {
   font-family: 'Alice', serif;
   position: relative;
   overflow-x: hidden;
- /* Main double border (outermost two lines) */
-  border: double 4px #f0c3ce;
-   /* 👇 First inner line */
-  outline: 2px solid #ef471f;
 
+  /* Main double border (outermost two lines) */
+  border: double 4px #f0c3ce;
+  /* 👇 First inner line */
+  outline: 2px solid #ef471f;
   /* 👇 Second inner line, inset using box-shadow */
-  box-shadow:
-    inset 0 0 0 4px #ef471f;
+  box-shadow: inset 0 0 0 4px #ef471f;
 
   border-radius: 12px;
   padding: 0.2rem;
@@ -122,16 +121,20 @@ body {
   animation: bounceRight linear infinite;
   pointer-events: none;
   z-index: 1000;
-  /* Optionally tweak left or add transform if you want */
 }
 
-/* Base image */
+/* Base image for balls */
 .petal {
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
   border-radius: 50%;
+}
+
+/* ✅ NEW: Style for black-white soccer ball */
+.black-white {
+  background-color: white;
 }
 
 /* 🎊 Confetti Text Effect */
