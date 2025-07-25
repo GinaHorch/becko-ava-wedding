@@ -112,6 +112,39 @@ body {
   border-radius: 50%;
 }
 
+/* 🎊 Confetti Text Effect */
+.confetti-text {
+  position: relative;
+  display: inline-block;
+  font-weight: bold;
+  background: linear-gradient(
+    45deg,
+    #E60001,
+    #FF8D01,
+    #FFEE03,
+    #008220,
+    #004DFD,
+    #760088
+  );
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: confettiShift 6s ease-in-out infinite;
+}
+
+/* Animated rainbow shimmer effect */
+@keyframes confettiShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 /* Bouncing animation with more vertical movement and alternating */
 @keyframes bounceRight {
   0% {

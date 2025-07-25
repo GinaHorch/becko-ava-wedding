@@ -59,9 +59,13 @@ export default function Home() {
   return (
     <main className="landing-container">
       <h1 className="landing-title">
-        <span className="sacramento">Becko & Ava’s</span><br />
+      <span className="sacramento">
+      <span className="confetti-text">Becko</span> & <span className="confetti-text">Ava’s</span>
+    </span>
+      <br />
         Wedding Guestbook <br />
       </h1>
+
 
       <nav className="landing-navigation">
         <ul>
