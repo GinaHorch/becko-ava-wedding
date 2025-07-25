@@ -162,6 +162,16 @@ body {
   box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
 }
 
+.icon-between-title-and-nav {
+  margin: 0.5rem 0;
+  text-align: center;
+}
+
+.icon-between-title-and-nav img {
+  max-width: 100px;
+  height: auto;
+}
+
 /* Bouncing animation with more vertical movement and alternating */
 @keyframes bounceRight {
   0% {

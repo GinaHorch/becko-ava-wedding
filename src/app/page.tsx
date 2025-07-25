@@ -5,6 +5,8 @@ import Image from 'next/image';
 import weddingIcon1 from './images/wedding-icon-1.png';
 import weddingIcon2 from './images/wedding-icon-2.png';
 import blackWhiteSoccerBall from './images/black-white-soccer-ball.png';
+import weddingIcon3 from './images/wedding-icon-3.png';
+
 
 const HeartIcon = ({ color = '#ef471f', size = 16 }) => (
   <svg
@@ -66,22 +68,30 @@ export default function Home() {
         Wedding Guestbook <br />
       </h1>
 
+ {/* 👇 Insert wedding-icon-3.png here */}
+  <div className="icon-between-title-and-nav">
+    <Image
+      src={weddingIcon3}
+      alt="Decorative wedding icon"
+      width={100}
+      height={100}
+    />
+  </div>
 
-<nav className="landing-navigation">
-  <ul>
-    <li>
-      <a href="/upload" className="button glow-button">
-        <HeartIcon /> Leave a Message
-      </a>
-    </li>
-    <li>
-      <a href="/gallery" className="button glow-button">
-        <HeartIcon /> View Guestbook
-      </a>
-    </li>
-  </ul>
-</nav>
-
+      <nav className="landing-navigation">
+        <ul>
+          <li>
+            <a href="/upload">
+              <HeartIcon /> Leave a Message
+            </a>
+          </li>
+          <li>
+            <a href="/gallery">
+              <HeartIcon /> View Guestbook
+            </a>
+          </li>
+        </ul>
+      </nav>
 
       <div style={{ paddingTop: '1.5rem', textAlign: 'center' }}>
         <Image
