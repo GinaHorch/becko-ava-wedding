@@ -80,6 +80,7 @@ body {
 .landing-navigation a {
   text-decoration: none;
   color: black;
+  font-weight: bold;
   display: inline-flex;
   align-items: center;
 }
