@@ -68,15 +68,15 @@ export default function Home() {
         Wedding Guestbook <br />
       </h1>
 
- {/* 👇 Insert wedding-icon-3.png here */}
-  <div className="icon-between-title-and-nav">
-    <Image
-      src={weddingIcon3}
-      alt="Decorative wedding icon"
-      width={100}
-      height={100}
-    />
-  </div>
+ {/* 👇 Insert weddingIcon3 image here */}
+    <div className="icon-between-title-and-nav">
+      <Image
+        src={weddingIcon3}
+        alt="Wedding Icon Between Title and Navigation"
+        width={100}
+        height={100}
+      />
+    </div>
 
       <nav className="landing-navigation">
         <ul>
