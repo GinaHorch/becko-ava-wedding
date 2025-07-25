@@ -67,20 +67,21 @@ export default function Home() {
       </h1>
 
 
-      <nav className="landing-navigation">
-        <ul>
-          <li>
-            <a href="/upload">
-              <HeartIcon /> Leave a Message
-            </a>
-          </li>
-          <li>
-            <a href="/gallery">
-              <HeartIcon /> View Guestbook
-            </a>
-          </li>
-        </ul>
-      </nav>
+<nav className="landing-navigation">
+  <ul>
+    <li>
+      <a href="/upload" className="button glow-button">
+        <HeartIcon /> Leave a Message
+      </a>
+    </li>
+    <li>
+      <a href="/gallery" className="button glow-button">
+        <HeartIcon /> View Guestbook
+      </a>
+    </li>
+  </ul>
+</nav>
+
 
       <div style={{ paddingTop: '1.5rem', textAlign: 'center' }}>
         <Image

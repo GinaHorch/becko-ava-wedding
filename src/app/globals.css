@@ -124,7 +124,7 @@ body {
     #FFEE03,
     #008220,
     #004DFD,
-    #760088
+    #760088 
   );
   background-size: 400% 400%;
   -webkit-background-clip: text;
@@ -143,6 +143,22 @@ body {
   100% {
     background-position: 0% 50%;
   }
+}
+
+.button {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+  background: #f0c3ce;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: normal;
+  text-transform: uppercase;
+  transition: all 0.2s ease-in-out;
+}
+
+.glow-button:hover {
+  color: white;
+  box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
 }
 
 /* Bouncing animation with more vertical movement and alternating */
