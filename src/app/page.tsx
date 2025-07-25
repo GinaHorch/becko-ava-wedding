@@ -87,9 +87,11 @@ export default function Home() {
       </div>
 
       <div className="landing-description"> 
-        <p>
-           Welcome! Join us in celebrating Becko & Ava<br /> by leaving your heartfelt messages and beautiful photos. 
-        </p>
+       <p>
+      Welcome! Join us in celebrating Becko & Ava by leaving your<br />
+      heartfelt messages and beautiful photos and memorable videos.
+      </p>
+
 
         <Image
           src={weddingIcon1}
