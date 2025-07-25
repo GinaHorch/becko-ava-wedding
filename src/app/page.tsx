@@ -67,12 +67,12 @@ export default function Home() {
         <ul>
           <li>
             <a href="/upload">
-              <HeartIcon /> Leave a message
+              <HeartIcon /> Leave a Message
             </a>
           </li>
           <li>
             <a href="/gallery">
-              <HeartIcon /> View guestbook
+              <HeartIcon /> View Guestbook
             </a>
           </li>
         </ul>
@@ -88,7 +88,7 @@ export default function Home() {
 
       <div className="landing-description"> 
         <p>
-          ⚽ Welcome! Join us in celebrating Becko & Ava by leaving your heartfelt messages and beautiful photos ⚽
+           Welcome! Join us in celebrating Becko & Ava<br /> by leaving your heartfelt messages and beautiful photos. 
         </p>
 
         <Image
