@@ -7,7 +7,6 @@ import weddingIcon2 from './images/wedding-icon-2.png';
 import blackWhiteSoccerBall from './images/black-white-soccer-ball.png';
 import weddingIcon3 from './images/wedding-icon-3.png';
 
-
 const HeartIcon = ({ color = '#ef471f', size = 16 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -27,9 +26,9 @@ const HeartIcon = ({ color = '#ef471f', size = 16 }) => (
 
 export default function Home() {
   useEffect(() => {
-    const numBalls = 2; 
+    const numBalls = 2;
     const container = document.querySelector('.landing-container');
-    
+
     for (let i = 0; i < numBalls; i++) {
       const wrapper = document.createElement('div');
       wrapper.className = 'ball-wrapper';
@@ -38,49 +37,67 @@ export default function Home() {
       ball.src = blackWhiteSoccerBall.src;
       ball.className = 'petal black-white';
 
-      // 🎯 Position balls between 102% and 104% of viewport height
       const topPosition = 1.35 + Math.random() * 0.16;
       wrapper.style.setProperty('--random-top', topPosition.toString());
 
       wrapper.style.width = '50px';
       wrapper.style.height = '50px';
-
       wrapper.style.animationDuration = `${5 + Math.random() * 5}s`;
       wrapper.style.animationDelay = `${Math.random() * 5}s`;
 
       wrapper.appendChild(ball);
 
       if (container) {
-      container.appendChild(wrapper);
+        container.appendChild(wrapper);
+      }
     }
-  }
 
-  return () => {
-    const wrappers = document.querySelectorAll('.ball-wrapper');
-    wrappers.forEach(w => w.remove());
-  };
-}, [blackWhiteSoccerBall]);
+    return () => {
+      const wrappers = document.querySelectorAll('.ball-wrapper');
+      wrappers.forEach((w) => w.remove());
+    };
+  }, [blackWhiteSoccerBall]);
 
   return (
     <main className="landing-container">
+      {/* Top wedding icon */}
+      <div className="icon-at-top">
+        <Image
+          src={weddingIcon3}
+          alt="Wedding Icon at Top of Page"
+          width={120}
+          height={100}
+        />
+      </div>
+
+      {/* Title */}
       <h1 className="landing-title">
-      <span className="sacramento">
-      <span className="confetti-text">Becko</span> & <span className="confetti-text">Ava’s</span>
-    </span>
-      <br />
+        <span className="sacramento">
+          <span className="confetti-text">Becko</span> & <span className="confetti-text">Ava’s</span>
+        </span>
+        <br />
         Wedding Guestbook <br />
       </h1>
 
- {/* 👇 Insert weddingIcon3 image here */}
-    <div className="icon-between-title-and-nav">
-      <Image
-        src={weddingIcon3}
-        alt="Wedding Icon Between Title and Navigation"
-        width={100}
-        height={100}
-      />
-    </div>
+      {/* ✅ Welcome message moved below title */}
+      <div
+        className="welcome-message"
+        style={{
+          marginTop: '0rem',
+          fontSize: '1.1rem',
+          color: '#000',
+          textAlign: 'center',
+          lineHeight: '1.6',
+        }}
+      >
+        <p>
+          Welcome! Join us in celebrating Becko & Ava by leaving your
+          <br />
+          heartfelt messages and beautiful photos and memorable videos.
+        </p>
+      </div>
 
+      {/* Navigation */}
       <nav className="landing-navigation">
         <ul>
           <li>
@@ -96,6 +113,7 @@ export default function Home() {
         </ul>
       </nav>
 
+      {/* Decorative wedding icon below nav */}
       <div style={{ paddingTop: '1.5rem', textAlign: 'center' }}>
         <Image
           src={weddingIcon2}
@@ -104,13 +122,8 @@ export default function Home() {
         />
       </div>
 
-      <div className="landing-description"> 
-       <p>
-      Welcome! Join us in celebrating Becko & Ava by leaving your<br />
-      heartfelt messages and beautiful photos and memorable videos.
-      </p>
-
-
+      {/* Larger image near the bottom */}
+      <div className="landing-description">
         <Image
           src={weddingIcon1}
           alt="Wedding icon below paragraph"
@@ -122,4 +135,3 @@ export default function Home() {
     </main>
   );
 }
-
