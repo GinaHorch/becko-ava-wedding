@@ -39,7 +39,7 @@ export default function Home() {
       ball.className = 'petal black-white';
 
       // 🎯 Position balls between 102% and 104% of viewport height
-      const topPosition = 1.18 + Math.random() * 0.16;
+      const topPosition = 1.4 + Math.random() * 0.16;
       wrapper.style.setProperty('--random-top', topPosition.toString());
 
       wrapper.style.width = '50px';
