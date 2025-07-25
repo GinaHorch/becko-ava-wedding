@@ -43,10 +43,17 @@ body {
   font-family: 'Alice', serif;
   position: relative;
   overflow-x: hidden;
-  border: double 6px black; /* 👈 Add this line */
-  padding: 1rem;            /* 👈 Ensure content doesn't touch border */
-  box-sizing: border-box;
-  min-height: 100vh;
+ /* Main double border (outermost two lines) */
+  border: double 4px #f0c3ce;
+   /* 👇 First inner line */
+  outline: 2px solid #ef471f;
+
+  /* 👇 Second inner line, inset using box-shadow */
+  box-shadow:
+    inset 0 0 0 4px #ef471f;
+
+  border-radius: 12px;
+  padding: 0.2rem;
 }
 
 .sacramento {
@@ -65,8 +72,9 @@ body {
   justify-content: flex-start;
   text-align: center;
   padding-top: 4rem;
-  border: double 6px black; /* 👈 Add this */
-  box-sizing: border-box;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
 }
 
 .landing-title {

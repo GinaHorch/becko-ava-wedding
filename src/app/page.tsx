@@ -27,9 +27,9 @@ const HeartIcon = ({ color = '#ef471f', size = 16 }) => (
 
 export default function Home() {
   useEffect(() => {
-    const numBalls = 2;
-    const container = document.body;
-
+    const numBalls = 2; 
+    const container = document.querySelector('.landing-container');
+    
     for (let i = 0; i < numBalls; i++) {
       const wrapper = document.createElement('div');
       wrapper.className = 'ball-wrapper';
@@ -39,7 +39,7 @@ export default function Home() {
       ball.className = 'petal black-white';
 
       // 🎯 Position balls between 102% and 104% of viewport height
-      const topPosition = 1.4 + Math.random() * 0.16;
+      const topPosition = 1.35 + Math.random() * 0.16;
       wrapper.style.setProperty('--random-top', topPosition.toString());
 
       wrapper.style.width = '50px';
@@ -49,14 +49,17 @@ export default function Home() {
       wrapper.style.animationDelay = `${Math.random() * 5}s`;
 
       wrapper.appendChild(ball);
+
+      if (container) {
       container.appendChild(wrapper);
     }
+  }
 
-    return () => {
-      const wrappers = document.querySelectorAll('.ball-wrapper');
-      wrappers.forEach(w => w.remove());
-    };
-  }, []);
+  return () => {
+    const wrappers = document.querySelectorAll('.ball-wrapper');
+    wrappers.forEach(w => w.remove());
+  };
+}, [blackWhiteSoccerBall]);
 
   return (
     <main className="landing-container">
