@@ -4,7 +4,12 @@ import GuestMessageForm from '../components/GuestMessageForm';
 export default function Guestbook() {
   return (
     <div className="guestbook-container">
-      <h1 className="guestbook-title">Leave Your Message & Photo</h1>
+      <h1 className="guestbook-title">Leave Your Message <br />
+ & Photo</h1>
+
+      <div className="instructions">
+        <p>Please leave your heartfelt message and a memorable photo for the couple.</p>
+      </div>
 
       <section className="message-form-section">
         <h2>Write Your Message</h2>
@@ -16,10 +21,7 @@ export default function Guestbook() {
         <ImageUploader />
       </section>
 
-      <div className="instructions">
-        <p>Please leave your heartfelt message and a memorable photo for the couple.</p>
-      </div>
-    </div>
+   </div>
   );
 }
 // This is a skeleton code for the guestbook page. You can modify the structure, content and styles as needed.
