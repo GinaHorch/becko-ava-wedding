@@ -7,6 +7,7 @@
   import blackWhiteSoccerBall from './images/black-white-soccer-ball.png';
   import weddingIcon3 from './images/wedding-icon-3.png';
 
+
   const HeartIcon = ({ color = '#ef471f', size = 16 }) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +38,7 @@
         ball.src = blackWhiteSoccerBall.src;
         ball.className = 'petal black-white';
 
-        const topPosition = 1.35 + Math.random() * 0.16;
+        const topPosition = 1.7 + Math.random() * 0.16;
         wrapper.style.setProperty('--random-top', topPosition.toString());
 
         wrapper.style.width = '50px';
@@ -83,7 +84,7 @@
         <div
           className="welcome-message"
           style={{
-            marginTop: '0rem',
+            marginTop: '-0.5rem',
             fontSize: '1.1rem',
             color: '#000',
             textAlign: 'center',
@@ -118,7 +119,7 @@
           <Image
             src={weddingIcon2}
             alt="Wedding icon below navigation"
-            height={100}
+            height={350}
           />
         </div>
 
