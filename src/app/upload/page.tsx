@@ -69,14 +69,14 @@ export default function Guestbook() {
         </p>
       </div>
 
-      {/* Optional second icon */}
-      <div className="guestbook-icon-2">
+      {/* 🌈 Rainbow Border Wrapper for Icon 5 */}
+      <div className="guestbook-icon-2 rainbow-overlay">
         <Image
-          src={weddingIcon5}
-          alt="Wedding icon 5"
-          className="wedding-icon-5"
-        />   
-      </div>
+        src={weddingIcon5}
+        alt="Wedding icon 5"
+        className="wedding-icon-5"
+      />   
+    </div>
 
       {/* Guest Message Form */}
       <section className="message-form-section">

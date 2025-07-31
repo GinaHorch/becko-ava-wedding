@@ -225,12 +225,25 @@ body {
   text-align: center;
 }
 
-.wedding-icon-4,
-.wedding-icon-5 {
+.wedding-icon-4 {
   width: 100px;
   height: auto;
   padding-top: 0px;
   padding-bottom: 0px;
+}
+
+.wedding-icon-5 {
+  filter: hue-rotate(0deg);
+  animation: hueShift 5s infinite linear;
+  width: 110px;
+  height: auto;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+@keyframes hueShift {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
 }
 
 /* GuestMessageForm styling */
