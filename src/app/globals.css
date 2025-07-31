@@ -195,28 +195,47 @@ body {
   height: auto;
 }
 
-/* ...existing styles... */
-
-/* Component-specific styles for Guestbook */
-
-
-
-/* (Optional) Fade-in animation */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .guestbook-container {
+  background-color: #f0c3ce;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Change to `flex-start` if you only want horizontal centering */
+  text-align: center;
+  min-height: 100vh; /* Ensures full screen height */
+  padding: 2rem;
   animation: fadeInUp 0.8s ease;
 }
 
+.guestbook-title {
+  color: #ef471f;
+  font-family: 'Alice', serif;
+  font-size: 2.5rem; /* Optional: adjust size */
+  line-height: 1.4;   /* Optional: adjust spacing */
+  margin-bottom: 1rem; /* Optional: spacing */
+}
+
+.instructions {
+  font-family: 'Alice', serif;
+  font-size: 1.1rem; /* Optional: adjust for clarity */
+  color: var(--foreground); /* Optional: ensure good contrast */
+  margin-bottom: 1.5rem; /* Optional: spacing */
+  text-align: center; /* Optional: center-align the paragraph */
+}
+
+.message-form-section,
+.image-uploader-section {
+  font-family: 'Alice', serif;
+  font-size: 1rem; /* Optional */
+  color: var(--foreground); /* Optional */
+}
+
+.message-form-section h2,
+.image-uploader-section h2 {
+  font-family: 'Alice', serif;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
 
 /* Bouncing animation with more vertical movement and alternating */
 @keyframes bounceRight {
