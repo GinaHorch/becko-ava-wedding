@@ -157,7 +157,6 @@ body {
   animation: confettiShift 6s ease-in-out infinite;
 }
 
-/* Animated rainbow shimmer effect */
 @keyframes confettiShift {
   0% {
     background-position: 0% 50%;
@@ -200,9 +199,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Change to `flex-start` if you only want horizontal centering */
+  justify-content: flex-start;
   text-align: center;
-  min-height: 100vh; /* Ensures full screen height */
+  min-height: 100vh;
   padding: 2rem;
   animation: fadeInUp 0.8s ease;
 }
@@ -210,31 +209,79 @@ body {
 .guestbook-title {
   color: #ef471f;
   font-family: 'Alice', serif;
-  font-size: 2.5rem; /* Optional: adjust size */
-  line-height: 1.4;   /* Optional: adjust spacing */
-  margin-bottom: 1rem; /* Optional: spacing */
+  font-size: 2.5rem;
+  text-align: center;
+  line-height: 1.2;
+  margin-top: 0px;
 }
 
 .instructions {
   font-family: 'Alice', serif;
-  font-size: 1.1rem; /* Optional: adjust for clarity */
-  color: var(--foreground); /* Optional: ensure good contrast */
-  margin-bottom: 1.5rem; /* Optional: spacing */
-  text-align: center; /* Optional: center-align the paragraph */
+  font-size: 1.1rem;
+  color: var(--foreground);
+  line-height: 1.5;
+  margin-top: -10px;
+  margin-bottom: 5px;
+  text-align: center;
 }
 
-.message-form-section,
-.image-uploader-section {
-  font-family: 'Alice', serif;
-  font-size: 1rem; /* Optional */
-  color: var(--foreground); /* Optional */
+.wedding-icon-4,
+.wedding-icon-5 {
+  width: 100px;
+  height: auto;
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
-.message-form-section h2,
-.image-uploader-section h2 {
+/* GuestMessageForm styling */
+form.guest-message-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+form.guest-message-form label {
+  color: black;
+  font-weight: bold;
+  display: block;
+  text-align: left;
+  width: 18rem; /* same width as input */
+  margin-bottom: -10px;
+}
+
+form.guest-message-form input,
+form.guest-message-form textarea,
+form.guest-message-form button {
+  width: 18rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  align-items: center;
   font-family: 'Alice', serif;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+}
+
+form.guest-message-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+form.guest-message-form button {
+  width: 19.2rem;
+  background-color: #ef471f;
+  color: white;
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+form.guest-message-form button:hover {
+  background-color: #d43d1a;
 }
 
 /* Bouncing animation with more vertical movement and alternating */
