@@ -1,18 +1,57 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 import ImageUploader from '../components/ImageUploader';
-import weddingIcon4 from '../images/wedding-icon-4.png'; 
-import weddingIcon5 from '../images/wedding-icon-5.png'; 
+import weddingIcon4 from '../images/wedding-icon-4.png';
+import weddingIcon5 from '../images/wedding-icon-5.png';
 
 function GuestMessageForm() {
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log({ name, message });
+    triggerConfetti();
+  };
+
+  const triggerConfetti = () => {
+    const button = buttonRef.current;
+    if (!button) return;
+
+    function random(max: number) {
+      return Math.random() * max;
+    }
+
+    const fragment = document.createDocumentFragment();
+
+    for (let i = 0; i < 100; i++) {
+      const confetto = document.createElement('i');
+      confetto.style.cssText = `
+        position: absolute;
+        display: block;
+        left: 50%;
+        top: 0;
+        width: 3px;
+        height: 8px;
+        background: hsla(${random(360)},100%,50%,1);
+        transform: translate3d(${random(500) - 250}px, ${random(200) - 150}px, 0) rotate(${random(360)}deg);
+        animation: bang 700ms ease-out forwards;
+        opacity: 0;
+        pointer-events: none;
+      `;
+
+      fragment.appendChild(confetto);
+
+      // Clean up each confetto after animation
+      setTimeout(() => {
+        confetto.remove();
+      }, 800);
+    }
+
+    button.appendChild(fragment);
   };
 
   return (
@@ -38,7 +77,9 @@ function GuestMessageForm() {
         />
       </div>
 
-      <button type="submit">Submit Message</button>
+      <button ref={buttonRef} type="submit" className="hoverme">
+        <span>Submit Message</span>
+      </button>
     </form>
   );
 }
@@ -69,19 +110,19 @@ export default function Guestbook() {
         </p>
       </div>
 
-      {/* 🌈 Rainbow Border Wrapper for Icon 5 */}
+      {/* Rainbow Border Icon */}
       <div className="guestbook-icon-2 rainbow-overlay">
         <Image
-        src={weddingIcon5}
-        alt="Wedding icon 5"
-        className="wedding-icon-5"
-      />   
-    </div>
+          src={weddingIcon5}
+          alt="Wedding icon 5"
+          className="wedding-icon-5"
+        />
+      </div>
 
-      {/* Guest Message Form */}
+      {/* Message Form */}
       <section className="message-form-section">
         <h2>
-        <span className="emoji-colored">✨</span> Write Your Message <span className="emoji-colored">✨</span>
+          <span className="emoji-colored">✨</span> Write Your Message <span className="emoji-colored">✨</span>
         </h2>
         <GuestMessageForm />
       </section>
@@ -89,8 +130,8 @@ export default function Guestbook() {
       {/* Image Uploader */}
       <section className="image-uploader-section">
         <h2>
-  <span className="emoji-colored">✨</span> Upload Your Photo <span className="emoji-colored">✨</span>
-</h2>
+          <span className="emoji-colored">✨</span> Upload Your Photo <span className="emoji-colored">✨</span>
+        </h2>
         <ImageUploader />
       </section>
     </div>

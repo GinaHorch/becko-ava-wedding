@@ -339,4 +339,48 @@ form.guest-message-form button:hover {
     transform: translateX(120vw) translateY(0);
     opacity: 0;
   }
+
+  
+}
+
+@keyframes bang {
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+.hoverme {
+  position: relative;
+  overflow: visible;
+  cursor: pointer;
+  padding: 12px 24px;
+  border: none;
+  background-color: #ef471f;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 1rem;
+  color: white;
+  transition: background 0.3s ease;
+}
+
+.hoverme span {
+  color: #fff;
+  font-size: 0.9em;
+}
+
+.hoverme:hover {
+  background-color: #d43d1a;
+}
+
+.hoverme i {
+  position: absolute;
+  display: block;
+  left: 50%;
+  top: 0;
+  width: 3px;
+  height: 8px;
+  background: red;
+  opacity: 0;
+  pointer-events: none;
 }
