@@ -80,13 +80,17 @@ export default function Guestbook() {
 
       {/* Guest Message Form */}
       <section className="message-form-section">
-        <h2>Write Your Message</h2>
+        <h2>
+        <span className="emoji-colored">✨</span> Write Your Message <span className="emoji-colored">✨</span>
+        </h2>
         <GuestMessageForm />
       </section>
 
       {/* Image Uploader */}
       <section className="image-uploader-section">
-        <h2>Upload Your Photo</h2>
+        <h2>
+  <span className="emoji-colored">✨</span> Upload Your Photo <span className="emoji-colored">✨</span>
+</h2>
         <ImageUploader />
       </section>
     </div>
