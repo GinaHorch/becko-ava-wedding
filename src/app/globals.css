@@ -212,7 +212,6 @@ body {
   font-size: 2.5rem;
   text-align: center;
   line-height: 1.2;
-  margin-top: 0px;
 }
 
 .instructions {
@@ -220,7 +219,7 @@ body {
   font-size: 1.1rem;
   color: var(--foreground);
   line-height: 1.5;
-  margin-top: -10px;
+  margin-top: -20px;
   margin-bottom: 5px;
   text-align: center;
 }
@@ -228,8 +227,8 @@ body {
 .wedding-icon-4 {
   width: 100px;
   height: auto;
-  padding-top: 0px;
-  padding-bottom: 0px;
+  padding-top: 7px;
+  padding-bottom: 7px;
 }
 
 .wedding-icon-5 {
@@ -237,8 +236,8 @@ body {
   animation: hueShift 5s infinite linear;
   width: 110px;
   height: auto;
-  padding-top: 0px;
-  padding-bottom: 0px;
+  padding-top: 7px;
+  padding-bottom: 7px;
 }
 
 @keyframes hueShift {
