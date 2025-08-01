@@ -384,3 +384,151 @@ form.guest-message-form button:hover {
   opacity: 0;
   pointer-events: none;
 }
+
+/* 🎨 Gallery Page Styling */
+.gallery-container {
+  background-color: #f0c3ce;
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  animation: fadeInUp 0.8s ease;
+  border-radius: 8px;
+}
+
+.gallery-title {
+  font-size: 2.5rem;
+  color: #ef471f;
+  font-family: 'Alice', serif;
+  margin-bottom: 1.5rem;
+}
+
+.swiper-container {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+}
+
+.gallery-description {
+  font-size: 1.1rem;
+  color: black;
+  font-family: 'Alice', serif;
+  max-width: 600px;
+}
+
+.gallery-icon-wrapper {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.gallery-icon {
+  max-width: 100px;
+  height: auto;
+  display: inline-block;
+  margin-top: 2rem;
+}
+
+/* 🌈 Rainbow Animation */
+.rainbow-wrapper {
+  width: 100%;
+  max-width: 100%;
+  height: 100px; /* Show about top half of 200px rainbow */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0.1rem 0 5rem 0;
+  background-color: #f0c3ce;
+}
+
+.rainbow {
+  height: 200px;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(180deg);
+  position: relative;
+  pointer-events: none;
+}
+
+/* Base styles for all rays */
+.ray-1, .ray-2, .ray-3, .ray-4, .ray-5, .ray-6, .ray-7 {
+  display: flex;
+  position: absolute;
+  border-radius: 50%;
+  margin: auto;
+  left: 0;
+  right: 0;
+}
+
+/* Scaled-down individual ray styles for 200px rainbow */
+.ray-1 {
+  height: 22px;
+  width: 22px;
+  z-index: 7;
+  animation: spin 5s forwards 2.5s;
+  background: linear-gradient(#f0c3ce, #f0c3ce 50%, #f0c3ce 50%, #f0c3ce 50%);
+}
+
+.ray-2 {
+  height: 44px;
+  width: 44px;
+  z-index: 6;
+  animation: spin 5s forwards 2s;
+  background: linear-gradient(#760088, #760088 50%, #f0c3ce 50%, #f0c3ce 50%);
+}
+
+.ray-3 {
+  height: 66px;
+  width: 66px;
+  z-index: 5;
+  animation: spin 5s forwards 1.5s;
+  background: linear-gradient(#004DFD, #004DFD 50%, #f0c3ce 50%, #f0c3ce 50%);
+}
+
+.ray-4 {
+  height: 88px;
+  width: 88px;
+  z-index: 4;
+  animation: spin 5s forwards 1s;
+  background: linear-gradient(#008220, #008220 50%, #f0c3ce 50%, #f0c3ce 50%);
+}
+
+.ray-5 {
+  height: 110px;
+  width: 110px;
+  z-index: 3;
+  animation: spin 5s forwards 0.5s;
+  background: linear-gradient(#FFEE03, #FFEE03 50%, #f0c3ce 50%, #f0c3ce 50%);
+}
+
+.ray-6 {
+  height: 132px;
+  width: 132px;
+  z-index: 2;
+  animation: spin 5s forwards 0s;
+  background: linear-gradient(#FF8D01, #FF8D01 50%, #f0c3ce 50%, #f0c3ce 50%);
+}
+
+.ray-7 {
+  height: 154px;
+  width: 154px;
+  z-index: 1;
+  animation: spin 5s forwards 0s;
+  background: linear-gradient(#E60001, #E60001 50%, #f0c3ce 50%, #f0c3ce 50%);
+}
+
+/* Spin animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(180deg);
+  }
+}
