@@ -66,8 +66,6 @@
           <Image
             src={weddingIcon3}
             alt="Wedding Icon at Top of Page"
-            width={120}
-            height={100}
           />
         </div>
 
@@ -81,22 +79,13 @@
         </h1>
 
         {/* ✅ Welcome message moved below title */}
-        <div
-          className="welcome-message"
-          style={{
-            marginTop: '-0.5rem',
-            fontSize: '1.1rem',
-            color: '#000',
-            textAlign: 'center',
-            lineHeight: '1.6',
-          }}
-        >
-          <p>
-            Welcome! Join us in celebrating Becko & Ava by leaving your
-            <br />
-            heartfelt messages and beautiful photos and memorable videos.
-          </p>
-        </div>
+        <div className="welcome-message">
+        <p>
+        Welcome! Join us in celebrating Becko & Ava by leaving your
+        <br />
+        heartfelt messages and beautiful photos and memorable videos.
+    </p>
+  </div>
 
         {/* Navigation */}
         <nav className="landing-navigation">
@@ -115,13 +104,13 @@
         </nav>
 
         {/* Decorative wedding icon below nav */}
-        <div style={{ paddingTop: '1.5rem', textAlign: 'center' }}>
-          <Image
-            src={weddingIcon2}
-            alt="Wedding icon below navigation"
-            height={350}
-          />
-        </div>
+        <div className="icon-below-nav">
+        <Image
+        src={weddingIcon2}
+        alt="Wedding icon below navigation"
+        height={350}
+      />
+    </div>
 
         {/* Larger image near the bottom */}
         <div className="landing-description">

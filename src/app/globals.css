@@ -77,12 +77,12 @@ body {
 }
 
 .icon-at-top {
-  margin-top: -14px;
-  padding-bottom: 22px;
+  margin-top: -4px;
+  padding-bottom: 15px;
 }
 
 .icon-at-top img {
-  height: 120px;
+  height: 110px;
   width: auto;
 }
 
@@ -119,6 +119,22 @@ body {
   font-size: 1rem;
   padding-bottom: 10rem;
   color: black;
+}
+
+.welcome-message {
+  font-family: 'Alice', serif;
+  font-size: 1.1rem;
+  color: black;
+  line-height: 1.2;
+  margin-top: -12px;
+  margin-bottom: -10px;
+  text-align: center;
+}
+
+.icon-below-nav {
+  padding-top: 1rem;
+  margin-bottom: -28px;
+  text-align: center;
 }
 
 /* Ball wrapper */
@@ -221,7 +237,7 @@ body {
   font-family: 'Alice', serif;
   font-size: 2.5rem;
   text-align: center;
-  line-height: 1.2;
+  line-height: 1;
 }
 
 .emoji-colored {
@@ -233,18 +249,34 @@ body {
 .instructions {
   font-family: 'Alice', serif;
   font-size: 1.1rem;
-  color: var(--foreground);
-  line-height: 1.5;
+  color: black;
+  line-height: 1.2;
   margin-top: -20px;
-  margin-bottom: 5px;
+  margin-bottom: 9px;
   text-align: center;
 }
 
+.message-form-section h2 {
+  font-family: 'Alice', serif;
+  font-size: 1.6rem;
+  color: black;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.image-uploader-section h2 {
+  font-family: 'Alice', serif;
+  font-size: 1.6rem;
+  color: black;
+  margin-top: 16px;
+  padding-bottom: 6px;
+}
+
 .wedding-icon-4 {
-  width: 100px;
-  height: auto;
-  padding-top: 17px;
-  padding-bottom: 9px;  
+  height: 112px;
+  width: auto;
+  padding-top: 28px;
+  padding-bottom: 0px;  
 }
 
 .wedding-icon-5 {
@@ -253,7 +285,7 @@ body {
   width: 110px;
   height: auto;
   padding-top: 7px;
-  padding-bottom: 7px;
+  padding-bottom: 9px;
 }
 
 @keyframes hueShift {
@@ -414,8 +446,9 @@ form.guest-message-form button:hover {
   font-family: 'Alice', serif;
   font-size: 2.5rem;
   text-align: center;
-  line-height: 1.2;
+  line-height: 1;
   margin-top: 10px;
+  margin-bottom: 12px;
 }
 
 .swiper-container {
@@ -429,7 +462,7 @@ form.guest-message-form button:hover {
   font-size: 1.1rem;
   color: black;
   font-family: 'Alice', serif;
-  max-width: 600px;
+  margin-bottom: -5px;
 }
 
 .gallery-icon-wrapper {
@@ -438,18 +471,18 @@ form.guest-message-form button:hover {
 }
 
 .gallery-icon {
-  max-width: 100px;
-  height: auto;
+  height: 122px;
+  width: auto;
   display: inline-block;
-  margin-top: 19px;
-  padding-bottom: 0px;
+  margin-top: 25px;
+  margin-bottom: -17px;
 }
 
 /* 🌈 Rainbow Animation */
 .rainbow-wrapper {
   width: 100%;
   max-width: 100%;
-  height: 100px; /* Show about top half of 200px rainbow */
+  height: 138px; /* Show about top half of 200px rainbow */
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -459,12 +492,12 @@ form.guest-message-form button:hover {
 }
 
 .rainbow {
-  height: 200px;
-  width: 200px;
+  height: 275px; /* was 200px */
+  width: 275px;  /* was 200px */
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: rotate(180deg);
+  transform: rotate(180deg);  
   position: relative;
   pointer-events: none;
 }
@@ -481,56 +514,56 @@ form.guest-message-form button:hover {
 
 /* Scaled-down individual ray styles for 200px rainbow */
 .ray-1 {
-  height: 22px;
-  width: 22px;
+  height: 31px;
+  width: 31px;
   z-index: 7;
   animation: spin 5s forwards 2.5s;
   background: linear-gradient(#f0c3ce, #f0c3ce 50%, #f0c3ce 50%, #f0c3ce 50%);
 }
 
 .ray-2 {
-  height: 44px;
-  width: 44px;
+  height: 61px;
+  width: 61px;
   z-index: 6;
   animation: spin 5s forwards 2s;
   background: linear-gradient(#760088, #760088 50%, #f0c3ce 50%, #f0c3ce 50%);
 }
 
 .ray-3 {
-  height: 66px;
-  width: 66px;
+  height: 91px;
+  width: 91px;
   z-index: 5;
   animation: spin 5s forwards 1.5s;
   background: linear-gradient(#004DFD, #004DFD 50%, #f0c3ce 50%, #f0c3ce 50%);
 }
 
 .ray-4 {
-  height: 88px;
-  width: 88px;
+  height: 121px;
+  width: 121px;
   z-index: 4;
   animation: spin 5s forwards 1s;
   background: linear-gradient(#008220, #008220 50%, #f0c3ce 50%, #f0c3ce 50%);
 }
 
 .ray-5 {
-  height: 110px;
-  width: 110px;
+  height: 151px;
+  width: 151px;
   z-index: 3;
   animation: spin 5s forwards 0.5s;
   background: linear-gradient(#FFEE03, #FFEE03 50%, #f0c3ce 50%, #f0c3ce 50%);
 }
 
 .ray-6 {
-  height: 132px;
-  width: 132px;
+  height: 181px;
+  width: 181px;
   z-index: 2;
   animation: spin 5s forwards 0s;
   background: linear-gradient(#FF8D01, #FF8D01 50%, #f0c3ce 50%, #f0c3ce 50%);
 }
 
 .ray-7 {
-  height: 154px;
-  width: 154px;
+  height: 211px;
+  width: 211px;
   z-index: 1;
   animation: spin 5s forwards 0s;
   background: linear-gradient(#E60001, #E60001 50%, #f0c3ce 50%, #f0c3ce 50%);
