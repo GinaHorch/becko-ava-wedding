@@ -20,7 +20,8 @@ export default function Gallery() {
       <h1 className="gallery-title">Guestbook Gallery</h1>
 
       <div className="gallery-description">
-        <p>Swipe to view all the wonderful images and messages shared by guests.</p>
+        <p>Swipe to view all the wonderful images <br />
+        and messages shared by guests.</p>
       </div>
 
       {/* ✅ Rainbow Animation goes right here */}

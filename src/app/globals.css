@@ -76,8 +76,18 @@ body {
   overflow: hidden;
 }
 
+.icon-at-top {
+  margin-top: -14px;
+  padding-bottom: 22px;
+}
+
+.icon-at-top img {
+  height: 120px;
+  width: auto;
+}
+
 .landing-title {
-  font-size: 2rem;
+  font-size: 2rem;  
   margin-bottom: 1rem;
   line-height: 3rem;
 }
@@ -233,8 +243,8 @@ body {
 .wedding-icon-4 {
   width: 100px;
   height: auto;
-  padding-top: 7px;
-  padding-bottom: 4px;
+  padding-top: 17px;
+  padding-bottom: 9px;  
 }
 
 .wedding-icon-5 {
@@ -405,6 +415,7 @@ form.guest-message-form button:hover {
   font-size: 2.5rem;
   text-align: center;
   line-height: 1.2;
+  margin-top: 10px;
 }
 
 .swiper-container {
@@ -430,7 +441,8 @@ form.guest-message-form button:hover {
   max-width: 100px;
   height: auto;
   display: inline-block;
-  margin-top: 2rem;
+  margin-top: 19px;
+  padding-bottom: 0px;
 }
 
 /* 🌈 Rainbow Animation */
