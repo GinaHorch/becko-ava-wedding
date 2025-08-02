@@ -4,8 +4,8 @@ import { useEffect } from 'react';
 import Image from 'next/image';
 import weddingIcon1 from './images/wedding-icon-1.png';
 import weddingIcon2 from './images/wedding-icon-2.png';
-import blackWhiteSoccerBall from './images/black-white-soccer-ball.png';
 import weddingIcon3 from './images/wedding-icon-3.png';
+import blackWhiteSoccerBall from './images/black-white-soccer-ball.png';
 
 const HeartIcon = ({ color = '#ef471f', size = 16 }) => (
   <svg
@@ -17,10 +17,10 @@ const HeartIcon = ({ color = '#ef471f', size = 16 }) => (
     style={{ verticalAlign: 'middle', marginRight: '0.3rem' }}
   >
     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 
-            2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 
-            4.5 2.09C13.09 3.81 14.76 3 16.5 3 
-            19.58 3 22 5.42 22 8.5c0 3.78-3.4 
-            6.86-8.55 11.54L12 21.35z" />
+             2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 
+             4.5 2.09C13.09 3.81 14.76 3 16.5 3 
+             19.58 3 22 5.42 22 8.5c0 3.78-3.4 
+             6.86-8.55 11.54L12 21.35z" />
   </svg>
 );
 
@@ -30,6 +30,7 @@ export default function Home() {
     const container = document.querySelector('.landing-container');
     if (!container) return;
 
+    const rainbowColors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3'];
     const ballWrappers: HTMLElement[] = [];
 
     for (let i = 0; i < numBalls; i++) {
@@ -46,40 +47,66 @@ export default function Home() {
       wrapper.style.height = '50px';
       wrapper.style.animationDuration = `${5 + Math.random() * 5}s`;
       wrapper.style.animationDelay = `${Math.random() * 5}s`;
-
-      // Set z-index high for ball on top
       wrapper.style.zIndex = '10000';
 
       wrapper.appendChild(ball);
       container.appendChild(wrapper);
       ballWrappers.push(wrapper);
 
-      // Create trail interval to append trail divs to container (not wrapper)
       const trailInterval = setInterval(() => {
-        const trail = document.createElement('div');
-        trail.className = 'rainbow-comet';
-
-        // Get ball wrapper position relative to container (or viewport)
         const rect = wrapper.getBoundingClientRect();
         const containerRect = container.getBoundingClientRect();
 
-        // Calculate trail position a bit behind the ball's center
-        // Offset to left and slightly up to simulate trail behind moving right
-        const trailLeft = rect.left - containerRect.left + rect.width / 2 - 20;
-        const trailTop = rect.top - containerRect.top + rect.height / 2 + 6;
+        const trailLeft = rect.left - containerRect.left + rect.width / 2 - 6;
 
-        trail.style.position = 'absolute';
-        trail.style.left = `${trailLeft}px`;
-        trail.style.top = `${trailTop}px`;
-        trail.style.transform = 'rotate(15deg)';
-        trail.style.zIndex = '999'; // behind ball
+        const trailTops = [
+          rect.top - containerRect.top + rect.height / 2 + 4,
+          rect.top - containerRect.top + rect.height / 2 + 12,
+        ];
 
-        container.appendChild(trail);
+        trailTops.forEach((trailTop) => {
+          // Create a div for the ✨ emoji trail
+          const trail = document.createElement('div');
+          trail.className = 'color-trail';
+          trail.style.position = 'absolute';
+          trail.style.left = `${trailLeft}px`;
+          trail.style.top = `${trailTop}px`;
+          trail.style.fontSize = '16px';
+          trail.style.opacity = '0.8';
+          trail.style.pointerEvents = 'none';
+          trail.style.userSelect = 'none';
+          trail.style.zIndex = '999';
 
-        setTimeout(() => trail.remove(), 1000);
+          // Random color for the text shadow/glow effect
+          const randomColor = rainbowColors[Math.floor(Math.random() * rainbowColors.length)];
+          trail.style.color = randomColor;
+          trail.style.textShadow = `
+            0 0 4px ${randomColor},
+            0 0 8px ${randomColor},
+            0 0 12px ${randomColor}
+          `;
+
+          trail.textContent = '✨';
+
+          container.appendChild(trail);
+
+          // Animate fade out and removal
+          trail.animate(
+            [
+              { opacity: 0.8, transform: 'translateY(0)' },
+              { opacity: 0, transform: 'translateY(-10px)' }
+            ],
+            {
+              duration: 1000,
+              easing: 'ease-out',
+              fill: 'forwards'
+            }
+          );
+
+          setTimeout(() => trail.remove(), 1000);
+        });
       }, 80);
 
-      // Attach interval to wrapper for cleanup
       (wrapper as any)._trailInterval = trailInterval;
     }
 
@@ -88,10 +115,10 @@ export default function Home() {
         clearInterval((wrapper as any)._trailInterval);
         wrapper.remove();
       });
-      const oldTrails = document.querySelectorAll('.rainbow-comet');
+      const oldTrails = document.querySelectorAll('.color-trail');
       oldTrails.forEach((t) => t.remove());
     };
-  }, [blackWhiteSoccerBall]);
+  }, []);
 
   return (
     <main className="landing-container">
@@ -152,3 +179,4 @@ export default function Home() {
     </main>
   );
 }
+

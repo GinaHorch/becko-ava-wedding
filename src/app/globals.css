@@ -569,44 +569,119 @@ form.guest-message-form button:hover {
   }
 }
 
-/* 🌈 Rainbow Comet Trail */
-.rainbow-comet {
+/* 🌈 Soft rainbow-colored trail blob */
+.emoji-trail {
   position: absolute;
-  width: 18px;
-  height: 6px;
-  border-radius: 10px;
-  background: linear-gradient(
-    90deg,
-    red,
-    orange,
-    yellow,
-    green,
-    blue,
-    indigo,
-    violet
-  );
-  opacity: 0.9;
-  z-index: 999; /* Lower than soccer balls' 10000 so comet is underneath */
+  animation: trailFade 1s ease-out forwards;
   pointer-events: none;
-  animation: cometFade 1s ease-out forwards;
-  transform: rotate(15deg);
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+  user-select: none;
+  z-index: 999;
+  opacity: 0.9;
+  font-size: 28px;
+  line-height: 1;
+  will-change: opacity, transform;
+  /* Optional slight fade and upward movement */
+  animation-name: trailFadeMove;
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
 }
 
+/* Fade-out animation for the blobs */
+@keyframes trailFadeMove {
+  0% {
+    opacity: 0.9;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+/* Optional: Keep your existing trail container styles if needed */
 .trail-container {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   pointer-events: none;
   z-index: 500; /* lower than .ball-wrapper's 10000 */
+} 
+
+/* ✨ Sparkle Animation */
+.sparkle {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: transparent;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 200, 0.9));
+  animation: sparkle-twinkle 2.5s infinite ease-in-out;
+  transform-origin: center;
+  /* Center the sparkle shape */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-@keyframes cometFade {
+/* Center circle of the sunburst */
+.sparkle::before {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #fffacd; /* pale yellow */
+  border-radius: 50%;
+  box-shadow: 0 0 5px 2px #fffacd;
+  z-index: 2;
+}
+
+/* Rays */
+.sparkle::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: transparent;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  box-sizing: content-box;
+  pointer-events: none;
+  filter: drop-shadow(0 0 3px #fffacd);
+  animation: rotate-rays 3s linear infinite;
+}
+
+/* We'll use a CSS radial gradient to simulate rays */
+.sparkle::after {
+  background:
+    radial-gradient(circle at center, transparent 6px, #fffacd 7px, transparent 8px),
+    linear-gradient(0deg, #fffacd 20%, transparent 21%),
+    linear-gradient(45deg, #fffacd 20%, transparent 21%),
+    linear-gradient(90deg, #fffacd 20%, transparent 21%),
+    linear-gradient(135deg, #fffacd 20%, transparent 21%);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 14px 14px, 2px 6px, 2px 6px, 2px 6px, 2px 6px;
+}
+
+/* Animation for the twinkle (opacity & scale) */
+@keyframes sparkle-twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+}
+
+/* Rotate rays continuously */
+@keyframes rotate-rays {
   0% {
-    opacity: 0.9;
-    transform: scale(1) rotate(15deg);
+    transform: translate(-50%, -50%) rotate(0deg);
   }
   100% {
-    opacity: 0;
-    transform: scale(0.5) rotate(15deg);
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
