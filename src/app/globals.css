@@ -482,7 +482,7 @@ form.guest-message-form button:hover {
 .rainbow-wrapper {
   width: 100%;
   max-width: 100%;
-  height: 138px; /* Show about top half of 200px rainbow */
+  height: 137px; /* Show about top half of 200px rainbow */
   overflow: hidden;
   display: flex;
   justify-content: center;
