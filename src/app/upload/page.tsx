@@ -29,6 +29,12 @@ function GuestMessageForm() {
 
     for (let i = 0; i < 100; i++) {
       const confetto = document.createElement('i');
+
+      // Generate random translation and rotation values for CSS variables
+      const tx = `${random(500) - 250}px`;
+      const ty = `${random(200) - 150}px`;
+      const rotation = random(360);
+
       confetto.style.cssText = `
         position: absolute;
         display: block;
@@ -36,11 +42,13 @@ function GuestMessageForm() {
         top: 0;
         width: 3px;
         height: 8px;
-        background: hsla(${random(360)},100%,50%,1);
-        transform: translate3d(${random(500) - 250}px, ${random(200) - 150}px, 0) rotate(${random(360)}deg);
+        background: hsla(${random(360)}, 100%, 50%, 1);
+        transform: translate3d(0, 0, 0) rotate(0deg);
         animation: bang 700ms ease-out forwards;
         opacity: 0;
         pointer-events: none;
+        --tx: ${tx};
+        --ty: ${ty};
       `;
 
       fragment.appendChild(confetto);

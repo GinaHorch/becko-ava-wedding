@@ -405,6 +405,7 @@ form.guest-message-form button:hover {
   background-color: #d43d1a;
 }
 
+/* Confetti pieces */
 .hoverme i {
   position: absolute;
   display: block;
@@ -412,9 +413,21 @@ form.guest-message-form button:hover {
   top: 0;
   width: 3px;
   height: 8px;
-  background: red;
+  background: red; /* fallback */
   opacity: 0;
   pointer-events: none;
+}
+
+/* Confetti animation using CSS variables for translation */
+@keyframes bang {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--tx), var(--ty), 0) rotate(360deg);
+  }
 }
 
 /* 🎨 Gallery Page Styling */
