@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../utils/supabaseClient';
 import { useDropzone } from 'react-dropzone';
 import Image from 'next/image';
@@ -10,6 +10,31 @@ export default function GuestMessageForm() {
   const [message, setMessage] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+
+   // Add sparkles effect
+  useEffect(() => {
+    const createSparkle = () => {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.position = 'fixed';
+      sparkle.style.left = Math.random() * window.innerWidth + 'px';
+      sparkle.style.top = Math.random() * window.innerHeight + 'px';
+      sparkle.style.pointerEvents = 'none';
+      sparkle.style.zIndex = '1000';
+      
+      document.body.appendChild(sparkle);
+      
+      setTimeout(() => {
+        if (document.body.contains(sparkle)) {
+          document.body.removeChild(sparkle);
+        }
+      }, 2500);
+    };
+
+    const sparkleInterval = setInterval(createSparkle, 800);
+    return () => clearInterval(sparkleInterval);
+  }, []);
 
   const onDrop = (acceptedFiles: File[]) => {
     const uploadedFile = acceptedFiles[0];
@@ -24,6 +49,59 @@ export default function GuestMessageForm() {
     'video/*': [],
     },
    });
+
+// Confetti effect for button
+  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    triggerConfetti();
+  };
+
+  const triggerConfetti = () => {
+    const button = buttonRef.current;
+    if (!button) return;
+
+    function random(max: number) {
+      return Math.random() * max;
+    }
+
+    const fragment = document.createDocumentFragment();
+
+    for (let i = 0; i < 100; i++) {
+      const confetto = document.createElement('i');
+
+      // Generate random translation and rotation values for CSS variables
+      const tx = `${random(500) - 250}px`;
+      const ty = `${random(200) - 150}px`;
+      const rotation = random(360);
+
+      confetto.style.cssText = `
+        position: absolute;
+        display: block;
+        left: 50%;
+        top: 0;
+        width: 3px;
+        height: 8px;
+        background: hsla(${random(360)}, 100%, 50%, 1);
+        transform: translate3d(0, 0, 0) rotate(${rotation}deg);
+        animation: bang 700ms ease-out forwards;
+        opacity: 0;
+        pointer-events: none;
+        --tx: ${tx};
+        --ty: ${ty};
+        --rotation: ${rotation}deg;
+      `;
+
+      fragment.appendChild(confetto);
+
+      // Clean up each confetto after animation
+      setTimeout(() => {
+        confetto.remove();
+      }, 800);
+    }
+
+    button.appendChild(fragment);
+  };
+    
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,7 +153,7 @@ let media_url = null;
 
   return (
     <form onSubmit={handleSubmit} className="guest-message-form">
-      <label htmlFor="guest-name">Your Name</label>
+      <label htmlFor="guest-name">Your Name:</label>
       <input 
         id="guest-name"
         type="text" 
@@ -83,14 +161,14 @@ let media_url = null;
         required value={guestName} 
         onChange={(e) => setGuestName(e.target.value)} />
 
-      <label htmlFor="guest-message">Your Message</label>  
+      <label htmlFor="guest-message">Your Message:</label>  
       <textarea
         id="guest-message" 
         placeholder="Write your heartfelt message here..." 
         required value={message} 
         onChange={(e) => setMessage(e.target.value)} />
 
-    <label htmlFor="media-upload">Upload Photo or Video (Optional)</label>
+    <label htmlFor="media-upload">Upload Your Photo or Video (Optional):</label>
     <div {...getRootProps()} className="image-upload-container">
         <input {...getInputProps()} id="media-upload"/>
         {previewUrl ? (
@@ -121,7 +199,14 @@ let media_url = null;
         )}
       </div>
 
-      <button type="submit">Submit Message & Media</button>
+      <button 
+        ref={buttonRef}
+        type="submit"
+        className="hoverme"
+        onClick={handleButtonClick}
+      >
+        <span>Submit Message & Media</span>
+      </button>
     </form>
   );
 }

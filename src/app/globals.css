@@ -261,7 +261,7 @@ body {
   font-family: 'Alice', serif;
   font-size: 1.6rem;
   color: black;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
@@ -304,6 +304,7 @@ form.guest-message-form {
   max-width: 600px;
   margin: 0 auto;
   padding: 1rem;
+  position: relative;
 }
 
 form.guest-message-form label {
@@ -312,18 +313,29 @@ form.guest-message-form label {
   display: block;
   text-align: left;
   width: 18rem; /* same width as input */
-  margin-bottom: -10px;
+  margin-bottom: 4px;
+  font-family: 'Alice', serif;
+  position: relative;
 }
 
 form.guest-message-form input,
-form.guest-message-form textarea,
-form.guest-message-form button {
+form.guest-message-form textarea {
   width: 18rem;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 6px;
   align-items: center;
   font-family: 'Alice', serif;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+form.guest-message-form input:focus,
+form.guest-message-form textarea:focus {
+  outline: none;
+  border-color: #ef471f;
+  box-shadow: 0 0 8px rgba(239, 71, 31, 0.3);
+  transform: translateY(-1px);
 }
 
 form.guest-message-form textarea {
@@ -331,18 +343,30 @@ form.guest-message-form textarea {
   min-height: 100px;
 }
 
-form.guest-message-form button {
-  width: 19.2rem;
-  background-color: #ef471f;
-  color: white;
+form.guest-message-form button.hoverme {
+  position: relative;
+  overflow: visible;
   cursor: pointer;
+  padding: 12px 24px;
   border: none;
+  background-color: #ef471f;
+  border-radius: 6px;
   font-weight: bold;
+  font-size: 1rem;
+  color: white;
   transition: background 0.3s ease;
+  font-family: 'Alice', serif;
 }
 
 form.guest-message-form button:hover {
   background-color: #d43d1a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 71, 31, 0.4);
+}
+
+form.guest-message-form button.hoverme:active {
+  transform: translateY(0px) scale(0.95);
+  animation: celebration-flash 0.3s ease-out;
 }
 
 /* Image Upload Container - extends Bianca's form styling */
@@ -354,14 +378,41 @@ form.guest-message-form button:hover {
   border-radius: 6px;
   cursor: pointer;
   text-align: center;
-  transition: border-color 0.3s ease;
+  transition: all 0.3s ease;
   font-family: 'Alice', serif;
   background-color: #f9f9f9;
+  position: relative;
+  overflow: hidden;
 }
 
 .image-upload-container:hover {
   border-color: #ef471f;
   background-color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 71, 31, 0.2);
+}
+
+/* Add subtle rainbow gradient on hover */
+.image-upload-container:hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(239, 71, 31, 0.1),
+    transparent
+  );
+  animation: shimmer 1.5s ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
 }
 
 .upload-placeholder p {
@@ -438,6 +489,8 @@ form.guest-message-form button:hover {
   font-size: 1rem;
   color: white;
   transition: background 0.3s ease;
+  font-family: 'Alice', serif;
+  margin-top: 1rem; /* clearly match Bianca’s button spacing */
 }
 
 .hoverme span {
@@ -447,6 +500,7 @@ form.guest-message-form button:hover {
 
 .hoverme:hover {
   background-color: #d43d1a;
+  box-shadow: 0 4px 12px rgba(239, 71, 31, 0.4);
 }
 
 /* Confetti pieces */
@@ -473,6 +527,7 @@ form.guest-message-form button:hover {
     transform: translate3d(var(--tx), var(--ty), 0) rotate(360deg);
   }
 }
+
 
 /* 🎨 Gallery Page Styling */
 .gallery-container {
@@ -810,4 +865,37 @@ form.guest-message-form button:hover {
 
 .gallery-error {
   color: #ef471f;
+}
+
+/* Bianca’s Center-Aligned Form Adjustments */
+
+form.guest-message-form {
+  align-items: center; /* Center all items horizontally */
+}
+
+form.guest-message-form label {
+  width: 100%; /* Label takes full width to center text */
+  text-align: center; /* Text in labels centered */
+  padding-left: 0; /* Remove padding-left to prevent offset */
+  margin-bottom: 6px;
+}
+
+form.guest-message-form input,
+form.guest-message-form textarea,
+.image-upload-container {
+  width: 100%; /* Fields take full width of form container */
+  max-width: 350px; /* Limit maximum width for aesthetic alignment */
+}
+
+.upload-placeholder p,
+.upload-placeholder small {
+  text-align: center; /* Center alignment inside upload placeholder */
+}
+
+.preview-container {
+  justify-content: center; /* Center previewed image/video */
+}
+
+.hoverme {
+  margin-top: 1.5rem; /* Slightly more space above button */
 }

@@ -21,7 +21,7 @@ export default function Guestbook() {
       {/* Title */}
       <h1 className="guestbook-title">
         Leave Your <br />
-        Message and Photo
+        Message and Media
       </h1>
 
       {/* Instructions */}
@@ -43,6 +43,9 @@ export default function Guestbook() {
 
       {/* Unified Message and Photo/Video Form */}
       <section className="message-form-section">
+        <h2>
+          <span className="emoji-colored">✨</span> Write Your Message <span className="emoji-colored">✨</span>
+        </h2>
         <GuestMessageForm />
       </section>
 
