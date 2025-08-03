@@ -28,7 +28,7 @@ export default function Guestbook() {
       <div className="instructions">
         <p>
           Please leave your heartfelt message <br />
-          and a memorable photo for the couple.
+          and a memorable photo/video for the couple.
         </p>
       </div>
 
@@ -41,21 +41,14 @@ export default function Guestbook() {
         />
       </div>
 
-      {/* Message Form */}
+      {/* Unified Message and Photo/Video Form */}
       <section className="message-form-section">
         <h2>
-          <span className="emoji-colored">✨</span> Write Your Message <span className="emoji-colored">✨</span>
+          <span className="emoji-colored">✨</span> Write Your Message & Upload Media<span className="emoji-colored">✨</span>
         </h2>
         <GuestMessageForm />
       </section>
 
-      {/* Image Uploader */}
-      <section className="image-uploader-section">
-        <h2>
-          <span className="emoji-colored">✨</span> Upload Your Photo <span className="emoji-colored">✨</span>
-        </h2>
-        <GuestMessageForm />
-      </section>
     </div>
   );
 }

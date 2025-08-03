@@ -16,7 +16,7 @@ interface GuestbookItem {
 export default function GallerySwiper() {
   const [items, setItems] = useState<GuestbookItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);  
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -81,6 +81,14 @@ export default function GallerySwiper() {
             <div className="bianca-swiper-slide-content">
               {item.media_url && (
                 <div className="bianca-image-container">
+                  {item.media_url.match(/\.(mp4|mov|webm)$/) ? (
+                    <video
+                      src={item.media_url}
+                      controls
+                      className="bianca-uploaded-video"
+                      style={{ objectFit: 'cover', borderRadius: '8px', width: '100%' }}
+                    />
+                  ) : (
                   <Image
                     src={item.media_url}
                     alt={`Uploaded by ${item.guest_name}`}
@@ -90,6 +98,7 @@ export default function GallerySwiper() {
                     style={{ objectFit: 'cover', borderRadius: '8px' }}
                     unoptimized={true} // Use unoptimized for better performance with large images
                   />
+                  )}
                 </div>
               )}
               <div className="bianca-message-content">
