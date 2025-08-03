@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 interface GuestbookItem {
   id: string;
-  image_url: string | null;
+  media_url: string | null;
   message: string;
   guest_name: string;
   created_at?: string;
@@ -79,10 +79,10 @@ export default function GallerySwiper() {
         {items.map((item) => (
           <SwiperSlide key={item.id} className="bianca-swiper-slide">
             <div className="bianca-swiper-slide-content">
-              {item.image_url && (
+              {item.media_url && (
                 <div className="bianca-image-container">
-                  <Image 
-                    src={item.image_url} 
+                  <Image
+                    src={item.media_url}
                     alt={`Uploaded by ${item.guest_name}`}
                     width={500}
                     height={300}

@@ -3,7 +3,6 @@
 import React from 'react';
 import Image from 'next/image';
 import GuestMessageForm from '../components/GuestMessageForm';
-import ImageUploader from '../components/ImageUploader';
 import weddingIcon4 from '../images/wedding-icon-4.png';
 import weddingIcon5 from '../images/wedding-icon-5.png';
 
@@ -55,7 +54,7 @@ export default function Guestbook() {
         <h2>
           <span className="emoji-colored">✨</span> Upload Your Photo <span className="emoji-colored">✨</span>
         </h2>
-        <ImageUploader />
+        <GuestMessageForm />
       </section>
     </div>
   );
