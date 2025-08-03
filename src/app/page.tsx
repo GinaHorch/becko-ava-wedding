@@ -47,8 +47,16 @@ export default function Home() {
       ball.className = 'petal black-white';
       ball.alt = 'Soccer ball decoration';
 
-      // Keep the original positioning - don't change this!
-      const topPosition = 1.7 + Math.random() * 0.16;
+      // Position balls to interact with the cake - one along bottom, one below
+      let topPosition;
+      if (i === 0) {
+        // First ball bounces along the bottom edge of the cake (where second ball currently is)
+        topPosition = 0.85 + Math.random() * 0.05; // 85%-90%
+      } else {
+        // Second ball bounces below the cake
+        topPosition = 0.95 + Math.random() * 0.05; // 95%-100%
+      }
+      
       wrapper.style.setProperty('--random-top', topPosition.toString());
       wrapper.style.width = '50px';
       wrapper.style.height = '50px';
