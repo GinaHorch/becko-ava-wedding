@@ -24,23 +24,30 @@ const HeartIcon = ({ color = '#ef471f', size = 16 }) => (
   </svg>
 );
 
+// Add interface for wrapper elements with interval property
+interface BallWrapperElement extends HTMLElement {
+  _trailInterval?: NodeJS.Timeout;
+}
+
 export default function Home() {
   useEffect(() => {
     const numBalls = 2;
-    const container = document.querySelector('.landing-container');
+    const container = document.querySelector('.landing-container') as HTMLElement;
     if (!container) return;
 
     const rainbowColors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3'];
-    const ballWrappers: HTMLElement[] = [];
+    const ballWrappers: BallWrapperElement[] = [];
 
     for (let i = 0; i < numBalls; i++) {
-      const wrapper = document.createElement('div');
+      const wrapper = document.createElement('div') as BallWrapperElement;
       wrapper.className = 'ball-wrapper';
 
       const ball = document.createElement('img');
       ball.src = blackWhiteSoccerBall.src;
       ball.className = 'petal black-white';
+      ball.alt = 'Soccer ball decoration';
 
+      // Keep the original positioning - don't change this!
       const topPosition = 1.7 + Math.random() * 0.16;
       wrapper.style.setProperty('--random-top', topPosition.toString());
       wrapper.style.width = '50px';
@@ -107,12 +114,14 @@ export default function Home() {
         });
       }, 80);
 
-      (wrapper as any)._trailInterval = trailInterval;
+      wrapper._trailInterval = trailInterval; // Remove the (wrapper as any)
     }
 
     return () => {
       ballWrappers.forEach((wrapper) => {
-        clearInterval((wrapper as any)._trailInterval);
+        if (wrapper._trailInterval) { // Add null check
+          clearInterval(wrapper._trailInterval);
+        }
         wrapper.remove();
       });
       const oldTrails = document.querySelectorAll('.color-trail');
