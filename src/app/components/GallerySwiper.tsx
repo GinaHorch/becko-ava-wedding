@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { useEffect, useState } from 'react';
 import { supabase } from '../utils/supabaseClient';
+import Image from 'next/image'; 
 
 interface GuestbookItem {
   id: string;
@@ -80,14 +81,14 @@ export default function GallerySwiper() {
             <div className="bianca-swiper-slide-content">
               {item.image_url && (
                 <div className="bianca-image-container">
-                  <img 
+                  <Image 
                     src={item.image_url} 
                     alt={`Uploaded by ${item.guest_name}`}
+                    width={500}
+                    height={300}
                     className="bianca-uploaded-image"
-                    onError={(e) => {
-                      console.error('Image failed to load:', item.image_url);
-                      e.currentTarget.style.display = 'none';
-                    }}
+                    style={{ objectFit: 'cover', borderRadius: '8px' }}
+                    unoptimized={true} // Use unoptimized for better performance with large images
                   />
                 </div>
               )}
