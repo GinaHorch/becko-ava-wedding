@@ -23,7 +23,7 @@ export default function ImageUploader() {
   const { getRootProps, getInputProps } = useDropzone( { onDrop } );
 
   return (
-    <div {...getRootProps()} className="ask-bianca">
+    <div {...getRootProps()} className="bianca-image-upload-container">
       <input {...getInputProps()} />
       <p>Drag & drop your photo here, or click to select a file</p>
     </div>
