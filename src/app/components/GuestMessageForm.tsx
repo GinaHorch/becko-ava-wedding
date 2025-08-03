@@ -39,7 +39,7 @@ let media_url = null;
 
       if (uploadError) {
         console.error('Upload error:', uploadError);
-        alert('Error uploading your photo. Please try again.');
+        alert('Error uploading your media. Please try again.');
         return;
       }
 
@@ -66,7 +66,7 @@ let media_url = null;
       return;
     }
 
-    alert('Your message and photo have been submitted successfully!');
+    alert('Your message and media have been submitted successfully!');
     setGuestName('');
     setMessage('');
     setFile(null);
@@ -103,7 +103,7 @@ let media_url = null;
         )}
       </div>
 
-      <button type="submit">Submit Message & Photo</button>
+      <button type="submit">Submit Message & Media</button>
     </form>
   );
 }
