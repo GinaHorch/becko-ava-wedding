@@ -74,21 +74,34 @@ let media_url = null;
   };
 
   return (
-    <form onSubmit={handleSubmit} className="guest-form">
+    <form onSubmit={handleSubmit} className="guest-message-form">
+      <label htmlFor="guest-name">Your Name</label>
       <input 
+        id="guest-name"
         type="text" 
-        placeholder="Your Name" 
+        placeholder="Enter your Name" 
         required value={guestName} 
         onChange={(e) => setGuestName(e.target.value)} />
-      <textarea 
-        placeholder="Your Message" 
+
+      <label htmlFor="guest-message">Your Message</label>  
+      <textarea
+        id="guest-message" 
+        placeholder="Write your heartfelt message here..." 
         required value={message} 
         onChange={(e) => setMessage(e.target.value)} />
 
-    <div {...getRootProps()} className="bianca-image-upload-container">
-        <input {...getInputProps()} />
+    <label htmlFor="media-upload">Upload Photo or Video (Optional)</label>
+    <div {...getRootProps()} className="image-upload-container">
+        <input {...getInputProps()} id="media-upload"/>
         {previewUrl ? (
-          <div className="bianca-preview-image">
+          <div className="preview-container">
+            {file?.type.startsWith('video/') ? (
+              <video 
+                src={previewUrl} 
+                controls 
+                style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '8px' }}
+              />
+            ) : (
             <Image
               src={previewUrl}
               alt="Preview"
@@ -97,9 +110,14 @@ let media_url = null;
               style={{ objectFit: 'cover', borderRadius: '8px' }}
               unoptimized={true}
             />
+            )}
+            <p>Click to change file</p>
           </div>
         ) : (
-          <p>Drag & drop your photo/video here, or click to select a file</p>
+          <div className="upload-placeholder">
+            <p>📸 Drag & drop your photo/video here, or click to select</p>
+            <small>Supported formats: JPG, PNG, MP4, MOV, WEBM</small>
+          </div>
         )}
       </div>
 

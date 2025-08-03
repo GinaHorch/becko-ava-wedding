@@ -43,9 +43,6 @@ export default function Guestbook() {
 
       {/* Unified Message and Photo/Video Form */}
       <section className="message-form-section">
-        <h2>
-          <span className="emoji-colored">✨</span> Write Your Message & Upload Media<span className="emoji-colored">✨</span>
-        </h2>
         <GuestMessageForm />
       </section>
 

@@ -70,23 +70,26 @@ export default function GallerySwiper() {
   }
 
   return (
-    <div className="bianca-gallery-container">
+    <div className="gallery-container">
       <Swiper 
         spaceBetween={10} 
         slidesPerView={1}
-        className="bianca-swiper"
+        className="swiper-container"
+        centeredSlides={true}
+        loop={false}
+        watchOverflow={true}
       >
         {items.map((item) => (
-          <SwiperSlide key={item.id} className="bianca-swiper-slide">
-            <div className="bianca-swiper-slide-content">
+          <SwiperSlide key={item.id} className="gallery-slide">
+            <div className="gallery-slide-content">
               {item.media_url && (
-                <div className="bianca-image-container">
+                <div className="gallery-media-container">
                   {item.media_url.match(/\.(mp4|mov|webm)$/) ? (
                     <video
                       src={item.media_url}
                       controls
-                      className="bianca-uploaded-video"
-                      style={{ objectFit: 'cover', borderRadius: '8px', width: '100%' }}
+                      className="gallery-video"
+                      preload="metadata"
                     />
                   ) : (
                   <Image
@@ -94,16 +97,16 @@ export default function GallerySwiper() {
                     alt={`Uploaded by ${item.guest_name}`}
                     width={500}
                     height={300}
-                    className="bianca-uploaded-image"
+                    className="gallery-image"
                     style={{ objectFit: 'cover', borderRadius: '8px' }}
                     unoptimized={true} // Use unoptimized for better performance with large images
                   />
                   )}
                 </div>
               )}
-              <div className="bianca-message-content">
-                <p className="bianca-message-text">{item.message}</p>
-                <span className="bianca-guest-name">— {item.guest_name}</span>
+              <div className="gallery-message-content">
+                <p className="gallery-message-text">{item.message}</p>
+                <span className="gallery-guest-name">— {item.guest_name}</span>
               </div>
             </div>
           </SwiperSlide>

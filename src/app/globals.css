@@ -345,6 +345,50 @@ form.guest-message-form button:hover {
   background-color: #d43d1a;
 }
 
+/* Image Upload Container - extends Bianca's form styling */
+.image-upload-container {
+  width: 18rem;
+  min-height: 120px;
+  padding: 1rem;
+  border: 2px dashed #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.3s ease;
+  font-family: 'Alice', serif;
+  background-color: #f9f9f9;
+}
+
+.image-upload-container:hover {
+  border-color: #ef471f;
+  background-color: #fff;
+}
+
+.upload-placeholder p {
+  margin: 0.5rem 0;
+  color: #333;
+  font-size: 1rem;
+}
+
+.upload-placeholder small {
+  color: #666;
+  font-size: 0.8rem;
+}
+
+.preview-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.preview-container p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #ef471f;
+  font-weight: bold;
+}
+
 /* Bouncing animation with more vertical movement and alternating */
 @keyframes bounceRight {
   0% {
@@ -459,6 +503,7 @@ form.guest-message-form button:hover {
   max-width: 700px;
   margin: 0 auto;
   margin-bottom: 2rem;
+  overflow: hidden; /* Ensure content doesn't overflow */
 }
 
 .gallery-description {
@@ -479,6 +524,61 @@ form.guest-message-form button:hover {
   display: inline-block;
   margin-top: 25px;
   margin-bottom: -17px;
+}
+
+/* Gallery Swiper Specific Styles - added by Gina - attempting to complement Bianca's styles */
+.gallery-slide {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Prevent content from overflowing the slide */
+  box-sizing: border-box; /* Include padding in width calculations */
+}
+
+.gallery-slide-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.gallery-media-container {
+  width: 100%;  max-height: 400px;
+  overflow: hidden;
+  border-radius: 8px;
+  position: relative; /* Ensure proper containment */
+}
+
+.gallery-image,
+.gallery-video {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block; /* Remove any inline spacing */
+  max-width: 100%; /* Ensure it doesn't exceed container width */
+}
+
+.gallery-message-content {
+  text-align: center;
+}
+
+.gallery-message-text {
+  font-family: 'Alice', serif;
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.gallery-guest-name {
+  font-family: 'Alice', serif;
+  font-weight: bold;
+  color: #ef471f;
+  font-size: 1rem;
 }
 
 /* 🌈 Rainbow Animation */
@@ -697,4 +797,17 @@ form.guest-message-form button:hover {
   100% {
     transform: translate(-50%, -50%) rotate(360deg);
   }
+}
+
+.gallery-loading,
+.gallery-error,
+.gallery-empty {
+  text-align: center;
+  padding: 2rem;
+  font-family: 'Alice', serif;
+  color: #333;
+}
+
+.gallery-error {
+  color: #ef471f;
 }
