@@ -43,12 +43,13 @@ function GuestMessageForm() {
         width: 3px;
         height: 8px;
         background: hsla(${random(360)}, 100%, 50%, 1);
-        transform: translate3d(0, 0, 0) rotate(0deg);
+        transform: translate3d(0, 0, 0) rotate(${rotation}deg);
         animation: bang 700ms ease-out forwards;
         opacity: 0;
         pointer-events: none;
         --tx: ${tx};
         --ty: ${ty};
+        --rotation: ${rotation}deg;
       `;
 
       fragment.appendChild(confetto);
