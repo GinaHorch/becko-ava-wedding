@@ -51,8 +51,7 @@ export default function GuestMessageForm() {
    });
 
 // Confetti effect for button
-  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleButtonClick = () => {
     triggerConfetti();
   };
 
@@ -106,10 +105,16 @@ export default function GuestMessageForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-let media_url = null;
+    console.log('Form submitted!'); // Debug log
+    console.log('Guest Name:', guestName);
+    console.log('Message:', message);
+    console.log('File:', file);
+
+    let media_url = null;
 
     // Upload image to Supabase if exists
     if (file) {
+      console.log('Uploading file...'); // Debug log
       const filePath = `guest_uploads/${Date.now()}_${file.name}`;
       const { error: uploadError } = await supabase.storage
         .from('guestbook')
@@ -127,16 +132,21 @@ let media_url = null;
         .getPublicUrl(filePath);
 
       media_url = data.publicUrl;
+      console.log('Media URL:', media_url); // Debug log
     }
 
+     console.log('Inserting into database...'); // Debug log
+
     // Now store message + guest_name + media_url (linked) in Supabase
-    const { error } = await supabase.from('messages').insert([
+    const { data, error } = await supabase.from('messages').insert([
       {
         guest_name: guestName,
         message,
         media_url,
       },
     ]);
+
+    console.log('Insert result:', { data, error }); // Debug log
 
     if (error) {
       console.error('Error submitting message:', error);
