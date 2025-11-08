@@ -1,7 +1,10 @@
 "use client"
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Keyboard, Mousewheel } from 'swiper/modules';
 import 'swiper/css';
-import { useEffect, useState } from 'react';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { useEffect, useState, useRef } from 'react';
 import { supabase } from '../utils/supabaseClient';
 import Image from 'next/image'; 
 
@@ -16,7 +19,9 @@ interface GuestbookItem {
 export default function GallerySwiper() {
   const [items, setItems] = useState<GuestbookItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);  
+  const [error, setError] = useState<string | null>(null);
+  const navigationPrevRef = useRef(null);
+  const navigationNextRef = useRef(null);  
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -70,12 +75,53 @@ export default function GallerySwiper() {
   }
 
   return (
-    <div className="gallery-container">
+    <div className="gallery-swiper-wrapper">
+      {/* Custom Navigation Buttons */}
+      <div ref={navigationPrevRef} className="custom-swiper-button-prev">
+        ←
+      </div>
+      <div ref={navigationNextRef} className="custom-swiper-button-next">
+        →
+      </div>
+      
       <Swiper 
-        spaceBetween={10} 
+        modules={[Navigation, Pagination, Keyboard, Mousewheel]}
+        spaceBetween={20}
         slidesPerView={1}
+        navigation={{
+          prevEl: navigationPrevRef.current,
+          nextEl: navigationNextRef.current,
+        }}
+        onBeforeInit={(swiper) => {
+          // @ts-ignore
+          swiper.params.navigation.prevEl = navigationPrevRef.current;
+          // @ts-ignore
+          swiper.params.navigation.nextEl = navigationNextRef.current;
+        }}
+        pagination={{ 
+          clickable: true,
+          dynamicBullets: true 
+        }}
+        keyboard={{
+          enabled: true,
+          onlyInViewport: true
+        }}
+        mousewheel={{
+          forceToAxis: true,
+          sensitivity: 1
+        }}
+        breakpoints={{
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 20
+          },
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 30
+          }
+        }}
         className="swiper-container"
-        centeredSlides={true}
+        centeredSlides={false}
         loop={false}
         watchOverflow={true}
       >

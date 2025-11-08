@@ -63,9 +63,8 @@ export default function Gallery() {
         </div>
       </div>
 
-      <div className="swiper-container">
         <GallerySwiper />
-      </div>
+      
     </div>
   );
 }

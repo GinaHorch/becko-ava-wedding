@@ -558,7 +558,7 @@ form.guest-message-form button.hoverme:active {
   max-width: 700px;
   margin: 0 auto;
   margin-bottom: 2rem;
-  overflow: hidden; /* Ensure content doesn't overflow */
+  overflow: visible; /* Allow navigation arrows to be visible */
 }
 
 .gallery-description {
@@ -898,4 +898,166 @@ form.guest-message-form textarea,
 
 .hoverme {
   margin-top: 1.5rem; /* Slightly more space above button */
+}
+
+/* 🎯 Custom Swiper Navigation - Positioned Outside Container */
+.gallery-swiper-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+.custom-swiper-button-prev,
+.custom-swiper-button-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  font-weight: 700;
+  color: #ef471f;
+  cursor: pointer;
+  z-index: 100;
+  user-select: none;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.9)) 
+          drop-shadow(0 0 15px rgba(239, 71, 31, 0.6))
+          drop-shadow(0 0 25px rgba(239, 71, 31, 0.4))
+          drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
+}
+
+.custom-swiper-button-prev {
+  left: 10px;
+}
+
+.custom-swiper-button-next {
+  right: 10px;
+}
+
+.custom-swiper-button-prev:hover,
+.custom-swiper-button-next:hover {
+  color: #d43d1a;
+  transform: translateY(-50%) scale(1.15);
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 1)) 
+          drop-shadow(0 0 20px rgba(239, 71, 31, 0.8))
+          drop-shadow(0 0 35px rgba(239, 71, 31, 0.6))
+          drop-shadow(0 3px 8px rgba(0, 0, 0, 0.25));
+}
+
+.custom-swiper-button-prev.swiper-button-disabled,
+.custom-swiper-button-next.swiper-button-disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Hide custom arrows on mobile */
+@media (max-width: 639px) {
+  .custom-swiper-button-prev,
+  .custom-swiper-button-next {
+    display: none;
+  }
+}
+
+/* 🎯 Swiper Pagination Dots */
+.swiper-pagination {
+  position: relative !important;
+  margin-top: 2rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.swiper-pagination-bullet {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  background-color: rgba(239, 71, 31, 0.3) !important;
+  opacity: 1 !important;
+  transition: all 0.3s ease !important;
+  margin: 0 6px !important;
+}
+
+.swiper-pagination-bullet-active {
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 50% !important;
+  background-color: #ef471f !important;
+  opacity: 1 !important;
+  box-shadow: 0 0 12px rgba(239, 71, 31, 0.5) !important;
+}
+
+.swiper-pagination-bullet:hover {
+  background-color: #ef471f !important;
+  opacity: 1 !important;
+  transform: scale(1.15) !important;
+  cursor: pointer !important;
+}
+
+/* 📱 Responsive Gallery Container Adjustments */
+.swiper-container {
+  width: 100%;
+  padding: 0 !important;
+  position: relative;
+  overflow: visible !important;
+}
+
+@media (max-width: 639px) {
+  .swiper-container {
+    padding: 0 !important;
+  }
+}
+
+/* Ensure the gallery main container allows for navigation */
+.gallery-container {
+  position: relative;
+  padding: 2rem 0;
+  overflow: visible;
+}
+
+/* Ensure Swiper internal elements maintain proper clipping for slides */
+.swiper {
+  overflow: hidden !important;
+}
+
+.swiper-wrapper {
+  overflow: visible;
+}
+
+/* Add padding to accommodate external arrows */
+.gallery-container > .swiper-container {
+  padding: 0 100px !important;
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  overflow: visible !important;
+}
+
+@media (max-width: 1200px) {
+  .gallery-container > .swiper-container {
+    padding: 0 70px !important;
+  }
+}
+
+@media (max-width: 639px) {
+  .gallery-container > .swiper-container {
+    padding: 0 20px !important;
+  }
+}
+
+/* Ensure slides maintain proper sizing in multi-view */
+@media (min-width: 640px) {
+  .gallery-slide {
+    height: auto;
+    min-height: 400px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .gallery-slide {
+    min-height: 450px;
+  }
 }
