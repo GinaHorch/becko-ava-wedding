@@ -93,9 +93,9 @@ export default function GallerySwiper() {
           nextEl: navigationNextRef.current,
         }}
         onBeforeInit={(swiper) => {
-          // @ts-ignore
+          // @ts-expect-error - Swiper navigation params need to be set before init
           swiper.params.navigation.prevEl = navigationPrevRef.current;
-          // @ts-ignore
+          // @ts-expect-error - Swiper navigation params need to be set before init
           swiper.params.navigation.nextEl = navigationNextRef.current;
         }}
         pagination={{ 
