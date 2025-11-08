@@ -261,7 +261,7 @@ body {
   font-family: 'Alice', serif;
   font-size: 1.6rem;
   color: black;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
@@ -304,6 +304,7 @@ form.guest-message-form {
   max-width: 600px;
   margin: 0 auto;
   padding: 1rem;
+  position: relative;
 }
 
 form.guest-message-form label {
@@ -312,18 +313,29 @@ form.guest-message-form label {
   display: block;
   text-align: left;
   width: 18rem; /* same width as input */
-  margin-bottom: -10px;
+  margin-bottom: 4px;
+  font-family: 'Alice', serif;
+  position: relative;
 }
 
 form.guest-message-form input,
-form.guest-message-form textarea,
-form.guest-message-form button {
+form.guest-message-form textarea {
   width: 18rem;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 6px;
   align-items: center;
   font-family: 'Alice', serif;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+form.guest-message-form input:focus,
+form.guest-message-form textarea:focus {
+  outline: none;
+  border-color: #ef471f;
+  box-shadow: 0 0 8px rgba(239, 71, 31, 0.3);
+  transform: translateY(-1px);
 }
 
 form.guest-message-form textarea {
@@ -331,18 +343,101 @@ form.guest-message-form textarea {
   min-height: 100px;
 }
 
-form.guest-message-form button {
-  width: 19.2rem;
-  background-color: #ef471f;
-  color: white;
+form.guest-message-form button.hoverme {
+  position: relative;
+  overflow: visible;
   cursor: pointer;
+  padding: 12px 24px;
   border: none;
+  background-color: #ef471f;
+  border-radius: 6px;
   font-weight: bold;
+  font-size: 1rem;
+  color: white;
   transition: background 0.3s ease;
+  font-family: 'Alice', serif;
 }
 
 form.guest-message-form button:hover {
   background-color: #d43d1a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 71, 31, 0.4);
+}
+
+form.guest-message-form button.hoverme:active {
+  transform: translateY(0px) scale(0.95);
+  animation: celebration-flash 0.3s ease-out;
+}
+
+/* Image Upload Container - extends Bianca's form styling */
+.image-upload-container {
+  width: 18rem;
+  min-height: 120px;
+  padding: 1rem;
+  border: 2px dashed #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+  font-family: 'Alice', serif;
+  background-color: #f9f9f9;
+  position: relative;
+  overflow: hidden;
+}
+
+.image-upload-container:hover {
+  border-color: #ef471f;
+  background-color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 71, 31, 0.2);
+}
+
+/* Add subtle rainbow gradient on hover */
+.image-upload-container:hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(239, 71, 31, 0.1),
+    transparent
+  );
+  animation: shimmer 1.5s ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.upload-placeholder p {
+  margin: 0.5rem 0;
+  color: #333;
+  font-size: 1rem;
+}
+
+.upload-placeholder small {
+  color: #666;
+  font-size: 0.8rem;
+}
+
+.preview-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.preview-container p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #ef471f;
+  font-weight: bold;
 }
 
 /* Bouncing animation with more vertical movement and alternating */
@@ -394,6 +489,8 @@ form.guest-message-form button:hover {
   font-size: 1rem;
   color: white;
   transition: background 0.3s ease;
+  font-family: 'Alice', serif;
+  margin-top: 1rem; /* clearly match Bianca’s button spacing */
 }
 
 .hoverme span {
@@ -403,6 +500,7 @@ form.guest-message-form button:hover {
 
 .hoverme:hover {
   background-color: #d43d1a;
+  box-shadow: 0 4px 12px rgba(239, 71, 31, 0.4);
 }
 
 /* Confetti pieces */
@@ -429,6 +527,7 @@ form.guest-message-form button:hover {
     transform: translate3d(var(--tx), var(--ty), 0) rotate(360deg);
   }
 }
+
 
 /* 🎨 Gallery Page Styling */
 .gallery-container {
@@ -459,6 +558,7 @@ form.guest-message-form button:hover {
   max-width: 700px;
   margin: 0 auto;
   margin-bottom: 2rem;
+  overflow: visible; /* Allow navigation arrows to be visible */
 }
 
 .gallery-description {
@@ -479,6 +579,61 @@ form.guest-message-form button:hover {
   display: inline-block;
   margin-top: 25px;
   margin-bottom: -17px;
+}
+
+/* Gallery Swiper Specific Styles - added by Gina - attempting to complement Bianca's styles */
+.gallery-slide {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Prevent content from overflowing the slide */
+  box-sizing: border-box; /* Include padding in width calculations */
+}
+
+.gallery-slide-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.gallery-media-container {
+  width: 100%;  max-height: 400px;
+  overflow: hidden;
+  border-radius: 8px;
+  position: relative; /* Ensure proper containment */
+}
+
+.gallery-image,
+.gallery-video {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block; /* Remove any inline spacing */
+  max-width: 100%; /* Ensure it doesn't exceed container width */
+}
+
+.gallery-message-content {
+  text-align: center;
+}
+
+.gallery-message-text {
+  font-family: 'Alice', serif;
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.gallery-guest-name {
+  font-family: 'Alice', serif;
+  font-weight: bold;
+  color: #ef471f;
+  font-size: 1rem;
 }
 
 /* 🌈 Rainbow Animation */
@@ -696,5 +851,213 @@ form.guest-message-form button:hover {
   }
   100% {
     transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.gallery-loading,
+.gallery-error,
+.gallery-empty {
+  text-align: center;
+  padding: 2rem;
+  font-family: 'Alice', serif;
+  color: #333;
+}
+
+.gallery-error {
+  color: #ef471f;
+}
+
+/* Bianca’s Center-Aligned Form Adjustments */
+
+form.guest-message-form {
+  align-items: center; /* Center all items horizontally */
+}
+
+form.guest-message-form label {
+  width: 100%; /* Label takes full width to center text */
+  text-align: center; /* Text in labels centered */
+  padding-left: 0; /* Remove padding-left to prevent offset */
+  margin-bottom: 6px;
+}
+
+form.guest-message-form input,
+form.guest-message-form textarea,
+.image-upload-container {
+  width: 100%; /* Fields take full width of form container */
+  max-width: 350px; /* Limit maximum width for aesthetic alignment */
+}
+
+.upload-placeholder p,
+.upload-placeholder small {
+  text-align: center; /* Center alignment inside upload placeholder */
+}
+
+.preview-container {
+  justify-content: center; /* Center previewed image/video */
+}
+
+.hoverme {
+  margin-top: 1.5rem; /* Slightly more space above button */
+}
+
+/* 🎯 Custom Swiper Navigation - Positioned Outside Container */
+.gallery-swiper-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+.custom-swiper-button-prev,
+.custom-swiper-button-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  font-weight: 700;
+  color: #ef471f;
+  cursor: pointer;
+  z-index: 100;
+  user-select: none;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.9)) 
+          drop-shadow(0 0 15px rgba(239, 71, 31, 0.6))
+          drop-shadow(0 0 25px rgba(239, 71, 31, 0.4))
+          drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
+}
+
+.custom-swiper-button-prev {
+  left: 10px;
+}
+
+.custom-swiper-button-next {
+  right: 10px;
+}
+
+.custom-swiper-button-prev:hover,
+.custom-swiper-button-next:hover {
+  color: #d43d1a;
+  transform: translateY(-50%) scale(1.15);
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 1)) 
+          drop-shadow(0 0 20px rgba(239, 71, 31, 0.8))
+          drop-shadow(0 0 35px rgba(239, 71, 31, 0.6))
+          drop-shadow(0 3px 8px rgba(0, 0, 0, 0.25));
+}
+
+.custom-swiper-button-prev.swiper-button-disabled,
+.custom-swiper-button-next.swiper-button-disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Hide custom arrows on mobile */
+@media (max-width: 639px) {
+  .custom-swiper-button-prev,
+  .custom-swiper-button-next {
+    display: none;
+  }
+}
+
+/* 🎯 Swiper Pagination Dots */
+.swiper-pagination {
+  position: relative !important;
+  margin-top: 2rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.swiper-pagination-bullet {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  background-color: rgba(239, 71, 31, 0.3) !important;
+  opacity: 1 !important;
+  transition: all 0.3s ease !important;
+  margin: 0 6px !important;
+}
+
+.swiper-pagination-bullet-active {
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 50% !important;
+  background-color: #ef471f !important;
+  opacity: 1 !important;
+  box-shadow: 0 0 12px rgba(239, 71, 31, 0.5) !important;
+}
+
+.swiper-pagination-bullet:hover {
+  background-color: #ef471f !important;
+  opacity: 1 !important;
+  transform: scale(1.15) !important;
+  cursor: pointer !important;
+}
+
+/* 📱 Responsive Gallery Container Adjustments */
+.swiper-container {
+  width: 100%;
+  padding: 0 !important;
+  position: relative;
+  overflow: visible !important;
+}
+
+@media (max-width: 639px) {
+  .swiper-container {
+    padding: 0 !important;
+  }
+}
+
+/* Ensure the gallery main container allows for navigation */
+.gallery-container {
+  position: relative;
+  padding: 2rem 0;
+  overflow: visible;
+}
+
+/* Ensure Swiper internal elements maintain proper clipping for slides */
+.swiper {
+  overflow: hidden !important;
+}
+
+.swiper-wrapper {
+  overflow: visible;
+}
+
+/* Add padding to accommodate external arrows */
+.gallery-container > .swiper-container {
+  padding: 0 100px !important;
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  overflow: visible !important;
+}
+
+@media (max-width: 1200px) {
+  .gallery-container > .swiper-container {
+    padding: 0 70px !important;
+  }
+}
+
+@media (max-width: 639px) {
+  .gallery-container > .swiper-container {
+    padding: 0 20px !important;
+  }
+}
+
+/* Ensure slides maintain proper sizing in multi-view */
+@media (min-width: 640px) {
+  .gallery-slide {
+    height: auto;
+    min-height: 400px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .gallery-slide {
+    min-height: 450px;
   }
 }

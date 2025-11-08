@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import GallerySwiper from '../components/GallerySwiper';
 import weddingIcon6 from '../images/wedding-icon-6.png';
@@ -63,9 +63,8 @@ export default function Gallery() {
         </div>
       </div>
 
-      <div className="swiper-container">
         <GallerySwiper />
-      </div>
+      
     </div>
   );
 }
