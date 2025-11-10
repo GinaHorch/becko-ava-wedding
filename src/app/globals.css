@@ -1238,13 +1238,13 @@ form.guest-message-form textarea,
 }
 
 .admin-header {
-  background: linear-gradient(135deg, #ef471f 0%, #d43d1a 100%);
-  color: white;
+  background: #f0c3ce;
+  color: #ef471f;
   padding: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 12px rgba(239, 71, 31, 0.3);
+  box-shadow: 0 4px 12px rgba(239, 71, 31, 0.15);
   position: relative;
   z-index: 10;
 }
@@ -1258,34 +1258,38 @@ form.guest-message-form textarea,
 .admin-header-content h1 .sacramento {
   font-family: 'Sacramento', cursive;
   font-size: 2.5rem;
-  color: white;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  color: #ef471f;
+  text-shadow: none;
 }
 
 .admin-header-content p {
   font-family: 'Alice', serif;
-  opacity: 0.95;
+  color: #333;
   margin: 0.25rem 0 0 0;
   font-size: 1rem;
 }
 
 .admin-logout-button {
-  background: rgba(255, 255, 255, 0.2);
+  background: #ef471f;
   color: white;
-  border: 2px solid white;
+  border: none;
   padding: 0.75rem 1.5rem;
-  border-radius: 20px;
+  border-radius: 6px;
   font-family: 'Alice', serif;
-  font-weight: 600;
+  font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .admin-logout-button:hover {
-  background: white;
-  color: #ef471f;
+  background: #d43d1a;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(239, 71, 31, 0.4);
+}
+
+.admin-logout-button:active {
+  transform: translateY(0px) scale(0.95);
 }
 
 .admin-tabs {
@@ -1342,6 +1346,7 @@ form.guest-message-form textarea,
   margin-bottom: 2rem;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
 }
 
 .admin-search {
@@ -1370,6 +1375,7 @@ form.guest-message-form textarea,
 .admin-filters {
   display: flex;
   align-items: center;
+  gap: 1rem;
 }
 
 .admin-checkbox {
@@ -1387,7 +1393,7 @@ form.guest-message-form textarea,
 }
 
 .admin-export-button {
-  background: #4CAF50;
+  background: #ef471f;
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -1400,9 +1406,9 @@ form.guest-message-form textarea,
 }
 
 .admin-export-button:hover {
-  background: #45a049;
+  background: #d43d1a;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+  box-shadow: 0 4px 12px rgba(239, 71, 31, 0.4);
 }
 
 .admin-export-button:active {
@@ -1499,14 +1505,14 @@ form.guest-message-form textarea,
 }
 
 .hide-button {
-  background: #ef471f;
-  color: white;
+  background: #f0c3ce;
+  color: #333;
 }
 
 .hide-button:hover {
-  background: #d43d1a;
+  background: #e8b3bf;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(239, 71, 31, 0.4);
+  box-shadow: 0 4px 12px rgba(240, 195, 206, 0.6);
 }
 
 .hide-button:active {
