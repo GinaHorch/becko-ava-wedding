@@ -1461,7 +1461,7 @@ form.guest-message-form textarea,
 }
 
 .hidden-badge {
-  background: #ff9800;
+  background: #ef471f;
   color: white;
   padding: 0.25rem 0.75rem;
   border-radius: 12px;
@@ -1499,14 +1499,14 @@ form.guest-message-form textarea,
 }
 
 .hide-button {
-  background: #ff9800;
+  background: #ef471f;
   color: white;
 }
 
 .hide-button:hover {
-  background: #f57c00;
+  background: #d43d1a;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+  box-shadow: 0 4px 12px rgba(239, 71, 31, 0.4);
 }
 
 .hide-button:active {
@@ -1514,14 +1514,14 @@ form.guest-message-form textarea,
 }
 
 .delete-button {
-  background: #f44336;
+  background: #ef471f;
   color: white;
 }
 
 .delete-button:hover {
-  background: #d32f2f;
+  background: #d43d1a;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
+  box-shadow: 0 4px 12px rgba(239, 71, 31, 0.4);
 }
 
 .delete-button:active {
@@ -1529,19 +1529,19 @@ form.guest-message-form textarea,
 }
 
 .delete-button.confirm {
-  background: #b71c1c;
+  background: #c41e00;
   animation: pulse 0.5s ease-in-out infinite;
 }
 
 .cancel-button {
-  background: #757575;
+  background: #999;
   color: white;
 }
 
 .cancel-button:hover {
-  background: #616161;
+  background: #666;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(117, 117, 117, 0.4);
+  box-shadow: 0 4px 12px rgba(102, 102, 102, 0.4);
 }
 
 .cancel-button:active {
