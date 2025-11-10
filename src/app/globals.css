@@ -1164,17 +1164,19 @@ form.guest-message-form textarea,
 
 .admin-login-form input {
   padding: 0.75rem;
-  border: 2px solid #ddd;
+  border: 1px solid #ccc;
   border-radius: 6px;
   font-family: 'Alice', serif;
   font-size: 1rem;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .admin-login-form input:focus {
   outline: none;
   border-color: #ef471f;
-  box-shadow: 0 0 0 3px rgba(239, 71, 31, 0.1);
+  box-shadow: 0 0 8px rgba(239, 71, 31, 0.3);
+  transform: translateY(-1px);
 }
 
 .admin-login-form input:disabled {
@@ -1183,23 +1185,29 @@ form.guest-message-form textarea,
 }
 
 .admin-login-button {
+  position: relative;
+  overflow: visible;
   background: #ef471f;
   color: white;
-  padding: 1rem;
+  padding: 12px 24px;
   border: none;
   border-radius: 6px;
   font-family: 'Alice', serif;
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
 }
 
 .admin-login-button:hover:not(:disabled) {
   background: #d43d1a;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(239, 71, 31, 0.3);
+  box-shadow: 0 4px 12px rgba(239, 71, 31, 0.4);
+}
+
+.admin-login-button:active:not(:disabled) {
+  transform: translateY(0px) scale(0.95);
 }
 
 .admin-login-button:disabled {
