@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import ProtectedRoute from '../../components/ProtectedRoute';
 import MessageList from '../../components/admin/MessageList';
-import Analytics from '../../components/admin/Analytics';
 import { signOut } from '../../utils/auth';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -11,7 +10,6 @@ import blackWhiteSoccerBall from '../../images/black-white-soccer-ball.png';
 import soccerHeart from '../../images/soccer-heart.png';
 
 export default function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState<'messages' | 'analytics'>('messages');
   const router = useRouter();
 
   // Add soccer ball animation - multiple balls like the main page
@@ -149,24 +147,8 @@ export default function AdminDashboard() {
           </div>
         </header>
 
-        <nav className="admin-tabs">
-          <button
-            className={`admin-tab ${activeTab === 'messages' ? 'active' : ''}`}
-            onClick={() => setActiveTab('messages')}
-          >
-            Messages
-          </button>
-          <button
-            className={`admin-tab ${activeTab === 'analytics' ? 'active' : ''}`}
-            onClick={() => setActiveTab('analytics')}
-          >
-            Analytics
-          </button>
-        </nav>
-
         <main className="admin-content">
-          {activeTab === 'messages' && <MessageList />}
-          {activeTab === 'analytics' && <Analytics />}
+          <MessageList />
         </main>
       </div>
     </ProtectedRoute>
