@@ -1241,32 +1241,68 @@ form.guest-message-form textarea,
   background: #f0c3ce;
   color: #ef471f;
   padding: 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   box-shadow: 0 4px 12px rgba(239, 71, 31, 0.15);
   position: relative;
   z-index: 10;
 }
 
-.admin-header-content h1 {
+.admin-header-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.admin-header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.admin-header-icon {
+  margin-bottom: 0.5rem;
+}
+
+.admin-header-title {
   font-family: 'Alice', serif;
   font-size: 2rem;
   margin: 0;
+  text-align: center;
 }
 
-.admin-header-content h1 .sacramento {
+.admin-header-title .sacramento {
   font-family: 'Sacramento', cursive;
-  font-size: 2.5rem;
-  color: #ef471f;
-  text-shadow: none;
+  font-size: 3rem;
+  line-height: 1.2;
 }
 
-.admin-header-content p {
+/* Rainbow gradient text like Bianca's design */
+.admin-header-title .confetti-text {
+  background: linear-gradient(
+    45deg,
+    #E60001,
+    #FF8D01,
+    #FFEE03,
+    #008220,
+    #004DFD,
+    #760088 
+  );
+  background-size: 400% 400%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: confettiShift 6s ease-in-out infinite;
+}
+
+.admin-header-subtitle {
   font-family: 'Alice', serif;
-  color: #333;
-  margin: 0.25rem 0 0 0;
-  font-size: 1rem;
+  color: #ef471f;
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
 }
 
 .admin-logout-button {

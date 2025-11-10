@@ -8,6 +8,7 @@ import { signOut } from '../../utils/auth';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import blackWhiteSoccerBall from '../../images/black-white-soccer-ball.png';
+import soccerHeart from '../../images/soccer-heart.png';
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<'messages' | 'analytics'>('messages');
@@ -130,15 +131,22 @@ export default function AdminDashboard() {
     <ProtectedRoute>
       <div className="admin-dashboard">
         <header className="admin-header">
-          <div className="admin-header-content">
-            <h1>
-              <span className="sacramento">Becko & Ava</span>
-            </h1>
-            <p>Guestbook Dashboard ✨</p>
+          <div className="admin-header-layout">
+            <div className="admin-header-content">
+              {/* Soccer heart icon like Bianca's design */}
+              <div className="admin-header-icon">
+                <Image src={soccerHeart} alt="Soccer Heart" width={80} height={80} />
+              </div>
+              
+              <h1 className="admin-header-title">
+                <span className="sacramento confetti-text">Becko & Ava's</span>
+              </h1>
+              <p className="admin-header-subtitle">Guestbook Dashboard</p>
+            </div>
+            <button onClick={handleSignOut} className="admin-logout-button">
+              Logout
+            </button>
           </div>
-          <button onClick={handleSignOut} className="admin-logout-button">
-            Logout
-          </button>
         </header>
 
         <nav className="admin-tabs">
