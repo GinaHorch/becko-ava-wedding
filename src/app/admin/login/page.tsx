@@ -1,8 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn } from '../../utils/auth';
+import Image from 'next/image';
+import weddingIcon3 from '../../images/wedding-icon-3.png';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -10,6 +12,30 @@ export default function AdminLogin() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  // Add sparkles effect
+  useEffect(() => {
+    const createSparkle = () => {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.position = 'fixed';
+      sparkle.style.left = Math.random() * window.innerWidth + 'px';
+      sparkle.style.top = Math.random() * window.innerHeight + 'px';
+      sparkle.style.pointerEvents = 'none';
+      sparkle.style.zIndex = '1000';
+      
+      document.body.appendChild(sparkle);
+      
+      setTimeout(() => {
+        if (document.body.contains(sparkle)) {
+          document.body.removeChild(sparkle);
+        }
+      }, 2500);
+    };
+
+    const sparkleInterval = setInterval(createSparkle, 800);
+    return () => clearInterval(sparkleInterval);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,8 +60,13 @@ export default function AdminLogin() {
   return (
     <div className="admin-login-container">
       <div className="admin-login-box">
-        <h1 className="admin-login-title">Admin Login</h1>
-        <p className="admin-login-subtitle">Becko & Ava&apos;s Guestbook Dashboard</p>
+        <div className="admin-login-icon">
+          <Image src={weddingIcon3} alt="Wedding Icon" width={80} height={80} />
+        </div>
+        <h1 className="admin-login-title">
+          <span className="sacramento">Becko & Ava</span>
+        </h1>
+        <p className="admin-login-subtitle">Admin Dashboard</p>
 
         {error && (
           <div className="admin-login-error">
