@@ -15,26 +15,35 @@ export default function AdminLogin() {
 
   // Add sparkles effect
   useEffect(() => {
+    // Create sparkle container
+    const sparkleContainer = document.createElement('div');
+    sparkleContainer.id = 'sparkle-container';
+    sparkleContainer.style.cssText = 'position: fixed; inset: 0; pointer-events: none; z-index: 1000;';
+    document.body.appendChild(sparkleContainer);
+
     const createSparkle = () => {
       const sparkle = document.createElement('div');
       sparkle.className = 'sparkle';
-      sparkle.style.position = 'fixed';
+      sparkle.style.position = 'absolute';
       sparkle.style.left = Math.random() * window.innerWidth + 'px';
       sparkle.style.top = Math.random() * window.innerHeight + 'px';
       sparkle.style.pointerEvents = 'none';
-      sparkle.style.zIndex = '1000';
       
-      document.body.appendChild(sparkle);
+      sparkleContainer.appendChild(sparkle);
       
       setTimeout(() => {
-        if (document.body.contains(sparkle)) {
-          document.body.removeChild(sparkle);
+        if (sparkleContainer.contains(sparkle)) {
+          sparkleContainer.removeChild(sparkle);
         }
       }, 2500);
     };
 
     const sparkleInterval = setInterval(createSparkle, 800);
-    return () => clearInterval(sparkleInterval);
+    
+    return () => {
+      clearInterval(sparkleInterval);
+      sparkleContainer.remove();
+    };
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -74,8 +83,8 @@ export default function AdminLogin() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="admin-login-form">
-          <div className="form-group">
+        <form onSubmit={handleSubmit} className="admin-login-form" suppressHydrationWarning>
+          <div className="form-group" suppressHydrationWarning>
             <label htmlFor="email">Email Address</label>
             <input
               type="email"
@@ -89,7 +98,7 @@ export default function AdminLogin() {
             />
           </div>
 
-          <div className="form-group">
+          <div className="form-group" suppressHydrationWarning>
             <label htmlFor="password">Password</label>
             <input
               type="password"
