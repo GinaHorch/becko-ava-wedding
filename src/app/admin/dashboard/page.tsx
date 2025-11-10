@@ -46,7 +46,7 @@ export default function AdminDashboard() {
         animation: adminBounceRight ${duration}s linear infinite;
         animation-delay: ${delay}s;
         pointer-events: none;
-        z-index: 100;
+        z-index: 9999;
       `;
 
       const ball = document.createElement('img');
@@ -77,7 +77,7 @@ export default function AdminDashboard() {
             font-size: 18px;
             opacity: 0.8;
             pointer-events: none;
-            z-index: 99;
+            z-index: 9998;
           `;
           
           const randomColor = rainbowColors[Math.floor(Math.random() * rainbowColors.length)];
