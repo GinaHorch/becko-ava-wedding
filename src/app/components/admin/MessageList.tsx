@@ -13,6 +13,9 @@ interface Message {
   hidden: boolean;
 }
 
+// For PDF export
+declare const jspdf: any;
+
 export default function MessageList() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [filteredMessages, setFilteredMessages] = useState<Message[]>([]);
@@ -20,6 +23,8 @@ export default function MessageList() {
   const [searchTerm, setSearchTerm] = useState('');
   const [showHidden, setShowHidden] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const [selectedMessages, setSelectedMessages] = useState<Set<string>>(new Set());
+  const [selectAll, setSelectAll] = useState(false);
 
   useEffect(() => {
     fetchMessages();
@@ -123,10 +128,35 @@ export default function MessageList() {
     }
   };
 
+  const toggleSelectAll = () => {
+    if (selectAll) {
+      setSelectedMessages(new Set());
+      setSelectAll(false);
+    } else {
+      setSelectedMessages(new Set(filteredMessages.map(msg => msg.id)));
+      setSelectAll(true);
+    }
+  };
+
+  const toggleMessageSelection = (id: string) => {
+    const newSelection = new Set(selectedMessages);
+    if (newSelection.has(id)) {
+      newSelection.delete(id);
+    } else {
+      newSelection.add(id);
+    }
+    setSelectedMessages(newSelection);
+    setSelectAll(newSelection.size === filteredMessages.length);
+  };
+
   const exportToCSV = () => {
+    const messagesToExport = selectedMessages.size > 0 
+      ? messages.filter(msg => selectedMessages.has(msg.id))
+      : messages;
+
     const csvContent = [
       ['Guest Name', 'Message', 'Media URL', 'Created At', 'Hidden'],
-      ...messages.map(msg => [
+      ...messagesToExport.map(msg => [
         msg.guest_name,
         msg.message.replace(/"/g, '""'), // Escape quotes
         msg.media_url || '',
@@ -144,6 +174,97 @@ export default function MessageList() {
     window.URL.revokeObjectURL(url);
   };
 
+  const exportToPDF = async () => {
+    const messagesToExport = selectedMessages.size > 0 
+      ? messages.filter(msg => selectedMessages.has(msg.id))
+      : messages;
+
+    if (messagesToExport.length === 0) {
+      alert('No messages to export');
+      return;
+    }
+
+    try {
+      // Dynamically import jsPDF
+      const { jsPDF } = await import('jspdf');
+      const doc = new jsPDF();
+      
+      let yPosition = 20;
+      const pageHeight = doc.internal.pageSize.height;
+      const margin = 20;
+      const lineHeight = 7;
+
+      // Title
+      doc.setFontSize(18);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Becko & Ava - Guestbook Messages', margin, yPosition);
+      yPosition += 15;
+
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Exported on ${new Date().toLocaleDateString()}`, margin, yPosition);
+      yPosition += 15;
+
+      // Messages
+      messagesToExport.forEach((msg, index) => {
+        // Check if we need a new page
+        if (yPosition > pageHeight - 40) {
+          doc.addPage();
+          yPosition = margin;
+        }
+
+        // Message number and guest name
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'bold');
+        doc.text(`${index + 1}. ${msg.guest_name}`, margin, yPosition);
+        yPosition += lineHeight;
+
+        // Date
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'italic');
+        doc.text(new Date(msg.created_at).toLocaleString(), margin + 5, yPosition);
+        yPosition += lineHeight;
+
+        // Message content
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        const messageLines = doc.splitTextToSize(msg.message, 170);
+        messageLines.forEach((line: string) => {
+          if (yPosition > pageHeight - 20) {
+            doc.addPage();
+            yPosition = margin;
+          }
+          doc.text(line, margin + 5, yPosition);
+          yPosition += lineHeight;
+        });
+
+        // Media indicator
+        if (msg.media_url) {
+          doc.setFontSize(9);
+          doc.setFont('helvetica', 'italic');
+          doc.text('[Media attached]', margin + 5, yPosition);
+          yPosition += lineHeight;
+        }
+
+        // Hidden status
+        if (msg.hidden) {
+          doc.setTextColor(255, 0, 0);
+          doc.text('[HIDDEN]', margin + 5, yPosition);
+          doc.setTextColor(0, 0, 0);
+          yPosition += lineHeight;
+        }
+
+        yPosition += 5; // Space between messages
+      });
+
+      // Save the PDF
+      doc.save(`guestbook-messages-${new Date().toISOString().split('T')[0]}.pdf`);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('Error generating PDF. Please try again.');
+    }
+  };
+
   if (loading) {
     return <div className="admin-loading">Loading messages...</div>;
   }
@@ -151,7 +272,7 @@ export default function MessageList() {
   return (
     <div className="admin-message-list">
       <div className="admin-controls">
-        <div className="admin-search">
+        <div className="admin-search-wrapper">
           <input
             type="text"
             placeholder="Search by name or message..."
@@ -172,9 +293,30 @@ export default function MessageList() {
           </label>
         </div>
 
-        <button onClick={exportToCSV} className="admin-export-button">
-          Export to CSV
-        </button>
+        <div className="admin-export-buttons">
+          <button onClick={exportToCSV} className="admin-export-button">
+            Export to CSV
+          </button>
+          <button onClick={exportToPDF} className="admin-export-button">
+            Export to PDF
+          </button>
+        </div>
+      </div>
+
+      <div className="admin-selection-controls">
+        <label className="admin-checkbox">
+          <input
+            type="checkbox"
+            checked={selectAll}
+            onChange={toggleSelectAll}
+          />
+          Select All ({selectedMessages.size} selected)
+        </label>
+        {selectedMessages.size > 0 && (
+          <span className="admin-selection-info">
+            Exporting {selectedMessages.size} message{selectedMessages.size !== 1 ? 's' : ''}
+          </span>
+        )}
       </div>
 
       <div className="admin-message-count">
@@ -188,15 +330,24 @@ export default function MessageList() {
           filteredMessages.map((msg) => (
             <div
               key={msg.id}
-              className={`admin-message-card ${msg.hidden ? 'hidden-message' : ''}`}
+              className={`admin-message-card ${msg.hidden ? 'hidden-message' : ''} ${selectedMessages.has(msg.id) ? 'selected' : ''}`}
             >
               <div className="admin-message-header">
-                <div>
-                  <strong>{msg.guest_name}</strong>
-                  <span className="admin-message-date">
-                    {new Date(msg.created_at).toLocaleDateString()} at{' '}
-                    {new Date(msg.created_at).toLocaleTimeString()}
-                  </span>
+                <div className="admin-message-header-left">
+                  <label className="admin-message-checkbox">
+                    <input
+                      type="checkbox"
+                      checked={selectedMessages.has(msg.id)}
+                      onChange={() => toggleMessageSelection(msg.id)}
+                    />
+                  </label>
+                  <div>
+                    <strong>{msg.guest_name}</strong>
+                    <span className="admin-message-date">
+                      {new Date(msg.created_at).toLocaleDateString()} at{' '}
+                      {new Date(msg.created_at).toLocaleTimeString()}
+                    </span>
+                  </div>
                 </div>
                 {msg.hidden && <span className="hidden-badge">HIDDEN</span>}
               </div>

@@ -1349,8 +1349,8 @@ form.guest-message-form textarea,
   justify-content: space-between;
 }
 
-.admin-search {
-  flex: 1;
+.admin-search-wrapper {
+  flex: 0 1 400px; /* Fixed max width */
   min-width: 250px;
 }
 
@@ -1415,6 +1415,29 @@ form.guest-message-form textarea,
   transform: translateY(0px) scale(0.95);
 }
 
+.admin-export-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.admin-selection-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: linear-gradient(to bottom, #ffffff 0%, #fef9fa 100%);
+  border: 2px solid rgba(239, 71, 31, 0.2);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.admin-selection-info {
+  font-family: 'Alice', serif;
+  color: #ef471f;
+  font-weight: bold;
+}
+
 .admin-message-count {
   font-family: 'Alice', serif;
   color: #666;
@@ -1451,6 +1474,31 @@ form.guest-message-form textarea,
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+}
+
+.admin-message-header-left {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.admin-message-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.admin-message-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #ef471f;
+}
+
+.admin-message-card.selected {
+  border-color: #ef471f;
+  background: linear-gradient(to bottom, #fff5f7 0%, #fef9fa 100%);
+  box-shadow: 0 4px 12px rgba(239, 71, 31, 0.2);
 }
 
 .admin-message-header strong {
