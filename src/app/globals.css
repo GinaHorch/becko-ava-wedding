@@ -1301,6 +1301,7 @@ form.guest-message-form textarea,
   background: none;
   font-family: 'Alice', serif;
   font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
   color: #666;
   border-bottom: 3px solid transparent;
@@ -1311,11 +1312,13 @@ form.guest-message-form textarea,
 
 .admin-tab:hover {
   color: #ef471f;
+  transform: translateY(-2px);
 }
 
 .admin-tab.active {
   color: #ef471f;
   border-bottom-color: #ef471f;
+  font-weight: bold;
 }
 
 .admin-content {
@@ -1349,15 +1352,19 @@ form.guest-message-form textarea,
 .admin-search-input {
   width: 100%;
   padding: 0.75rem;
-  border: 2px solid #ddd;
+  border: 1px solid #ccc;
   border-radius: 6px;
   font-family: 'Alice', serif;
   font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .admin-search-input:focus {
   outline: none;
   border-color: #ef471f;
+  box-shadow: 0 0 8px rgba(239, 71, 31, 0.3);
+  transform: translateY(-1px);
 }
 
 .admin-filters {
@@ -1386,15 +1393,20 @@ form.guest-message-form textarea,
   padding: 0.75rem 1.5rem;
   border-radius: 6px;
   font-family: 'Alice', serif;
-  font-weight: 600;
+  font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .admin-export-button:hover {
   background: #45a049;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
+
+.admin-export-button:active {
+  transform: translateY(0px) scale(0.95);
 }
 
 .admin-message-count {
@@ -1480,9 +1492,10 @@ form.guest-message-form textarea,
   border: none;
   border-radius: 6px;
   font-family: 'Alice', serif;
-  font-weight: 600;
+  font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .hide-button {
@@ -1492,7 +1505,12 @@ form.guest-message-form textarea,
 
 .hide-button:hover {
   background: #f57c00;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+}
+
+.hide-button:active {
+  transform: translateY(0px) scale(0.95);
 }
 
 .delete-button {
@@ -1502,7 +1520,12 @@ form.guest-message-form textarea,
 
 .delete-button:hover {
   background: #d32f2f;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
+}
+
+.delete-button:active {
+  transform: translateY(0px) scale(0.95);
 }
 
 .delete-button.confirm {
@@ -1517,6 +1540,12 @@ form.guest-message-form textarea,
 
 .cancel-button:hover {
   background: #616161;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(117, 117, 117, 0.4);
+}
+
+.cancel-button:active {
+  transform: translateY(0px) scale(0.95);
 }
 
 @keyframes pulse {
