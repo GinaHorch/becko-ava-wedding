@@ -13,7 +13,14 @@ export default function Footer() {
         <div className="footer-center">
           <p>
             Designed with <span className="footer-heart">♥</span> by{' '}
-            <span className="footer-designer">Bianca</span>
+            <a 
+              href="https://www.linkedin.com/in/bianca-di-biase-aa2509321" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="footer-designer-link"
+            >
+              <span className="footer-designer">Bianca Di Biase</span>, Web Designer
+            </a>
           </p>
         </div>
         
