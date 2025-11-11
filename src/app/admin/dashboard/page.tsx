@@ -1,0 +1,202 @@
+'use client';
+
+import { useEffect } from 'react';
+import Link from 'next/link';
+import ProtectedRoute from '../../components/ProtectedRoute';
+import MessageList from '../../components/admin/MessageList';
+import { signOut } from '../../utils/auth';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import blackWhiteSoccerBall from '../../images/black-white-soccer-ball.png';
+import soccerHeart from '../../images/soccer-heart.png';
+
+// Heart icon component matching the main page
+const HeartIcon = ({ color = '#ef471f', size = 16 }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill={color}
+    style={{ verticalAlign: 'middle', marginRight: '0.3rem' }}
+  >
+    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 
+             2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 
+             4.5 2.09C13.09 3.81 14.76 3 16.5 3 
+             19.58 3 22 5.42 22 8.5c0 3.78-3.4 
+             6.86-8.55 11.54L12 21.35z" />
+  </svg>
+);
+
+export default function AdminDashboard() {
+  const router = useRouter();
+
+  // Add soccer ball animation - multiple balls like the main page
+  useEffect(() => {
+    const numBalls = 3; // More soccer balls for the header
+    const container = document.querySelector('.admin-dashboard') as HTMLElement;
+    if (!container) return;
+
+    const rainbowColors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3'];
+    
+    interface BallWrapperElement extends HTMLElement {
+      _trailInterval?: NodeJS.Timeout;
+    }
+    
+    const ballWrappers: BallWrapperElement[] = [];
+
+    for (let i = 0; i < numBalls; i++) {
+      const wrapper = document.createElement('div') as BallWrapperElement;
+      wrapper.className = 'admin-ball-wrapper';
+      
+      // Vary the vertical position and animation
+      const topPosition = 10 + (i * 30) + Math.random() * 10; // Spread them out vertically
+      const duration = 8 + Math.random() * 4;
+      const delay = i * 3; // Stagger the start times
+      
+      wrapper.style.cssText = `
+        position: fixed;
+        left: -80px;
+        top: ${topPosition}%;
+        width: 50px;
+        height: 50px;
+        animation: adminBounceRight ${duration}s linear infinite;
+        animation-delay: ${delay}s;
+        pointer-events: none;
+        z-index: 9999;
+      `;
+
+      const ball = document.createElement('img');
+      ball.src = blackWhiteSoccerBall.src;
+      ball.style.cssText = `
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+      `;
+      ball.alt = 'Soccer ball decoration';
+
+      wrapper.appendChild(ball);
+      container.appendChild(wrapper);
+      ballWrappers.push(wrapper);
+
+      // Create sparkle trail for each ball
+      const trailInterval = setInterval(() => {
+        const rect = wrapper.getBoundingClientRect();
+        
+        // Create multiple sparkles around the ball
+        for (let j = 0; j < 2; j++) {
+          const trail = document.createElement('div');
+          trail.style.cssText = `
+            position: fixed;
+            left: ${rect.left + rect.width / 2 + (Math.random() - 0.5) * 20}px;
+            top: ${rect.top + rect.height / 2 + (Math.random() - 0.5) * 20}px;
+            font-size: 18px;
+            opacity: 0.8;
+            pointer-events: none;
+            z-index: 9998;
+          `;
+          
+          const randomColor = rainbowColors[Math.floor(Math.random() * rainbowColors.length)];
+          trail.style.color = randomColor;
+          trail.style.textShadow = `
+            0 0 4px ${randomColor},
+            0 0 8px ${randomColor},
+            0 0 12px ${randomColor}
+          `;
+          trail.textContent = '✨';
+
+          document.body.appendChild(trail);
+
+          trail.animate([
+            { opacity: 0.8, transform: 'translateY(0) scale(1)' },
+            { opacity: 0, transform: 'translateY(-15px) scale(0.5)' }
+          ], {
+            duration: 1000,
+            easing: 'ease-out'
+          });
+
+          setTimeout(() => trail.remove(), 1000);
+        }
+      }, 80);
+
+      wrapper._trailInterval = trailInterval;
+    }
+
+    return () => {
+      ballWrappers.forEach((wrapper) => {
+        if (wrapper._trailInterval) {
+          clearInterval(wrapper._trailInterval);
+        }
+        wrapper.remove();
+      });
+      const oldTrails = document.querySelectorAll('.color-trail');
+      oldTrails.forEach((t) => t.remove());
+    };
+  }, []);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      router.push('/admin/login');
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
+  };
+
+  return (
+    <ProtectedRoute>
+      <div className="admin-dashboard">
+        <header className="admin-header">
+          <div className="admin-header-layout">
+            <div className="admin-header-content">
+              {/* Soccer heart icon like Bianca's design */}
+              <div className="admin-header-icon">
+                <Image src={soccerHeart} alt="Soccer Heart" width={80} height={80} />
+              </div>
+              
+              <h1 className="admin-header-title">
+                <span className="sacramento confetti-text">Becko & Ava&apos;s</span>
+              </h1>
+              <p className="admin-header-subtitle">Guestbook Dashboard</p>
+            </div>
+            <button onClick={handleSignOut} className="admin-logout-button">
+              Logout
+            </button>
+          </div>
+        </header>
+
+        {/* Navigation to guestbook pages */}
+        <nav className="admin-navigation">
+          <ul>
+            <li>
+              <Link href="/">
+                <HeartIcon /> Home
+              </Link>
+            </li>
+            <li>
+              <Link href="/gallery">
+                <HeartIcon /> View Guestbook
+              </Link>
+            </li>
+            <li>
+              <Link href="/upload">
+                <HeartIcon /> Leave a Message
+              </Link>
+            </li>
+            <li className="active">
+              <Link href="/admin/dashboard">
+                <HeartIcon /> Admin Dashboard
+              </Link>
+            </li>
+          </ul>
+        </nav>
+
+        <main className="admin-content">
+          <MessageList />
+        </main>
+      </div>
+    </ProtectedRoute>
+  );
+}
+

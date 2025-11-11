@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline - Becko & Ava Wedding</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Alice', serif, system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #f0c3ce 0%, #e8b3bf 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      color: #333;
+    }
+    
+    .offline-container {
+      background: white;
+      padding: 3rem 2rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(239, 71, 31, 0.2);
+      max-width: 500px;
+    }
+    
+    .heart {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    h1 {
+      font-family: 'Sacramento', cursive;
+      font-size: 2.5rem;
+      color: #ef471f;
+      margin-bottom: 1rem;
+    }
+    
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      color: #666;
+    }
+    
+    button {
+      background: #ef471f;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Alice', serif;
+    }
+    
+    button:hover {
+      background: #d43d1a;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(239, 71, 31, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="offline-container">
+    <div class="heart">⚽💕</div>
+    <h1>Oops! You're Offline</h1>
+    <p>It looks like you've lost your internet connection. Don't worry, we'll save your place!</p>
+    <p>Check your WiFi or mobile data and try again.</p>
+    <button onclick="window.location.reload()">Try Again</button>
+  </div>
+</body>
+</html>
+

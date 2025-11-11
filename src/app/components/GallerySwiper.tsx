@@ -30,6 +30,7 @@ export default function GallerySwiper() {
         const { data, error } = await supabase
           .from('messages')
           .select('*')
+          .eq('hidden', false) // Only show non-hidden messages
           .order('created_at', { ascending: false }); // Show newest first
         
         if (error) {
