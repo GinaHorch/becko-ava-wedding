@@ -6,6 +6,7 @@ import GuestMessageForm from '../components/GuestMessageForm';
 import weddingIcon4 from '../images/wedding-icon-4.png';
 import weddingIcon5 from '../images/wedding-icon-5.png';
 import Footer from '../components/Footer';
+import InstallPrompt from '../components/InstallPrompt';
 
 // Heart icon component for navigation
 const HeartIcon = ({ color = '#ef471f', size = 16 }) => (
@@ -90,6 +91,7 @@ export default function Guestbook() {
       </section>
 
       <Footer />
+      <InstallPrompt />
     </div>
   );
 }

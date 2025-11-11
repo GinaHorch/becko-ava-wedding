@@ -7,6 +7,7 @@ import weddingIcon2 from './images/wedding-icon-2.png';
 import weddingIcon3 from './images/wedding-icon-3.png';
 import blackWhiteSoccerBall from './images/black-white-soccer-ball.png';
 import Footer from './components/Footer';
+import InstallPrompt from './components/InstallPrompt';
 
 const HeartIcon = ({ color = '#ef471f', size = 16 }) => (
   <svg
@@ -196,6 +197,7 @@ export default function Home() {
       </div>
 
       <Footer />
+      <InstallPrompt />
     </main>
   );
 }

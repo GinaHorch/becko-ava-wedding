@@ -5,6 +5,7 @@ import Image from 'next/image';
 import GallerySwiper from '../components/GallerySwiper';
 import weddingIcon6 from '../images/wedding-icon-6.png';
 import Footer from '../components/Footer';
+import InstallPrompt from '../components/InstallPrompt';
 
 // Heart icon component for navigation
 const HeartIcon = ({ color = '#ef471f', size = 16 }) => (
@@ -106,6 +107,7 @@ export default function Gallery() {
         <GallerySwiper />
 
       <Footer />
+      <InstallPrompt />
     </div>
   );
 }
