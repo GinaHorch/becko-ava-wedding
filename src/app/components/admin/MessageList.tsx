@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import Image from 'next/image';
 import JSZip from 'jszip';
+import soccerHeart from '../../images/soccer-heart.png';
 
 interface Message {
   id: string;
@@ -450,7 +451,20 @@ export default function MessageList() {
             className="admin-export-button admin-download-button"
             disabled={downloadingBulk}
           >
-            {downloadingBulk ? 'Downloading...' : '📥 Download All Media'}
+            {downloadingBulk ? (
+              'Downloading...'
+            ) : (
+              <>
+                <Image 
+                  src={soccerHeart} 
+                  alt="Download" 
+                  width={20} 
+                  height={20} 
+                  style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '0.5rem' }} 
+                />
+                Download All Media
+              </>
+            )}
           </button>
           <button onClick={exportToPDF} className="admin-export-button">
             📄 Export to PDF
@@ -528,7 +542,14 @@ export default function MessageList() {
                     className="admin-download-media-button"
                     title="Download this media file"
                   >
-                    📥 Download
+                    <Image 
+                      src={soccerHeart} 
+                      alt="Download" 
+                      width={16} 
+                      height={16} 
+                      style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '0.35rem' }} 
+                    />
+                    Download
                   </button>
                 </div>
               )}

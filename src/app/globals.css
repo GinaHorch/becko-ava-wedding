@@ -1732,11 +1732,16 @@ form.guest-message-form textarea,
 }
 
 .admin-download-button {
-  background: #8b5cf6 !important;
+  background: #f0c3ce !important;
+  color: #ef471f !important;
+  font-weight: bold;
+  border: 2px solid #ef471f !important;
 }
 
 .admin-download-button:hover:not(:disabled) {
-  background: #7c3aed !important;
+  background: #ef471f !important;
+  color: white !important;
+  border-color: #d43d1a !important;
 }
 
 .admin-export-buttons {
@@ -1748,9 +1753,9 @@ form.guest-message-form textarea,
 /* Individual media download button */
 .admin-download-media-button {
   margin-top: 0.5rem;
-  background: #10b981;
-  color: white;
-  border: none;
+  background: #f0c3ce;
+  color: #ef471f;
+  border: 2px solid #ef471f;
   padding: 0.5rem 1rem;
   border-radius: 6px;
   font-size: 0.85rem;
@@ -1759,13 +1764,15 @@ form.guest-message-form textarea,
   font-family: 'Alice', serif;
   font-weight: bold;
   display: inline-block;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(239, 71, 31, 0.2);
 }
 
 .admin-download-media-button:hover {
-  background: #059669;
+  background: #ef471f;
+  color: white;
+  border-color: #d43d1a;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 4px 12px rgba(239, 71, 31, 0.4);
 }
 
 .admin-download-media-button:active {
