@@ -11,10 +11,18 @@ export default function AdminLogin() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
+
+  // Set mounted state
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Add sparkles effect
   useEffect(() => {
+    if (!mounted) return;
+    
     // Create sparkle container
     const sparkleContainer = document.createElement('div');
     sparkleContainer.id = 'sparkle-container';
@@ -44,7 +52,7 @@ export default function AdminLogin() {
       clearInterval(sparkleInterval);
       sparkleContainer.remove();
     };
-  }, []);
+  }, [mounted]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,6 +74,23 @@ export default function AdminLogin() {
     }
   };
 
+  // Show loading state until mounted
+  if (!mounted) {
+    return (
+      <div className="admin-login-container">
+        <div className="admin-login-box">
+          <div className="admin-login-icon">
+            <Image src={weddingIcon3} alt="Wedding Icon" width={80} height={80} />
+          </div>
+          <h1 className="admin-login-title">
+            <span className="sacramento">Becko & Ava</span>
+          </h1>
+          <p className="admin-login-subtitle">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="admin-login-container">
       <div className="admin-login-box">
@@ -83,8 +108,8 @@ export default function AdminLogin() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="admin-login-form" suppressHydrationWarning>
-          <div className="form-group" suppressHydrationWarning>
+        <form onSubmit={handleSubmit} className="admin-login-form">
+          <div className="form-group">
             <label htmlFor="email">Email Address</label>
             <input
               type="email"
@@ -95,10 +120,11 @@ export default function AdminLogin() {
               placeholder="Enter your email"
               required
               disabled={loading}
+              autoComplete="email"
             />
           </div>
 
-          <div className="form-group" suppressHydrationWarning>
+          <div className="form-group">
             <label htmlFor="password">Password</label>
             <input
               type="password"
@@ -109,6 +135,7 @@ export default function AdminLogin() {
               placeholder="Enter your password"
               required
               disabled={loading}
+              autoComplete="current-password"
             />
           </div>
 
