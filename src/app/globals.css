@@ -1328,6 +1328,51 @@ form.guest-message-form textarea,
   transform: translateY(0px) scale(0.95);
 }
 
+/* Admin Navigation - like the main page */
+.admin-navigation {
+  background: white;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 2px 8px rgba(239, 71, 31, 0.1);
+}
+
+.admin-navigation ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.admin-navigation li {
+  margin: 0;
+}
+
+.admin-navigation a {
+  font-family: 'Alice', serif;
+  font-size: 1.1rem;
+  color: #ef471f;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+}
+
+.admin-navigation a:hover {
+  background: rgba(239, 71, 31, 0.1);
+  transform: translateY(-2px);
+}
+
+.admin-navigation li.active a {
+  background: linear-gradient(to bottom, #fff5f7 0%, #fef9fa 100%);
+  border: 2px solid rgba(239, 71, 31, 0.3);
+  font-weight: bold;
+}
+
 .admin-tabs {
   background: white;
   display: flex;
