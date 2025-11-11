@@ -1768,10 +1768,10 @@ form.guest-message-form textarea,
 }
 
 .admin-download-media-button img {
-  max-width: 14px !important;
-  max-height: 14px !important;
-  width: 14px !important;
-  height: 14px !important;
+  max-width: 18px !important;
+  max-height: 18px !important;
+  width: 18px !important;
+  height: 18px !important;
 }
 
 .admin-download-media-button:hover {
