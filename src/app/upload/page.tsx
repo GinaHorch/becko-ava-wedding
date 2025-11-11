@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import GuestMessageForm from '../components/GuestMessageForm';
 import weddingIcon4 from '../images/wedding-icon-4.png';
@@ -33,19 +34,19 @@ export default function Guestbook() {
       <nav className="page-navigation">
         <ul>
           <li>
-            <a href="/">
+            <Link href="/">
               <HeartIcon /> Home
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/gallery">
+            <Link href="/gallery">
               <HeartIcon /> View Guestbook
-            </a>
+            </Link>
           </li>
           <li className="active">
-            <a href="/upload">
+            <Link href="/upload">
               <HeartIcon /> Leave a Message
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>

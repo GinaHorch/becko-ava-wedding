@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import Link from 'next/link';
 import ProtectedRoute from '../../components/ProtectedRoute';
 import MessageList from '../../components/admin/MessageList';
 import { signOut } from '../../utils/auth';
@@ -155,7 +156,7 @@ export default function AdminDashboard() {
               </div>
               
               <h1 className="admin-header-title">
-                <span className="sacramento confetti-text">Becko & Ava's</span>
+                <span className="sacramento confetti-text">Becko & Ava&apos;s</span>
               </h1>
               <p className="admin-header-subtitle">Guestbook Dashboard</p>
             </div>
@@ -169,24 +170,24 @@ export default function AdminDashboard() {
         <nav className="admin-navigation">
           <ul>
             <li>
-              <a href="/">
+              <Link href="/">
                 <HeartIcon /> Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/gallery">
+              <Link href="/gallery">
                 <HeartIcon /> View Guestbook
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/upload">
+              <Link href="/upload">
                 <HeartIcon /> Leave a Message
-              </a>
+              </Link>
             </li>
             <li className="active">
-              <a href="/admin/dashboard">
+              <Link href="/admin/dashboard">
                 <HeartIcon /> Admin Dashboard
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>

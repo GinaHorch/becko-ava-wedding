@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import GallerySwiper from '../components/GallerySwiper';
 import weddingIcon6 from '../images/wedding-icon-6.png';
@@ -55,19 +56,19 @@ export default function Gallery() {
       <nav className="page-navigation">
         <ul>
           <li>
-            <a href="/">
+            <Link href="/">
               <HeartIcon /> Home
-            </a>
+            </Link>
           </li>
           <li className="active">
-            <a href="/gallery">
+            <Link href="/gallery">
               <HeartIcon /> View Guestbook
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/upload">
+            <Link href="/upload">
               <HeartIcon /> Leave a Message
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>

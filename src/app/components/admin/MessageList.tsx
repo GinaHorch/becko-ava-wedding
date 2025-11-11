@@ -13,9 +13,6 @@ interface Message {
   hidden: boolean;
 }
 
-// For PDF export
-declare const jspdf: any;
-
 export default function MessageList() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [filteredMessages, setFilteredMessages] = useState<Message[]>([]);
