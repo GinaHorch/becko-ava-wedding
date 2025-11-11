@@ -545,9 +545,9 @@ export default function MessageList() {
                     <Image 
                       src={soccerHeart} 
                       alt="Download" 
-                      width={16} 
-                      height={16} 
-                      style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '0.35rem' }} 
+                      width={14} 
+                      height={14} 
+                      style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '0.3rem' }} 
                     />
                     Download
                   </button>
