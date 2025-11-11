@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { signIn } from '../../utils/auth';
 import Image from 'next/image';
 import weddingIcon3 from '../../images/wedding-icon-3.png';
@@ -149,7 +150,7 @@ export default function AdminLogin() {
         </form>
 
         <div className="admin-login-footer">
-          <a href="/">← Back to Guestbook</a>
+          <Link href="/">← Back to Guestbook</Link>
         </div>
       </div>
     </div>

@@ -32,6 +32,7 @@ export default function MessageList() {
 
   useEffect(() => {
     filterMessages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages, searchTerm, showHidden]);
 
   const fetchMessages = async () => {
