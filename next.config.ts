@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
   /* Performance optimizations */
   compress: true,
   
+  /* Generate new build IDs to bust cache */
+  generateBuildId: async () => {
+    return `build-${Date.now()}`;
+  },
+  
   /* Headers for PWA */
   async headers() {
     return [
