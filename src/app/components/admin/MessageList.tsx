@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import Image from 'next/image';
+import JSZip from 'jszip';
+import soccerHeart from '../../images/soccer-heart.png';
 
 interface Message {
   id: string;
@@ -22,6 +24,7 @@ export default function MessageList() {
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [selectedMessages, setSelectedMessages] = useState<Set<string>>(new Set());
   const [selectAll, setSelectAll] = useState(false);
+  const [downloadingBulk, setDownloadingBulk] = useState(false);
 
   useEffect(() => {
     fetchMessages();
@@ -147,29 +150,98 @@ export default function MessageList() {
     setSelectAll(newSelection.size === filteredMessages.length);
   };
 
-  const exportToCSV = () => {
-    const messagesToExport = selectedMessages.size > 0 
+  // Download individual media file
+  const downloadMediaFile = async (mediaUrl: string, guestName: string) => {
+    try {
+      const response = await fetch(mediaUrl);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      
+      // Extract file extension
+      const extension = mediaUrl.split('.').pop()?.split('?')[0] || 'file';
+      const sanitizedName = guestName.replace(/[^a-z0-9]/gi, '_');
+      a.download = `${sanitizedName}_media.${extension}`;
+      
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading file:', error);
+      alert('Error downloading file');
+    }
+  };
+
+  // Download all media files as ZIP
+  const downloadAllMedia = async () => {
+    const messagesToDownload = selectedMessages.size > 0 
       ? messages.filter(msg => selectedMessages.has(msg.id))
       : messages;
 
-    const csvContent = [
-      ['Guest Name', 'Message', 'Media URL', 'Created At', 'Hidden'],
-      ...messagesToExport.map(msg => [
-        msg.guest_name,
-        msg.message.replace(/"/g, '""'), // Escape quotes
-        msg.media_url || '',
-        new Date(msg.created_at).toLocaleString(),
-        msg.hidden ? 'Yes' : 'No'
-      ])
-    ].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+    const messagesWithMedia = messagesToDownload.filter(msg => msg.media_url);
 
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `guestbook-messages-${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-    window.URL.revokeObjectURL(url);
+    if (messagesWithMedia.length === 0) {
+      alert('No media files to download');
+      return;
+    }
+
+    setDownloadingBulk(true);
+
+    try {
+      const zip = new JSZip();
+      const folder = zip.folder('guestbook-media');
+
+      // Download all media files and add to zip
+      for (let i = 0; i < messagesWithMedia.length; i++) {
+        const msg = messagesWithMedia[i];
+        if (msg.media_url) {
+          try {
+            const response = await fetch(msg.media_url);
+            const blob = await response.blob();
+            const extension = msg.media_url.split('.').pop()?.split('?')[0] || 'file';
+            const sanitizedName = msg.guest_name.replace(/[^a-z0-9]/gi, '_');
+            const filename = `${i + 1}_${sanitizedName}.${extension}`;
+            folder?.file(filename, blob);
+          } catch (error) {
+            console.error(`Error downloading ${msg.guest_name}'s media:`, error);
+          }
+        }
+      }
+
+      // Generate ZIP and download
+      const zipBlob = await zip.generateAsync({ type: 'blob' });
+      const url = window.URL.createObjectURL(zipBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `guestbook-media-${new Date().toISOString().split('T')[0]}.zip`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+
+      alert(`Downloaded ${messagesWithMedia.length} media files!`);
+    } catch (error) {
+      console.error('Error creating ZIP:', error);
+      alert('Error downloading media files');
+    } finally {
+      setDownloadingBulk(false);
+    }
+  };
+
+  // Helper function to convert image to data URL
+  const getImageDataUrl = (url: string): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const img = document.createElement('img');
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0);
+        resolve(canvas.toDataURL('image/jpeg', 0.7));
+      };
+      img.onerror = reject;
+      img.src = url;
+    });
   };
 
   const exportToPDF = async () => {
@@ -187,76 +259,158 @@ export default function MessageList() {
       const { jsPDF } = await import('jspdf');
       const doc = new jsPDF();
       
-      let yPosition = 20;
+      const pageWidth = doc.internal.pageSize.width;
       const pageHeight = doc.internal.pageSize.height;
-      const margin = 20;
-      const lineHeight = 7;
+      const margin = 15;
+      const contentWidth = pageWidth - (margin * 2);
+      let yPosition = margin;
 
-      // Title
-      doc.setFontSize(18);
+      // Helper function to add a new page with header
+      const addNewPage = () => {
+        doc.addPage();
+        yPosition = margin;
+        // Add decorative header on new pages
+        doc.setDrawColor(240, 195, 206); // Pink
+        doc.setLineWidth(0.5);
+        doc.line(margin, yPosition, pageWidth - margin, yPosition);
+        yPosition += 10;
+      };
+
+      // Title Page Header - Beautiful design
+      doc.setFillColor(240, 195, 206); // Pink background
+      doc.rect(0, 0, pageWidth, 50, 'F');
+      
+      doc.setTextColor(239, 71, 31); // Coral text
+      doc.setFontSize(24);
       doc.setFont('helvetica', 'bold');
-      doc.text('Becko & Ava - Guestbook Messages', margin, yPosition);
-      yPosition += 15;
-
-      doc.setFontSize(10);
+      doc.text('Becko & Ava', pageWidth / 2, 20, { align: 'center' });
+      
+      doc.setFontSize(14);
       doc.setFont('helvetica', 'normal');
-      doc.text(`Exported on ${new Date().toLocaleDateString()}`, margin, yPosition);
+      doc.text('Wedding Guestbook', pageWidth / 2, 30, { align: 'center' });
+      
+      doc.setFontSize(10);
+      doc.setTextColor(100, 100, 100);
+      doc.text(`${messagesToExport.length} Messages`, pageWidth / 2, 40, { align: 'center' });
+      
+      yPosition = 60;
+
+      // Export date
+      doc.setFontSize(9);
+      doc.setTextColor(120, 120, 120);
+      doc.setFont('helvetica', 'italic');
+      doc.text(`Exported on ${new Date().toLocaleDateString('en-AU')}`, pageWidth / 2, yPosition, { align: 'center' });
       yPosition += 15;
 
       // Messages
-      messagesToExport.forEach((msg, index) => {
+      for (let index = 0; index < messagesToExport.length; index++) {
+        const msg = messagesToExport[index];
+        const messageBoxHeight = msg.media_url ? 80 : 40; // Estimate height
+
         // Check if we need a new page
-        if (yPosition > pageHeight - 40) {
-          doc.addPage();
-          yPosition = margin;
+        if (yPosition + messageBoxHeight > pageHeight - margin) {
+          addNewPage();
         }
 
-        // Message number and guest name
+        // Draw message box with pink border
+        const boxStartY = yPosition;
+        doc.setDrawColor(240, 195, 206);
+        doc.setLineWidth(0.8);
+        
+        // Guest name and number
         doc.setFontSize(12);
         doc.setFont('helvetica', 'bold');
-        doc.text(`${index + 1}. ${msg.guest_name}`, margin, yPosition);
-        yPosition += lineHeight;
-
+        doc.setTextColor(239, 71, 31); // Coral
+        doc.text(`${index + 1}. ${msg.guest_name}`, margin + 3, yPosition + 6);
+        
         // Date
-        doc.setFontSize(9);
+        doc.setFontSize(8);
         doc.setFont('helvetica', 'italic');
-        doc.text(new Date(msg.created_at).toLocaleString(), margin + 5, yPosition);
-        yPosition += lineHeight;
+        doc.setTextColor(120, 120, 120);
+        const dateStr = new Date(msg.created_at).toLocaleDateString('en-AU', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        doc.text(dateStr, pageWidth - margin - 3, yPosition + 6, { align: 'right' });
+        
+        yPosition += 12;
 
         // Message content
         doc.setFontSize(10);
         doc.setFont('helvetica', 'normal');
-        const messageLines = doc.splitTextToSize(msg.message, 170);
-        messageLines.forEach((line: string) => {
-          if (yPosition > pageHeight - 20) {
-            doc.addPage();
-            yPosition = margin;
-          }
-          doc.text(line, margin + 5, yPosition);
-          yPosition += lineHeight;
-        });
+        doc.setTextColor(50, 50, 50);
+        const messageLines = doc.splitTextToSize(msg.message, contentWidth - 10);
+        doc.text(messageLines, margin + 3, yPosition);
+        yPosition += messageLines.length * 5 + 5;
 
-        // Media indicator
+        // Media thumbnail
         if (msg.media_url) {
-          doc.setFontSize(9);
-          doc.setFont('helvetica', 'italic');
-          doc.text('[Media attached]', margin + 5, yPosition);
-          yPosition += lineHeight;
+          try {
+            // Check if it's an image (not video)
+            if (!msg.media_url.match(/\.(mp4|mov|webm)$/)) {
+              const imgData = await getImageDataUrl(msg.media_url);
+              const imgWidth = 40;
+              const imgHeight = 30;
+              
+              // Add thumbnail with border
+              doc.setDrawColor(200, 200, 200);
+              doc.setLineWidth(0.2);
+              doc.addImage(imgData, 'JPEG', margin + 3, yPosition, imgWidth, imgHeight);
+              doc.rect(margin + 3, yPosition, imgWidth, imgHeight);
+              
+              yPosition += imgHeight + 3;
+            } else {
+              // Video indicator
+              doc.setFontSize(9);
+              doc.setFont('helvetica', 'italic');
+              doc.setTextColor(100, 100, 100);
+              doc.text('📹 Video attached', margin + 3, yPosition);
+              yPosition += 7;
+            }
+          } catch (error) {
+            console.error('Error loading image for PDF:', error);
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'italic');
+            doc.setTextColor(100, 100, 100);
+            doc.text('📷 Media attached', margin + 3, yPosition);
+            yPosition += 7;
+          }
         }
 
-        // Hidden status
+        // Hidden badge
         if (msg.hidden) {
-          doc.setTextColor(255, 0, 0);
-          doc.text('[HIDDEN]', margin + 5, yPosition);
-          doc.setTextColor(0, 0, 0);
-          yPosition += lineHeight;
+          doc.setFillColor(255, 230, 230);
+          doc.setDrawColor(255, 100, 100);
+          doc.roundedRect(margin + 3, yPosition, 30, 6, 2, 2, 'FD');
+          doc.setFontSize(8);
+          doc.setFont('helvetica', 'bold');
+          doc.setTextColor(200, 0, 0);
+          doc.text('HIDDEN', margin + 18, yPosition + 4, { align: 'center' });
+          yPosition += 8;
         }
 
-        yPosition += 5; // Space between messages
-      });
+        // Draw box around entire message
+        const boxHeight = yPosition - boxStartY + 2;
+        doc.setDrawColor(240, 195, 206);
+        doc.setLineWidth(0.5);
+        doc.roundedRect(margin, boxStartY, contentWidth, boxHeight, 2, 2);
+
+        yPosition += 8; // Space between messages
+      }
+
+      // Footer on last page
+      doc.setFontSize(8);
+      doc.setTextColor(150, 150, 150);
+      doc.setFont('helvetica', 'italic');
+      doc.text('💕⚽ With love from all your guests', pageWidth / 2, pageHeight - 10, { align: 'center' });
 
       // Save the PDF
-      doc.save(`guestbook-messages-${new Date().toISOString().split('T')[0]}.pdf`);
+      doc.save(`Becko-Ava-Guestbook-${new Date().toISOString().split('T')[0]}.pdf`);
+      
+      alert('PDF exported successfully!');
     } catch (error) {
       console.error('Error generating PDF:', error);
       alert('Error generating PDF. Please try again.');
@@ -292,11 +446,28 @@ export default function MessageList() {
         </div>
 
         <div className="admin-export-buttons">
-          <button onClick={exportToCSV} className="admin-export-button">
-            Export to CSV
+          <button 
+            onClick={downloadAllMedia} 
+            className="admin-export-button admin-download-button"
+            disabled={downloadingBulk}
+          >
+            {downloadingBulk ? (
+              'Downloading...'
+            ) : (
+              <>
+                <Image 
+                  src={soccerHeart} 
+                  alt="Download" 
+                  width={20} 
+                  height={20} 
+                  style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '0.5rem' }} 
+                />
+                Download All Media
+              </>
+            )}
           </button>
           <button onClick={exportToPDF} className="admin-export-button">
-            Export to PDF
+            📄 Export to PDF
           </button>
         </div>
       </div>
@@ -366,6 +537,20 @@ export default function MessageList() {
                       unoptimized={true}
                     />
                   )}
+                  <button
+                    onClick={() => downloadMediaFile(msg.media_url!, msg.guest_name)}
+                    className="admin-download-media-button"
+                    title="Download this media file"
+                  >
+                    <Image 
+                      src={soccerHeart} 
+                      alt="Download" 
+                      width={14} 
+                      height={14} 
+                      style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '0.3rem' }} 
+                    />
+                    Download
+                  </button>
                 </div>
               )}
 

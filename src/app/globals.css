@@ -1724,10 +1724,74 @@ form.guest-message-form textarea,
   transform: translateY(0px) scale(0.95);
 }
 
+.admin-export-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.6;
+}
+
+.admin-download-button {
+  background: #f0c3ce !important;
+  color: #ef471f !important;
+  font-weight: bold;
+  border: 2px solid #ef471f !important;
+}
+
+.admin-download-button:hover:not(:disabled) {
+  background: #ef471f !important;
+  color: white !important;
+  border-color: #d43d1a !important;
+}
+
 .admin-export-buttons {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+}
+
+/* Individual media download button */
+.admin-download-media-button {
+  margin-top: 0.5rem;
+  background: #f0c3ce;
+  color: #ef471f;
+  border: 2px solid #ef471f;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Alice', serif;
+  font-weight: bold;
+  display: inline-block;
+  box-shadow: 0 2px 4px rgba(239, 71, 31, 0.2);
+}
+
+.admin-download-media-button img {
+  max-width: 18px !important;
+  max-height: 18px !important;
+  width: 18px !important;
+  height: 18px !important;
+}
+
+.admin-download-media-button:hover {
+  background: #ef471f;
+  color: white;
+  border-color: #d43d1a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 71, 31, 0.4);
+}
+
+.admin-download-media-button:active {
+  transform: translateY(0);
+}
+
+.admin-message-media {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
 }
 
 .admin-selection-controls {
@@ -2192,17 +2256,27 @@ form.guest-message-form textarea,
     padding: 0 0.5rem;
   }
   
+  form.guest-message-form {
+    padding: 0.5rem;
+  }
+  
+  form.guest-message-form label {
+    width: 100%;
+    max-width: 100%;
+  }
+  
   form.guest-message-form input,
   form.guest-message-form textarea,
   .image-upload-container {
     max-width: 100% !important;
-    width: 100%;
+    width: 100% !important;
   }
   
   form.guest-message-form input,
   form.guest-message-form textarea {
     font-size: 16px;
     padding: 0.75rem;
+    box-sizing: border-box;
   }
   
   form.guest-message-form textarea {
@@ -2212,6 +2286,7 @@ form.guest-message-form textarea,
   .image-upload-container {
     min-height: 150px;
     padding: 1rem;
+    box-sizing: border-box;
   }
   
   .dropzone-text {
@@ -2225,6 +2300,92 @@ form.guest-message-form textarea,
   }
 }
 
+/* Very Small Phones (iPhone SE, older iPhones) */
+@media (max-width: 375px) {
+  .guestbook-container {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .guestbook-title {
+    font-size: 1.5rem;
+  }
+  
+  .guestbook-icon img {
+    max-width: 100px !important;
+  }
+  
+  .instructions {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  
+  .message-form-section h2 {
+    font-size: 1.2rem;
+  }
+  
+  form.guest-message-form {
+    padding: 0.25rem;
+  }
+  
+  form.guest-message-form input,
+  form.guest-message-form textarea {
+    font-size: 16px;
+    padding: 0.65rem;
+  }
+  
+  .image-upload-container {
+    min-height: 130px;
+    padding: 0.75rem;
+  }
+  
+  .dropzone-text {
+    font-size: 0.85rem;
+  }
+}
+
+/* Extra Small Phones (iPhone 5/SE 320px) */
+@media (max-width: 320px) {
+  .guestbook-container {
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .guestbook-title {
+    font-size: 1.3rem;
+  }
+  
+  .guestbook-icon img {
+    max-width: 80px !important;
+  }
+  
+  .instructions {
+    font-size: 0.85rem;
+  }
+  
+  .message-form-section h2 {
+    font-size: 1.1rem;
+  }
+  
+  form.guest-message-form input,
+  form.guest-message-form textarea {
+    font-size: 16px;
+    padding: 0.6rem;
+  }
+  
+  .image-upload-container {
+    min-height: 120px;
+    padding: 0.5rem;
+  }
+  
+  .dropzone-text {
+    font-size: 0.8rem;
+  }
+  
+  form.guest-message-form button[type="submit"] {
+    padding: 0.9rem;
+    font-size: 1rem;
+  }
+}
+
 /* PAGE NAVIGATION - Small Phones */
 @media (max-width: 480px) {
   .page-navigation {
@@ -2234,16 +2395,64 @@ form.guest-message-form textarea,
   
   .page-navigation ul {
     gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .page-navigation li {
+    flex: 0 1 auto;
   }
   
   .page-navigation a {
-    padding: 0.5rem 0.6rem;
+    padding: 0.5rem 0.7rem;
     font-size: 0.85rem;
   }
   
   .page-navigation svg {
     width: 14px;
     height: 14px;
+  }
+}
+
+/* PAGE NAVIGATION - Very Small Phones */
+@media (max-width: 375px) {
+  .page-navigation {
+    padding: 0.65rem 0.35rem;
+  }
+  
+  .page-navigation ul {
+    gap: 0.35rem;
+  }
+  
+  .page-navigation a {
+    padding: 0.45rem 0.6rem;
+    font-size: 0.8rem;
+  }
+  
+  .page-navigation svg {
+    width: 13px;
+    height: 13px;
+  }
+}
+
+/* PAGE NAVIGATION - Extra Small Phones */
+@media (max-width: 320px) {
+  .page-navigation {
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .page-navigation ul {
+    gap: 0.25rem;
+  }
+  
+  .page-navigation a {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.75rem;
+  }
+  
+  .page-navigation svg {
+    width: 12px;
+    height: 12px;
   }
 }
 
@@ -2302,29 +2511,210 @@ form.guest-message-form textarea,
   }
   
   .admin-message-list {
-    padding: 1rem;
+    padding: 0.75rem;
+  }
+  
+  .admin-controls {
+    padding: 0.75rem;
+    gap: 0.75rem;
+  }
+  
+  .admin-search-wrapper {
+    width: 100%;
+  }
+  
+  .admin-search-input {
+    width: 100%;
+    font-size: 16px;
+    padding: 0.75rem;
+    box-sizing: border-box;
+  }
+  
+  .admin-filters {
+    padding: 0.5rem 0;
   }
   
   .admin-export-buttons {
     flex-direction: column;
+    width: 100%;
   }
   
   .admin-export-button {
     width: 100%;
+    padding: 0.9rem 1rem;
+    font-size: 0.95rem;
+  }
+  
+  .admin-selection-controls {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
   
   .admin-message-header-left {
-    flex-direction: column;
-    gap: 0.5rem;
+    flex-direction: row;
+    gap: 0.75rem;
     width: 100%;
+    align-items: flex-start;
   }
   
   .admin-action-button {
-    width: 100%;
+    flex: 1;
+    min-width: 0;
+    font-size: 0.9rem;
+    padding: 0.6rem;
   }
   
   .admin-message-card {
-    padding: 1rem;
+    padding: 0.9rem;
+  }
+  
+  .admin-message-media {
+    max-width: 100%;
+  }
+  
+  .admin-message-media video,
+  .admin-message-media img {
+    max-width: 100% !important;
+    width: 100%;
+    height: auto;
+  }
+  
+  .admin-download-media-button {
+    width: 100%;
+    padding: 0.65rem;
+  }
+}
+
+/* ADMIN DASHBOARD - Very Small Phones (iPhone SE, older) */
+@media (max-width: 375px) {
+  .admin-dashboard {
+    font-size: 14px;
+  }
+  
+  .admin-header-title {
+    font-size: 1.5rem;
+  }
+  
+  .admin-header-subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .admin-header-icon img {
+    width: 60px !important;
+    height: 60px !important;
+  }
+  
+  .admin-logout-button {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .admin-navigation {
+    padding: 0 0.5rem;
+  }
+  
+  .admin-navigation a {
+    padding: 0.5rem 0.6rem;
+    font-size: 0.85rem;
+  }
+  
+  .admin-navigation svg {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .admin-message-list {
+    padding: 0.5rem;
+  }
+  
+  .admin-controls {
+    padding: 0.5rem;
+  }
+  
+  .admin-search-input {
+    padding: 0.65rem;
+    font-size: 16px;
+  }
+  
+  .admin-export-button {
+    padding: 0.8rem 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  .admin-message-card {
+    padding: 0.75rem;
+  }
+  
+  .admin-message-text {
+    font-size: 0.95rem;
+  }
+  
+  .admin-action-button {
+    padding: 0.55rem 0.4rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* ADMIN DASHBOARD - Extra Small Phones (320px) */
+@media (max-width: 320px) {
+  .admin-header-title {
+    font-size: 1.3rem;
+  }
+  
+  .admin-header-subtitle {
+    font-size: 0.85rem;
+  }
+  
+  .admin-header-icon img {
+    width: 50px !important;
+    height: 50px !important;
+  }
+  
+  .admin-logout-button {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  
+  .admin-navigation a {
+    padding: 0.45rem 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .admin-message-list {
+    padding: 0.25rem;
+  }
+  
+  .admin-controls {
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .admin-search-input {
+    padding: 0.6rem;
+  }
+  
+  .admin-export-button {
+    padding: 0.75rem;
+    font-size: 0.85rem;
+  }
+  
+  .admin-message-card {
+    padding: 0.65rem;
+  }
+  
+  .admin-message-header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .admin-action-button {
+    padding: 0.5rem 0.3rem;
+    font-size: 0.8rem;
+  }
+  
+  .admin-download-media-button {
+    padding: 0.6rem;
+    font-size: 0.8rem;
   }
 }
 
@@ -2349,6 +2739,78 @@ form.guest-message-form textarea,
   
   .page-navigation a {
     padding: 0.4rem 0.5rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* FOOTER - Small Phones */
+@media (max-width: 480px) {
+  .site-footer {
+    padding: 1.5rem 1rem;
+    margin-top: 2rem;
+  }
+  
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .footer-left,
+  .footer-center,
+  .footer-right {
+    width: 100%;
+  }
+  
+  .footer-left p,
+  .footer-center p,
+  .footer-right {
+    font-size: 0.9rem;
+  }
+}
+
+/* FOOTER - Very Small Phones */
+@media (max-width: 375px) {
+  .site-footer {
+    padding: 1.25rem 0.75rem;
+  }
+  
+  .footer-content {
+    gap: 0.75rem;
+  }
+  
+  .footer-left p,
+  .footer-center p {
+    font-size: 0.85rem;
+  }
+  
+  .footer-designer {
+    font-size: 0.9rem;
+  }
+  
+  .admin-link {
+    font-size: 0.85rem;
+  }
+}
+
+/* FOOTER - Extra Small Phones */
+@media (max-width: 320px) {
+  .site-footer {
+    padding: 1rem 0.5rem;
+    margin-top: 1.5rem;
+  }
+  
+  .footer-left p,
+  .footer-center p {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+  
+  .footer-designer {
+    font-size: 0.85rem;
+  }
+  
+  .admin-link {
     font-size: 0.8rem;
   }
 }
