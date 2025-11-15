@@ -51,7 +51,7 @@ export default function InstallPrompt() {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
                   (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPad on iOS 13+
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
-                        (window.navigator as any).standalone === true; // For older iOS
+                        ('standalone' in window.navigator && (window.navigator as { standalone?: boolean }).standalone === true); // For older iOS
     
     if (isIOS && !isStandalone) {
       console.log('PWA: iOS device detected, showing install prompt');
