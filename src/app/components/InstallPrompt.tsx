@@ -125,7 +125,7 @@ export default function InstallPrompt() {
               </div>
             </div>
             <p className="install-prompt-text install-steps">
-              1. Tap the <strong>Share button</strong> (shown above) at the bottom of Safari<br/>
+              1. Tap the <strong>Share button</strong> (shown above) of your browser<br/>
               2. Scroll down and select <strong>&quot;Add to Home Screen&quot;</strong><br/>
               3. Tap <strong>&quot;Add&quot;</strong> to install!
             </p>
