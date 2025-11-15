@@ -12,15 +12,28 @@ export default function InstallPrompt() {
   const [showPrompt, setShowPrompt] = useState(false);
 
   useEffect(() => {
-    // Check if already dismissed
-    const dismissed = localStorage.getItem('pwa-install-dismissed');
-    if (dismissed) {
+    // Check if already installed
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      console.log('PWA: Already installed as standalone app');
       return;
     }
 
-    // Check if already installed
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      return;
+    // Check if already dismissed (with fallback for private browsing)
+    try {
+      const dismissed = localStorage.getItem('pwa-install-dismissed');
+      const dismissedTime = localStorage.getItem('pwa-install-dismissed-time');
+      
+      // Show prompt again after 7 days
+      if (dismissed && dismissedTime) {
+        const daysSinceDismissed = (Date.now() - parseInt(dismissedTime)) / (1000 * 60 * 60 * 24);
+        if (daysSinceDismissed < 7) {
+          console.log('PWA: Prompt was dismissed recently');
+          return;
+        }
+      }
+    } catch (error) {
+      console.log('PWA: localStorage not available (private browsing?)', error);
+      // Continue anyway - show prompt
     }
 
     // Listen for the beforeinstallprompt event
@@ -29,19 +42,25 @@ export default function InstallPrompt() {
       const promptEvent = e as BeforeInstallPromptEvent;
       setDeferredPrompt(promptEvent);
       setShowPrompt(true);
+      console.log('PWA: beforeinstallprompt event fired');
     };
 
     window.addEventListener('beforeinstallprompt', handler);
 
-    // For iOS Safari (doesn't support beforeinstallprompt)
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    // Enhanced iOS detection (including older devices)
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPad on iOS 13+
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                        (window.navigator as any).standalone === true; // For older iOS
     
     if (isIOS && !isStandalone) {
+      console.log('PWA: iOS device detected, showing install prompt');
       // Show iOS-specific install instructions after a delay
       setTimeout(() => {
         setShowPrompt(true);
       }, 3000);
+    } else {
+      console.log('PWA: Waiting for beforeinstallprompt event');
     }
 
     return () => {
@@ -67,7 +86,12 @@ export default function InstallPrompt() {
 
   const handleDismiss = () => {
     setShowPrompt(false);
-    localStorage.setItem('pwa-install-dismissed', 'true');
+    try {
+      localStorage.setItem('pwa-install-dismissed', 'true');
+      localStorage.setItem('pwa-install-dismissed-time', Date.now().toString());
+    } catch (error) {
+      console.log('PWA: Could not save dismiss state', error);
+    }
   };
 
   if (!showPrompt) {
@@ -89,9 +113,23 @@ export default function InstallPrompt() {
         <h3 className="install-prompt-title">Add to Home Screen</h3>
         
         {isIOS ? (
-          <p className="install-prompt-text">
-            Tap <span className="install-icon-share">⎙</span> then &quot;Add to Home Screen&quot; to install
-          </p>
+          <div className="install-prompt-ios-instructions">
+            <p className="install-prompt-text" style={{ marginBottom: '1rem' }}>
+              Install our app for quick access during the wedding!
+            </p>
+            <div className="install-icon-share-container">
+              <div className="install-icon-share">
+                <span className="share-box">
+                  <span className="share-arrow">↑</span>
+                </span>
+              </div>
+            </div>
+            <p className="install-prompt-text install-steps">
+              1. Tap the <strong>Share button</strong> (shown above) at the bottom of Safari<br/>
+              2. Scroll down and select <strong>&quot;Add to Home Screen&quot;</strong><br/>
+              3. Tap <strong>&quot;Add&quot;</strong> to install!
+            </p>
+          </div>
         ) : (
           <>
             <p className="install-prompt-text">

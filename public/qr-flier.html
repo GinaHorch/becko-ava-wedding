@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Becko & Ava Wedding - QR Code Flier</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Alice&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    body {
+      font-family: 'Alice', serif;
+      background: linear-gradient(135deg, #f0c3ce 0%, #fad0c4 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .flier-container {
+      background: white;
+      border-radius: 20px;
+      padding: 60px 40px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(239, 71, 31, 0.3);
+      border: 3px solid #ef471f;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative corners */
+    .flier-container::before,
+    .flier-container::after {
+      content: '♥';
+      position: absolute;
+      font-size: 30px;
+      color: #ef471f;
+      opacity: 0.3;
+    }
+
+    .flier-container::before {
+      top: 15px;
+      left: 15px;
+    }
+
+    .flier-container::after {
+      bottom: 15px;
+      right: 15px;
+    }
+
+    .soccer-heart {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 20px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .title {
+      font-family: 'Sacramento', cursive;
+      font-size: 48px;
+      background: linear-gradient(45deg, #ef471f, #ff6b9d, #ef471f);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+      animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .subtitle {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 30px;
+      font-weight: normal;
+    }
+
+    .emoji-row {
+      font-size: 36px;
+      margin-bottom: 20px;
+      letter-spacing: 10px;
+    }
+
+    .qr-code {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      display: inline-block;
+      margin: 20px 0;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      border: 2px solid #f0c3ce;
+    }
+
+    .qr-code img {
+      width: 250px;
+      height: 250px;
+      display: block;
+    }
+
+    .instructions {
+      text-align: left;
+      margin: 30px auto;
+      max-width: 350px;
+      background: #fef5f7;
+      padding: 25px;
+      border-radius: 12px;
+      border-left: 4px solid #ef471f;
+    }
+
+    .instructions h3 {
+      color: #ef471f;
+      font-size: 20px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .instructions ol {
+      list-style-position: inside;
+      color: #333;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .instructions li {
+      margin-bottom: 10px;
+    }
+
+    .hashtag {
+      font-size: 28px;
+      color: #ef471f;
+      font-weight: bold;
+      margin-top: 20px;
+      letter-spacing: 2px;
+    }
+
+    .divider {
+      width: 80%;
+      height: 2px;
+      background: linear-gradient(to right, transparent, #ef471f, transparent);
+      margin: 25px auto;
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+
+      .flier-container {
+        box-shadow: none;
+        border: 2px solid #ef471f;
+        max-width: 100%;
+        page-break-after: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="flier-container">
+    <img src="./soccer-heart.png" alt="Soccer Heart" class="soccer-heart">
+    
+    <h1 class="title">Becko & Ava</h1>
+    <h2 class="subtitle">Wedding Guestbook App</h2>
+    
+    <div class="emoji-row">📸 💕 ⚽</div>
+    
+    <p style="font-size: 22px; color: #333; margin-bottom: 10px; font-weight: bold;">
+      Share Your Photos & Messages!
+    </p>
+    
+    <div class="divider"></div>
+    
+    <div class="qr-code">
+      <img src="./BeckoAva-qrcode.png" alt="QR Code to Wedding App">
+    </div>
+    
+    <div class="instructions">
+      <h3>How to Join:</h3>
+      <ol>
+        <li><strong>Scan</strong> this QR code with your phone camera</li>
+        <li><strong>Tap</strong> "Add to Home Screen" in your browser</li>
+        <li><strong>Upload</strong> your photos & share messages!</li>
+      </ol>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <p class="hashtag">#BeckoAndAva2025</p>
+    
+    <p style="font-size: 14px; color: #666; margin-top: 20px; font-style: italic;">
+      Designed with ♥ by Bianca Di Biase
+    </p>
+  </div>
+</body>
+</html>
