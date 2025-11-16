@@ -4,12 +4,21 @@ import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../utils/supabaseClient';
 import { useDropzone } from 'react-dropzone';
 import Image from 'next/image';
+import imageCompression from 'browser-image-compression';
+
+interface MediaFile {
+  file: File;
+  preview: string;
+  type: 'image' | 'video';
+  id: string;
+}
 
 export default function GuestMessageForm() {
   const [guestName, setGuestName] = useState('');
   const [message, setMessage] = useState('');
-  const [file, setFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [mediaFiles, setMediaFiles] = useState<MediaFile[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({});
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
    // Add sparkles effect
@@ -36,19 +45,134 @@ export default function GuestMessageForm() {
     return () => clearInterval(sparkleInterval);
   }, []);
 
-  const onDrop = (acceptedFiles: File[]) => {
-    const uploadedFile = acceptedFiles[0];
-    setFile(uploadedFile);
-    setPreviewUrl(URL.createObjectURL(uploadedFile)); // For preview
+  // Validate video duration
+  const checkVideoDuration = (file: File): Promise<boolean> => {
+    return new Promise((resolve) => {
+      const video = document.createElement('video');
+      video.preload = 'metadata';
+      video.onloadedmetadata = () => {
+        window.URL.revokeObjectURL(video.src);
+        const duration = video.duration;
+        resolve(duration <= 60); // 60 seconds max
+      };
+      video.onerror = () => resolve(false);
+      video.src = URL.createObjectURL(file);
+    });
   };
+
+  const onDrop = async (acceptedFiles: File[]) => {
+    const currentImages = mediaFiles.filter(f => f.type === 'image').length;
+    const currentVideo = mediaFiles.find(f => f.type === 'video');
+
+    for (const file of acceptedFiles) {
+      const isVideo = file.type.startsWith('video/');
+      const isImage = file.type.startsWith('image/');
+
+      // Validate file type
+      if (!isImage && !isVideo) {
+        alert('Only images and videos are allowed');
+        continue;
+      }
+
+      // Video validation
+      if (isVideo) {
+        if (currentVideo) {
+          alert('You can only upload one video per message');
+          continue;
+        }
+        if (!file.type.includes('mp4') && !file.type.includes('quicktime')) {
+          alert('Only MP4 and MOV videos are supported');
+          continue;
+        }
+        if (file.size > 50 * 1024 * 1024) {
+          alert('Video must be less than 50MB');
+          continue;
+        }
+        const isValidDuration = await checkVideoDuration(file);
+        if (!isValidDuration) {
+          alert('Video must be 60 seconds or less');
+          continue;
+        }
+      }
+
+      // Image validation
+      if (isImage) {
+        if (currentImages + 1 > 5) {
+          alert('You can only upload up to 5 images per message');
+          break;
+        }
+      }
+
+      // Add file to state
+      const mediaFile: MediaFile = {
+        file,
+        preview: URL.createObjectURL(file),
+        type: isVideo ? 'video' : 'image',
+        id: `${Date.now()}-${Math.random()}`,
+      };
+
+      setMediaFiles(prev => [...prev, mediaFile]);
+    }
+  };
+
+  const removeFile = (id: string) => {
+    setMediaFiles(prev => {
+      const file = prev.find(f => f.id === id);
+      if (file) {
+        URL.revokeObjectURL(file.preview);
+      }
+      return prev.filter(f => f.id !== id);
+    });
+  };
+
+  // Cleanup preview URLs on unmount
+  useEffect(() => {
+    return () => {
+      mediaFiles.forEach(file => URL.revokeObjectURL(file.preview));
+    };
+  }, [mediaFiles]);
 
   const { getRootProps, getInputProps } = useDropzone({ 
     onDrop,
     accept: {
-    'image/*': [],
-    'video/*': [],
+      'image/jpeg': [],
+      'image/jpg': [],
+      'image/png': [],
+      'image/webp': [],
+      'video/mp4': [],
+      'video/quicktime': [],
     },
-   });
+    multiple: true,
+  });
+
+// Upload with retry logic for rate limiting
+  const uploadWithRetry = async (
+    filePath: string, 
+    file: File | Blob, 
+    maxRetries = 3
+  ): Promise<{ error: any }> => {
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      const { error } = await supabase.storage
+        .from('guestbook')
+        .upload(filePath, file);
+      
+      if (!error) {
+        return { error: null };
+      }
+      
+      // If rate limited, wait and retry
+      if (error.message?.includes('rate') || error.message?.includes('429') || error.statusCode === 429) {
+        console.log(`Rate limited, retrying (${attempt}/${maxRetries})...`);
+        await new Promise(resolve => setTimeout(resolve, 1000 * attempt)); // Exponential backoff
+        continue;
+      }
+      
+      // Other errors, return immediately
+      return { error };
+    }
+    
+    return { error: { message: 'Max retries exceeded' } };
+  };
 
 // Confetti effect for button
   const handleButtonClick = () => {
@@ -104,61 +228,102 @@ export default function GuestMessageForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setUploading(true);
 
-    console.log('Form submitted!'); // Debug log
-    console.log('Guest Name:', guestName);
-    console.log('Message:', message);
-    console.log('File:', file);
+    try {
+      console.log('Form submitted!');
+      console.log('Guest Name:', guestName);
+      console.log('Message:', message);
+      console.log('Media Files:', mediaFiles);
 
-    let media_url = null;
+      const uploadedUrls: string[] = [];
+      const messageId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
-    // Upload image to Supabase if exists
-    if (file) {
-      console.log('Uploading file...'); // Debug log
-      const filePath = `guest_uploads/${Date.now()}_${file.name}`;
-      const { error: uploadError } = await supabase.storage
-        .from('guestbook')
-        .upload(filePath, file);
+      // Upload all media files
+      for (const mediaFile of mediaFiles) {
+        const { file, type, id } = mediaFile;
 
-      if (uploadError) {
-        console.error('Upload error:', uploadError);
-        alert('Error uploading your media. Please try again.');
+        try {
+          let fileToUpload = file;
+
+          // Compress images
+          if (type === 'image') {
+            console.log(`Compressing image: ${file.name}`);
+            setUploadProgress(prev => ({ ...prev, [id]: 10 }));
+
+            const options = {
+              maxSizeMB: 1.2,
+              maxWidthOrHeight: 2048,
+              useWebWorker: true,
+              fileType: file.type,
+            };
+
+            fileToUpload = await imageCompression(file, options);
+            console.log(`Image compressed from ${(file.size / 1024 / 1024).toFixed(2)}MB to ${(fileToUpload.size / 1024 / 1024).toFixed(2)}MB`);
+            setUploadProgress(prev => ({ ...prev, [id]: 30 }));
+          }
+
+          // Upload to Supabase
+          const fileExt = file.name.split('.').pop();
+          const filePath = `guest_uploads/${messageId}/${type}-${Date.now()}.${fileExt}`;
+
+          console.log(`Uploading ${type}: ${filePath}`);
+          setUploadProgress(prev => ({ ...prev, [id]: 50 }));
+
+          const { error: uploadError } = await uploadWithRetry(filePath, fileToUpload);
+
+          if (uploadError) {
+            console.error('Upload error:', uploadError);
+            throw uploadError;
+          }
+
+          // Get public URL
+          const { data } = supabase.storage
+            .from('guestbook')
+            .getPublicUrl(filePath);
+
+          uploadedUrls.push(data.publicUrl);
+          setUploadProgress(prev => ({ ...prev, [id]: 100 }));
+          console.log(`Uploaded: ${data.publicUrl}`);
+        } catch (error) {
+          console.error(`Error uploading ${file.name}:`, error);
+          alert(`Error uploading ${file.name}. Please try again.`);
+          setUploading(false);
+          return;
+        }
+      }
+
+      console.log('All files uploaded:', uploadedUrls);
+      console.log('Inserting into database...');
+
+      // Store message with media URLs
+      const { error } = await supabase.from('messages').insert([
+        {
+          guest_name: guestName,
+          message,
+          media_url: uploadedUrls.length > 0 ? uploadedUrls[0] : null, // Keep first for backward compatibility
+          media_files: uploadedUrls.length > 0 ? uploadedUrls : null, // New field for multiple files
+        },
+      ]);
+
+      if (error) {
+        console.error('Error submitting message:', error);
+        alert('Error submitting your message. Please try again.');
+        setUploading(false);
         return;
       }
 
-      // Get public URL after successful upload
-      const { data } = supabase.storage
-        .from('guestbook')
-        .getPublicUrl(filePath);
-
-      media_url = data.publicUrl;
-      console.log('Media URL:', media_url); // Debug log
+      alert('Your message and media have been submitted successfully! 💕⚽');
+      setGuestName('');
+      setMessage('');
+      setMediaFiles([]);
+      setUploadProgress({});
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      alert('An unexpected error occurred. Please try again.');
+    } finally {
+      setUploading(false);
     }
-
-     console.log('Inserting into database...'); // Debug log
-
-    // Now store message + guest_name + media_url (linked) in Supabase
-    const { data, error } = await supabase.from('messages').insert([
-      {
-        guest_name: guestName,
-        message,
-        media_url,
-      },
-    ]);
-
-    console.log('Insert result:', { data, error }); // Debug log
-
-    if (error) {
-      console.error('Error submitting message:', error);
-      alert('Error submitting your message. Please try again.');
-      return;
-    }
-
-    alert('Your message and media have been submitted successfully!');
-    setGuestName('');
-    setMessage('');
-    setFile(null);
-    setPreviewUrl(null);
   };
 
   return (
@@ -178,44 +343,68 @@ export default function GuestMessageForm() {
         required value={message} 
         onChange={(e) => setMessage(e.target.value)} />
 
-    <label htmlFor="media-upload">Upload Your Photo or Video (Optional):</label>
-    <div {...getRootProps()} className="image-upload-container">
+      <label htmlFor="media-upload">Upload Photos & Video (Optional):</label>
+      <div {...getRootProps()} className="image-upload-container">
         <input {...getInputProps()} id="media-upload"/>
-        {previewUrl ? (
-          <div className="preview-container">
-            {file?.type.startsWith('video/') ? (
-              <video 
-                src={previewUrl} 
-                controls 
-                style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '8px' }}
-              />
-            ) : (
-            <Image
-              src={previewUrl}
-              alt="Preview"
-              width={300}
-              height={200}
-              style={{ objectFit: 'cover', borderRadius: '8px' }}
-              unoptimized={true}
-            />
-            )}
-            <p>Click to change file</p>
-          </div>
-        ) : (
-          <div className="upload-placeholder">
-            <p>📸 Drag & drop your photo/video here, or click to select</p>
-            <small>Supported formats: JPG, PNG, MP4, MOV, WEBM</small>
-          </div>
-        )}
+        <div className="upload-placeholder">
+          <p>📸 Drag & drop or click to select</p>
+          <small>Up to 5 photos + 1 video (60 sec max, MP4/MOV only)</small>
+        </div>
       </div>
+
+      {/* Preview Grid */}
+      {mediaFiles.length > 0 && (
+        <div className="media-preview-grid">
+          {mediaFiles.map((mediaFile) => (
+            <div key={mediaFile.id} className="media-preview-item">
+              {mediaFile.type === 'video' ? (
+                <video 
+                  src={mediaFile.preview} 
+                  className="preview-thumbnail"
+                />
+              ) : (
+                <Image
+                  src={mediaFile.preview}
+                  alt="Preview"
+                  width={150}
+                  height={150}
+                  className="preview-thumbnail"
+                  style={{ objectFit: 'cover' }}
+                  unoptimized={true}
+                />
+              )}
+              <button
+                type="button"
+                onClick={() => removeFile(mediaFile.id)}
+                className="remove-file-button"
+                aria-label="Remove file"
+              >
+                ×
+              </button>
+              {uploading && uploadProgress[mediaFile.id] !== undefined && (
+                <div className="upload-progress-bar">
+                  <div 
+                    className="upload-progress-fill" 
+                    style={{ width: `${uploadProgress[mediaFile.id]}%` }}
+                  />
+                </div>
+              )}
+              <span className="media-type-badge">
+                {mediaFile.type === 'video' ? '🎥' : '📷'}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
 
       <button 
         ref={buttonRef}
         type="submit"
         className="hoverme"
         onClick={handleButtonClick}
+        disabled={uploading}
       >
-        <span>Submit Message & Media</span>
+        <span>{uploading ? 'Uploading...' : 'Submit Message & Media'}</span>
       </button>
     </form>
   );

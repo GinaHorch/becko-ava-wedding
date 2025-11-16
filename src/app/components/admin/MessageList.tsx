@@ -11,6 +11,7 @@ interface Message {
   guest_name: string;
   message: string;
   media_url: string | null;
+  media_files: string[] | null;
   created_at: string;
   hidden: boolean;
 }
@@ -94,20 +95,49 @@ export default function MessageList() {
     }
   };
 
-  const handleDelete = async (id: string, mediaUrl: string | null) => {
+  const handleDelete = async (id: string, mediaUrl: string | null, mediaFiles: string[] | null = null) => {
     if (deleteConfirm !== id) {
       setDeleteConfirm(id);
       return;
     }
 
     try {
-      // Delete media file if exists
-      if (mediaUrl) {
-        const filePath = mediaUrl.split('/').pop();
-        if (filePath) {
-          await supabase.storage
+      // Get all media URLs (both old and new format)
+      const allMediaUrls: string[] = [];
+      
+      // Add from media_files array (new multi-file system)
+      if (mediaFiles && mediaFiles.length > 0) {
+        allMediaUrls.push(...mediaFiles);
+      }
+      
+      // Add from media_url (old single-file system, for backward compatibility)
+      if (mediaUrl && !allMediaUrls.includes(mediaUrl)) {
+        allMediaUrls.push(mediaUrl);
+      }
+
+      // Delete all media files from storage
+      if (allMediaUrls.length > 0) {
+        const filePaths: string[] = [];
+        
+        for (const url of allMediaUrls) {
+          // Extract the full path after the bucket URL
+          // URL format: https://xxx.supabase.co/storage/v1/object/public/guestbook/guest_uploads/...
+          const urlParts = url.split('/guestbook/');
+          if (urlParts.length > 1) {
+            filePaths.push(urlParts[1]); // e.g., "guest_uploads/messageId/image-123.jpg"
+          }
+        }
+        
+        if (filePaths.length > 0) {
+          console.log('Deleting files from storage:', filePaths);
+          const { error: storageError } = await supabase.storage
             .from('guestbook')
-            .remove([`guest_uploads/${filePath}`]);
+            .remove(filePaths);
+          
+          if (storageError) {
+            console.error('Storage deletion error:', storageError);
+            // Continue with database deletion even if storage fails
+          }
         }
       }
 
@@ -172,13 +202,15 @@ export default function MessageList() {
     }
   };
 
-  // Download all media files as ZIP
+  // Download all media files as ZIP (UPDATED for multiple files per message)
   const downloadAllMedia = async () => {
     const messagesToDownload = selectedMessages.size > 0 
       ? messages.filter(msg => selectedMessages.has(msg.id))
       : messages;
 
-    const messagesWithMedia = messagesToDownload.filter(msg => msg.media_url);
+    const messagesWithMedia = messagesToDownload.filter(msg => 
+      (msg.media_files && msg.media_files.length > 0) || msg.media_url
+    );
 
     if (messagesWithMedia.length === 0) {
       alert('No media files to download');
@@ -186,22 +218,40 @@ export default function MessageList() {
     }
 
     setDownloadingBulk(true);
+    let totalFiles = 0;
 
     try {
       const zip = new JSZip();
-      const folder = zip.folder('guestbook-media');
 
       // Download all media files and add to zip
       for (let i = 0; i < messagesWithMedia.length; i++) {
         const msg = messagesWithMedia[i];
-        if (msg.media_url) {
+        
+        // Get all media URLs (from media_files array or fallback to single media_url)
+        const mediaUrls = msg.media_files && msg.media_files.length > 0 
+          ? msg.media_files 
+          : (msg.media_url ? [msg.media_url] : []);
+
+        // Create folder for each guest if they have multiple files
+        const sanitizedName = msg.guest_name.replace(/[^a-z0-9]/gi, '_');
+        const guestFolder = mediaUrls.length > 1 
+          ? zip.folder(`${i + 1}_${sanitizedName}`)
+          : zip.folder('guestbook-media');
+
+        for (let j = 0; j < mediaUrls.length; j++) {
+          const url = mediaUrls[j];
           try {
-            const response = await fetch(msg.media_url);
+            const response = await fetch(url);
             const blob = await response.blob();
-            const extension = msg.media_url.split('.').pop()?.split('?')[0] || 'file';
-            const sanitizedName = msg.guest_name.replace(/[^a-z0-9]/gi, '_');
-            const filename = `${i + 1}_${sanitizedName}.${extension}`;
-            folder?.file(filename, blob);
+            const extension = url.split('.').pop()?.split('?')[0] || 'file';
+            
+            // Filename: if single file, include guest name; if multiple, just number
+            const filename = mediaUrls.length > 1 
+              ? `${j + 1}.${extension}`
+              : `${i + 1}_${sanitizedName}.${extension}`;
+            
+            guestFolder?.file(filename, blob);
+            totalFiles++;
           } catch (error) {
             console.error(`Error downloading ${msg.guest_name}'s media:`, error);
           }
@@ -217,7 +267,7 @@ export default function MessageList() {
       a.click();
       window.URL.revokeObjectURL(url);
 
-      alert(`Downloaded ${messagesWithMedia.length} media files!`);
+      alert(`Downloaded ${totalFiles} files from ${messagesWithMedia.length} messages!`);
     } catch (error) {
       console.error('Error creating ZIP:', error);
       alert('Error downloading media files');
@@ -523,36 +573,50 @@ export default function MessageList() {
 
               <p className="admin-message-text">{msg.message}</p>
 
-              {msg.media_url && (
-                <div className="admin-message-media">
-                  {msg.media_url.match(/\.(mp4|mov|webm)$/) ? (
-                    <video src={msg.media_url} controls style={{ maxWidth: '200px' }} />
-                  ) : (
-                    <Image
-                      src={msg.media_url}
-                      alt="Guest upload"
-                      width={200}
-                      height={150}
-                      style={{ objectFit: 'cover', borderRadius: '4px' }}
-                      unoptimized={true}
-                    />
-                  )}
-                  <button
-                    onClick={() => downloadMediaFile(msg.media_url!, msg.guest_name)}
-                    className="admin-download-media-button"
-                    title="Download this media file"
-                  >
-                    <Image 
-                      src={soccerHeart} 
-                      alt="Download" 
-                      width={14} 
-                      height={14} 
-                      style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '0.3rem' }} 
-                    />
-                    Download
-                  </button>
-                </div>
-              )}
+              {/* Multiple Media Display */}
+              {(() => {
+                const mediaUrls = msg.media_files && msg.media_files.length > 0 
+                  ? msg.media_files 
+                  : (msg.media_url ? [msg.media_url] : []);
+
+                return mediaUrls.length > 0 && (
+                  <div className="admin-message-media">
+                    {mediaUrls.map((url, index) => {
+                      const isVideo = url.match(/\.(mp4|mov|webm)$/);
+                      return (
+                        <div key={index} className="admin-media-item">
+                          {isVideo ? (
+                            <video src={url} controls style={{ maxWidth: '200px', borderRadius: '4px' }} />
+                          ) : (
+                            <Image
+                              src={url}
+                              alt={`Upload ${index + 1}`}
+                              width={200}
+                              height={150}
+                              style={{ objectFit: 'cover', borderRadius: '4px' }}
+                              unoptimized={true}
+                            />
+                          )}
+                          <button
+                            onClick={() => downloadMediaFile(url, msg.guest_name)}
+                            className="admin-download-media-button"
+                            title="Download this file"
+                          >
+                            <Image 
+                              src={soccerHeart} 
+                              alt="Download" 
+                              width={14} 
+                              height={14} 
+                              style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '0.3rem' }} 
+                            />
+                            Download
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
 
               <div className="admin-message-actions">
                 <button
@@ -562,7 +626,7 @@ export default function MessageList() {
                   {msg.hidden ? 'Unhide' : 'Hide'}
                 </button>
                 <button
-                  onClick={() => handleDelete(msg.id, msg.media_url)}
+                  onClick={() => handleDelete(msg.id, msg.media_url, msg.media_files)}
                   className={`admin-action-button delete-button ${
                     deleteConfirm === msg.id ? 'confirm' : ''
                   }`}
