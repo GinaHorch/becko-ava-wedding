@@ -5,6 +5,7 @@ import Image from 'next/image';
 import weddingIcon1 from './images/wedding-icon-1.png';
 import weddingIcon2 from './images/wedding-icon-2.png';
 import weddingIcon3 from './images/wedding-icon-3.png';
+import weddingIcon7 from './images/wedding-icon-7.png';
 import blackWhiteSoccerBall from './images/black-white-soccer-ball.png';
 import Footer from './components/Footer';
 import InstallPrompt from './components/InstallPrompt';
@@ -26,7 +27,6 @@ const HeartIcon = ({ color = '#ef471f', size = 16 }) => (
   </svg>
 );
 
-// Add interface for wrapper elements with interval property
 interface BallWrapperElement extends HTMLElement {
   _trailInterval?: NodeJS.Timeout;
 }
@@ -49,16 +49,8 @@ export default function Home() {
       ball.className = 'petal black-white';
       ball.alt = 'Soccer ball decoration';
 
-      // Position balls to interact with the cake - one along bottom, one below
-      let topPosition;
-      if (i === 0) {
-        // First ball bounces along the bottom edge of the cake (where second ball currently is)
-        topPosition = 0.85 + Math.random() * 0.05; // 85%-90%
-      } else {
-        // Second ball bounces below the cake
-        topPosition = 0.95 + Math.random() * 0.05; // 95%-100%
-      }
-      
+      let topPosition = i === 0 ? 0.85 + Math.random() * 0.05 : 0.95 + Math.random() * 0.05;
+
       wrapper.style.setProperty('--random-top', topPosition.toString());
       wrapper.style.width = '50px';
       wrapper.style.height = '50px';
@@ -75,14 +67,10 @@ export default function Home() {
         const containerRect = container.getBoundingClientRect();
 
         const trailLeft = rect.left - containerRect.left + rect.width / 2 - 6;
-
-        const trailTops = [
-          rect.top - containerRect.top + rect.height / 2 + 4,
-          rect.top - containerRect.top + rect.height / 2 + 12,
-        ];
+        const trailTops = [rect.top - containerRect.top + rect.height / 2 + 4,
+                           rect.top - containerRect.top + rect.height / 2 + 12];
 
         trailTops.forEach((trailTop) => {
-          // Create a div for the ✨ emoji trail
           const trail = document.createElement('div');
           trail.className = 'color-trail';
           trail.style.position = 'absolute';
@@ -94,7 +82,6 @@ export default function Home() {
           trail.style.userSelect = 'none';
           trail.style.zIndex = '999';
 
-          // Random color for the text shadow/glow effect
           const randomColor = rainbowColors[Math.floor(Math.random() * rainbowColors.length)];
           trail.style.color = randomColor;
           trail.style.textShadow = `
@@ -102,51 +89,40 @@ export default function Home() {
             0 0 8px ${randomColor},
             0 0 12px ${randomColor}
           `;
-
           trail.textContent = '✨';
 
           container.appendChild(trail);
 
-          // Animate fade out and removal
           trail.animate(
             [
               { opacity: 0.8, transform: 'translateY(0)' },
               { opacity: 0, transform: 'translateY(-10px)' }
             ],
-            {
-              duration: 1000,
-              easing: 'ease-out',
-              fill: 'forwards'
-            }
+            { duration: 1000, easing: 'ease-out', fill: 'forwards' }
           );
 
           setTimeout(() => trail.remove(), 1000);
         });
       }, 80);
 
-      wrapper._trailInterval = trailInterval; // Remove the (wrapper as any)
+      wrapper._trailInterval = trailInterval;
     }
 
     return () => {
       ballWrappers.forEach((wrapper) => {
-        if (wrapper._trailInterval) { // Add null check
-          clearInterval(wrapper._trailInterval);
-        }
+        if (wrapper._trailInterval) clearInterval(wrapper._trailInterval);
         wrapper.remove();
       });
-      const oldTrails = document.querySelectorAll('.color-trail');
-      oldTrails.forEach((t) => t.remove());
+      document.querySelectorAll('.color-trail').forEach((t) => t.remove());
     };
   }, []);
 
   return (
     <main className="landing-container">
-      {/* Top wedding icon */}
       <div className="icon-at-top">
         <Image src={weddingIcon3} alt="Wedding Icon at Top of Page" />
       </div>
 
-      {/* Title */}
       <h1 className="landing-title">
         <span className="sacramento">
           <span className="confetti-text">Becko</span> & <span className="confetti-text">Ava’s</span>
@@ -155,16 +131,14 @@ export default function Home() {
         Wedding Guestbook <br />
       </h1>
 
-      {/* Welcome message */}
       <div className="welcome-message">
         <p>
           Welcome! Join us in celebrating Becko & Ava by leaving your
           <br />
-          heartfelt messages and beautiful photos and memorable videos.
+          heartfelt messages, beautiful photos and memorable videos.
         </p>
       </div>
 
-      {/* Navigation */}
       <nav className="landing-navigation">
         <ul>
           <li>
@@ -180,19 +154,26 @@ export default function Home() {
         </ul>
       </nav>
 
-      {/* Decorative wedding icon below nav */}
-      <div className="icon-below-nav">
+      {/* Decorative wedding icon below nav wrapped in polaroid */}
+      <div className="polaroid icon-below-nav">
         <Image src={weddingIcon2} alt="Wedding icon below navigation" height={350} />
       </div>
 
-      {/* Larger image near the bottom */}
       <div className="landing-description">
         <Image
           src={weddingIcon1}
           alt="Wedding icon below paragraph"
           width={250}
           height={300}
-          style={{ paddingTop: '2rem', paddingBottom: '2rem' }}
+        />
+      </div>
+
+      {/* Another wedding icon wrapped in polaroid */}
+      <div className="polaroid icon-below-wedding1">
+        <Image
+          src={weddingIcon7}
+          alt="Wedding Icon 7"
+          height={350}
         />
       </div>
 
@@ -201,4 +182,3 @@ export default function Home() {
     </main>
   );
 }
-

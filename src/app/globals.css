@@ -95,7 +95,7 @@ body {
 
 .landing-navigation ul {
   list-style: none;
-  padding: 0;
+  padding-bottom: 20px;
   display: flex;
   gap: 1rem;
   font-size: 1.2rem;
@@ -116,9 +116,9 @@ body {
 }
 
 .landing-description {
-  margin-top: 2rem;
+  margin-top: 35px;
   font-size: 1rem;
-  padding-bottom: 10rem;
+  padding-bottom: 190px;
   color: black;
 }
 
@@ -133,9 +133,34 @@ body {
 }
 
 .icon-below-nav {
-  padding-top: 1rem;
-  margin-bottom: -28px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+}
+
+.icon-below-wedding1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -140px;    
+  margin-bottom: -25px;
+} 
+
+.polaroid {
+  position: relative;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.polaroid:hover {
+  transform: rotate(-5deg) rotateX(10deg) scale(1.05);
+}
+
+.polaroid:hover {
+  box-shadow:
+    0 20px 30px rgba(0, 0, 0, 0.25),
+    0 0 15px rgba(239, 71, 31, 0.5),
+    0 0 25px rgba(255, 238, 3, 0.3);
 }
 
 /* Ball wrapper */
@@ -1489,9 +1514,12 @@ form.guest-message-form textarea,
 /* Site Footer */
 .site-footer {
   background: linear-gradient(to bottom, #f0c3ce 0%, #e8b3bf 100%);
-  padding: 2rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  padding-left: 2.8rem;
+  padding-right: 2.8rem;
   margin-top: 4rem;
-  box-shadow: 0 -4px 12px rgba(239, 71, 31, 0.1);
+  margin-bottom: 0.2rem;
   position: relative;
   border-radius: 12px;
 }
