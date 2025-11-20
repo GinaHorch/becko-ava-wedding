@@ -161,7 +161,7 @@ export default function Home() {
 
       <div className="welcome-message">
         <p>
-          Welcome! Join us in celebrating Becko & Ava by leaving your
+          Welcome! Join us in celebrating <strong>Becko & Ava</strong> by leaving your
           <br />
           heartfelt messages, beautiful photos and memorable videos.
         </p>

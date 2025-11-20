@@ -143,12 +143,12 @@ body {
   justify-content: center;
   align-items: center;
   margin-top: -140px;    
-  margin-bottom: -25px;
+  margin-bottom: 10px;
 } 
 
 .polaroid {
   position: relative;
-  perspective: 1000px;
+  perspective: 1000px;    
   cursor: pointer;
 }
 
