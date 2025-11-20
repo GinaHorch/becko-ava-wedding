@@ -167,7 +167,7 @@ body {
 .ball-wrapper {
   position: absolute;
   left: -80px;
-  top: calc(100vh * var(--random-top));
+  /* top: calc(100vh * var(--random-top)); */
   border-radius: 50%;
   overflow: hidden;
   animation: bounceRight linear infinite;

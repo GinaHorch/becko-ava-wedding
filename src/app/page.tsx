@@ -40,6 +40,12 @@ export default function Home() {
     const rainbowColors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3'];
     const ballWrappers: BallWrapperElement[] = [];
 
+    // Get 2nd polaroid position to dynamically calculate max drop
+    const secondPolaroid = document.querySelector('.icon-below-wedding1') as HTMLElement;
+    const maxDropY = secondPolaroid
+      ? secondPolaroid.getBoundingClientRect().bottom + 20 // 20px below the polaroid
+      : window.innerHeight - 50; // fallback
+
     for (let i = 0; i < numBalls; i++) {
       const wrapper = document.createElement('div') as BallWrapperElement;
       wrapper.className = 'ball-wrapper';
@@ -49,9 +55,28 @@ export default function Home() {
       ball.className = 'petal black-white';
       ball.alt = 'Soccer ball decoration';
 
+      // Random starting position (percentage of viewport height)
       let topPosition = i === 0 ? 0.85 + Math.random() * 0.05 : 0.95 + Math.random() * 0.05;
 
-      wrapper.style.setProperty('--random-top', topPosition.toString());
+      // Downward progression logic
+      const baseTop = topPosition;
+      const dropAmount = 40;
+
+      // Apply starting top position
+      wrapper.style.top = baseTop * window.innerHeight + 'px';
+
+      // Move ball down each animation iteration
+      wrapper.addEventListener('animationiteration', () => {
+        const currentY = parseFloat(wrapper.style.top);
+        let newY = currentY + dropAmount;
+
+        if (newY >= maxDropY) {
+          newY = baseTop * window.innerHeight;
+        }
+
+        wrapper.style.top = newY + 'px';
+      });
+
       wrapper.style.width = '50px';
       wrapper.style.height = '50px';
       wrapper.style.animationDuration = `${5 + Math.random() * 5}s`;
@@ -62,13 +87,16 @@ export default function Home() {
       container.appendChild(wrapper);
       ballWrappers.push(wrapper);
 
+      // Color trail logic
       const trailInterval = setInterval(() => {
         const rect = wrapper.getBoundingClientRect();
         const containerRect = container.getBoundingClientRect();
 
         const trailLeft = rect.left - containerRect.left + rect.width / 2 - 6;
-        const trailTops = [rect.top - containerRect.top + rect.height / 2 + 4,
-                           rect.top - containerRect.top + rect.height / 2 + 12];
+        const trailTops = [
+          rect.top - containerRect.top + rect.height / 2 + 4,
+          rect.top - containerRect.top + rect.height / 2 + 12
+        ];
 
         trailTops.forEach((trailTop) => {
           const trail = document.createElement('div');
@@ -154,7 +182,6 @@ export default function Home() {
         </ul>
       </nav>
 
-      {/* Decorative wedding icon below nav wrapped in polaroid */}
       <div className="polaroid icon-below-nav">
         <Image src={weddingIcon2} alt="Wedding icon below navigation" height={350} />
       </div>
@@ -168,7 +195,6 @@ export default function Home() {
         />
       </div>
 
-      {/* Another wedding icon wrapped in polaroid */}
       <div className="polaroid icon-below-wedding1">
         <Image
           src={weddingIcon7}
