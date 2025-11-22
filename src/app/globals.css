@@ -142,7 +142,7 @@ body {
 .icon-at-top::after {
   content: "✨";
   position: absolute;
-  top: 70px; /* adjust vertical placement */
+  top: 72px; /* adjust vertical placement */
   left: 38%; /* center horizontally */
   transform: translateX(-50%); /* truly center the sparkle */
   font-size: 1rem;
@@ -227,12 +227,12 @@ body {
   justify-content: center;
   align-items: center;
   margin-top: -140px;    
-  margin-bottom: 0px;
+  margin-bottom: -10px;
 } 
 
 .icon-at-bottom {
   margin-top: 80px;
-  margin-bottom: -55px;
+  margin-bottom: -50px;
 }
 
 .polaroid {

@@ -40,7 +40,15 @@ export default function Home() {
     const container = document.querySelector('.landing-container') as HTMLElement;
     if (!container) return;
 
-    const weddingColors = ['#ef471f', '#f0c3ce'];
+    const weddingColors = [
+    '#eb3b39', // red
+    '#fd9642', // orange
+    '#fde44d', // yellow
+    '#4b8f48', // green
+    '#3F66F3', // blue
+    '#902E95'  // purple
+];
+
     const ballWrappers: BallWrapperElement[] = [];
 
     const secondPolaroid = document.querySelector('.icon-below-wedding1') as HTMLElement;
@@ -154,8 +162,8 @@ export default function Home() {
       {/* 👋 Welcome Message */}
       <div className="welcome-message">
       <p>
-      Welcome! <br /> Join us in celebrating <strong>Becko & Ava</strong> <br /> by leaving your 
-      heartfelt messages, <br /> beautiful photos and memorable videos.
+      Welcome! <br /> Join us in celebrating <strong>Becko & Ava</strong> by leaving your <br />
+      heartfelt messages, beautiful photos and memorable videos.
       </p>
       </div>
 
