@@ -6,6 +6,7 @@ import weddingIcon1 from './images/wedding-icon-1.png';
 import weddingIcon2 from './images/wedding-icon-2.png';
 import weddingIcon3 from './images/wedding-icon-3.png';
 import weddingIcon7 from './images/wedding-icon-7.png';
+import weddingIcon8 from './images/wedding-icon-8.png';
 import blackWhiteSoccerBall from './images/black-white-soccer-ball.png';
 import Footer from './components/Footer';
 import InstallPrompt from './components/InstallPrompt';
@@ -201,6 +202,14 @@ export default function Home() {
           alt="Wedding Icon 7"
           height={350}
         />
+      </div>
+
+      <div className="icon-at-bottom">
+      <Image
+        src={weddingIcon8}
+        alt="Wedding Icon 8"
+        height={40}
+      />
       </div>
 
       <Footer />
