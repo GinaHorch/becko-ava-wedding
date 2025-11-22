@@ -75,8 +75,28 @@ body {
 }
 
 .icon-at-top {
+  position: relative; /* required so sparkles position correctly */
+  display: inline-block;
   margin-top: -4px;
   padding-bottom: 15px;
+}
+
+/* Sparkle */
+.icon-at-top::after {
+  content: "✨"; /* can switch to ❇ ❈ ❖ or a star SVG later */
+  position: absolute;
+  top: 70px;       /* adjust these to match ring position */
+  right: 67px;     /* adjust for perfect placement */
+  font-size: 1rem;
+  opacity: 0;
+  animation: sparkleTwinkle 2.2s ease-in-out infinite;
+}
+
+@keyframes sparkleTwinkle {
+  0% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+  40% { opacity: 1; transform: scale(1.1) rotate(20deg); }
+  70% { opacity: 0.8; transform: scale(0.9) rotate(-20deg); }
+  100% { opacity: 0; transform: scale(0.4) rotate(0deg); }
 }
 
 .icon-at-top img {
@@ -145,7 +165,7 @@ body {
 } 
 
 .icon-at-bottom {
-  margin-top: 90px;
+  margin-top: 80px;
   margin-bottom: -55px;
 }
 
