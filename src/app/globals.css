@@ -1,6 +1,7 @@
 /* Font imports */
 @import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Alice&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
 
 :root {
   --radius: 0.625rem;
@@ -74,19 +75,76 @@ body {
   overflow: hidden;
 }
 
-.icon-at-top {
-  position: relative; /* required so sparkles position correctly */
-  display: inline-block;
-  margin-top: -4px;
-  padding-bottom: 15px;
+/* === Layer text above flowers === */
+.landing-title,
+.welcome-message,
+.landing-navigation {
+  position: relative; /* ensures z-index works */
+  z-index: 10;
 }
 
-/* Sparkle */
-.icon-at-top::after {
-  content: "✨"; /* can switch to ❇ ❈ ❖ or a star SVG later */
+/* 🌿 Hanging Wattle - Responsive */
+.hanging-wattle-left,
+.hanging-wattle-right {
   position: absolute;
-  top: 70px;       /* adjust these to match ring position */
-  right: 67px;     /* adjust for perfect placement */
+  top: 62px;
+  z-index: 5;
+  transform-origin: top center;
+  animation: swayWattle 4s ease-in-out infinite;
+}
+
+.hanging-wattle-left {
+  left: 0.5%; /* relative to viewport width */
+}
+
+.hanging-wattle-right {
+  right: 0.5%;
+}
+
+/* Ensure images scale properly */
+.hanging-wattle-left img,
+.hanging-wattle-right img {
+  width: 15vw; /* scale relative to viewport width */
+  max-width: 180px;
+  height: auto; /* maintain aspect ratio */
+}
+
+/* Media query for very small screens */
+@media (max-width: 480px) {
+  .hanging-wattle-left,
+  .hanging-wattle-right {
+    display: none; /* hide flowers on tiny screens to avoid blocking text */
+  }
+  .landing-title {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+  }
+  .welcome-message {
+    font-size: clamp(0.9rem, 4vw, 1.1rem);
+  }
+  .landing-navigation ul {
+    gap: 0.5rem;
+  }
+}
+
+/* Keep sway animation */
+@keyframes swayWattle {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(2deg); }
+  50% { transform: rotate(-2deg); }
+  75% { transform: rotate(1deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.icon-at-top {
+  position: relative; /* ensure pseudo-element is positioned relative to this container */
+}
+
+.icon-at-top::after {
+  content: "✨";
+  position: absolute;
+  top: 70px; /* adjust vertical placement */
+  left: 38%; /* center horizontally */
+  transform: translateX(-50%); /* truly center the sparkle */
   font-size: 1rem;
   opacity: 0;
   animation: sparkleTwinkle 2.2s ease-in-out infinite;
@@ -105,22 +163,28 @@ body {
 }
 
 .landing-title {
-  font-size: 2rem;  
-  margin-bottom: 1rem;
-  line-height: 3rem;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 6vw, 3rem); /* scales nicely on mobile */
+  line-height: 1.2;
+  text-align: center;
+  margin: 1rem 1rem 0.5rem 1rem;
 }
 
 .landing-navigation ul {
   list-style: none;
-  padding-bottom: 20px;
   display: flex;
+  flex-direction: column; /* stack on mobile */
   gap: 1rem;
-  font-size: 1.2rem;
+  padding: 0;
+  margin: 0 auto 2rem auto;
+  align-items: center;
 }
 
 .landing-navigation a {
   text-decoration: none;
   color: #ef471f;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1rem, 4vw, 1.2rem);
   font-weight: bold;
   display: inline-flex;
   align-items: center;
@@ -137,17 +201,19 @@ body {
   margin-bottom: -9px;
   font-size: 1rem;
   padding-bottom: 190px;
-  color: black;
+  color: rgba(0, 0, 0, 0.8);
+
 }
 
-.welcome-message {
-  font-family: 'Alice', serif;
-  font-size: 1.1rem;
-  color: black;
-  line-height: 1.2;
-  margin-top: -12px;
-  margin-bottom: -10px;
+.welcome-message p {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1rem, 4vw, 1.2rem);
+  line-height: 1.6;
   text-align: center;
+  color: rgba(0, 0, 0, 0.8);
+  margin: 0.5rem 1rem 1.5rem 1rem;
+  max-width: 90%;
+  word-wrap: break-word;
 }
 
 .icon-below-nav {
@@ -186,6 +252,13 @@ body {
     0 0 25px rgba(255, 238, 3, 0.3);
 }
 
+.polaroid,
+.landing-description,
+.icon-at-bottom {
+  position: relative;
+  z-index: 10;
+}
+
 .ball-wrapper {
   position: absolute;
   left: -80px;
@@ -194,6 +267,18 @@ body {
   animation: bounceRight linear infinite;
   pointer-events: none;
   z-index: 10000;
+}
+
+.ball-wrapper img {
+  filter: drop-shadow(0 0 6px rgba(239, 71, 31, 0.5));
+  border-radius: 50%;
+  transform: scale(0.9); /* slightly smaller for elegance */
+  transition: transform 0.3s ease;
+  opacity: 0.9; 
+}
+
+.ball-wrapper img:hover {
+  transform: scale(1);
 }
 
 /* Not petal styling - soccer ball styling */
@@ -215,12 +300,12 @@ body {
   font-weight: bold;
   background: linear-gradient(
     45deg,
-    #E60001,
-    #FF8D01,
-    #FFEE03,
-    #008220,
-    #004DFD,
-    #760088 
+    rgba(230, 0, 1, 0.8),
+    rgba(255, 141, 1, 0.8),
+    rgba(255, 238, 3, 0.8),
+    rgba(0, 130, 32, 0.8),
+    rgba(0, 77, 253, 0.8),
+    rgba(118, 0, 136, 0.8)
   );
   background-size: 400% 400%;
   background-clip: text;
@@ -364,7 +449,6 @@ body {
     padding: 1rem;
   }
 }
-
 
 form.guest-message-form {
   display: flex;
@@ -1559,7 +1643,7 @@ form.guest-message-form textarea,
 .footer-right {
   font-family: 'Alice', serif;
   font-size: 0.85rem;
-  color: #333;
+  color: rgba(0, 0, 0, 0.8);
 }
 
 /* Add it right below */
