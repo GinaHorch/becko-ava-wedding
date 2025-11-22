@@ -113,7 +113,8 @@ body {
 }
 
 .landing-description {
-  margin-top: 35px;
+  margin-top: 45px;
+  margin-bottom: -9px;
   font-size: 1rem;
   padding-bottom: 190px;
   color: black;
