@@ -94,11 +94,11 @@ body {
 }
 
 .hanging-wattle-left {
-  left: 0.5%; /* relative to viewport width */
+  left: 2%; /* relative to viewport width */
 }
 
 .hanging-wattle-right {
-  right: 0.5%;
+  right: 2%;
 }
 
 /* Ensure images scale properly */
@@ -207,13 +207,14 @@ body {
 
 .welcome-message p {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(1rem, 4vw, 1.2rem);
   line-height: 1.6;
   text-align: center;
   color: rgba(0, 0, 0, 0.8);
-  margin: 0.5rem 1rem 1.5rem 1rem;
-  max-width: 90%;
-  word-wrap: break-word;
+  margin: 0.5rem auto 1.5rem auto;
+  max-width: 600px;       /* gives structure WITHOUT squeezing too tight */
+  white-space: normal;    /* prevents strange wrapping */
+  word-wrap: normal;      /* stops forced breaks */
+  overflow-wrap: normal;  /* also prevents forced breaks */
 }
 
 .icon-below-nav {
