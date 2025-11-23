@@ -87,7 +87,7 @@ body {
 .hanging-wattle-left,
 .hanging-wattle-right {
   position: absolute;
-  top: 62px;
+  top: 110px;
   z-index: 5;
   transform-origin: top center;
   animation: swayWattle 4s ease-in-out infinite;
@@ -216,6 +216,7 @@ body {
   word-wrap: normal;      /* stops forced breaks */
   overflow-wrap: normal;  /* also prevents forced breaks */
 }
+
 
 .icon-below-nav {
   display: flex;
