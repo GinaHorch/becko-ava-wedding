@@ -244,23 +244,20 @@ body {
   margin-bottom: -50px;
 }
 
-/* Container for stacked polaroids */
 /* === Polaroid Section === */
-
+/* ================== Polaroid Stack ================== */
 .polaroid-stack-container {
   position: relative;
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 .polaroid-stack {
   position: relative;
   width: 250px;
   height: 380px;
-  margin: 0;
-  padding: 0;
 }
 
 /* Polaroid wrappers */
@@ -272,54 +269,87 @@ body {
   background: transparent !important;
   cursor: pointer;
   border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
+  overflow: visible !important;
+  z-index: 1;
+
+  /* Smooth transitions for natural movement */
+  transition: transform 0.5s cubic-bezier(0.25, 0.85, 0.35, 1),
+              box-shadow 0.3s ease;
 }
 
-/* Polaroid images */
 .polaroid-stack .polaroid img {
   display: block;
   width: 250px;
   height: auto;
   border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
-/* Rotations for natural stack */
+/* Rotations for initial natural stack */
 .icon-below-nav {
   transform: rotate(-2deg);
+  z-index: 2; /* start on top */
 }
 
 .icon-below-wedding1 {
   transform: rotate(2deg) translateY(20px);
+  z-index: 1;
 }
 
-/* Wedding icon below paragraph */
+/* Hover lift effect */
+.polaroid:hover {
+  transform: translateY(-8px) rotate(0deg);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* === Romantic Shuffle Animation === */
+.polaroid.clicked {
+  animation: romanticShuffle 450ms cubic-bezier(0.25, 0.85, 0.35, 1) forwards;
+}
+
+/* Glow pulse during shuffle */
+.polaroid.clicked::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  pointer-events: none;
+  animation: glowPulse 450ms ease-out;
+}
+
+@keyframes romanticShuffle {
+  0%   { transform: translateY(0) scale(1) !important; }
+  25%  { transform: translateY(-14px) scale(1.04) !important; }
+  55%  { transform: translateY(-6px) scale(1.015) !important; }
+  100% { transform: translateY(-3px) scale(1) !important; }
+}
+
+@keyframes glowPulse {
+  0%   { box-shadow: 0 0 0 rgba(255,148,170,0); }
+  40%  { box-shadow: 0 0 22px rgba(255,148,170,0.35); }
+  100% { box-shadow: 0 0 0 rgba(255,148,170,0); }
+}
+
+/* Soft particles */
+.particle {
+  position: absolute;
+  font-size: 10px;
+  opacity: 0;
+  animation: particleFloat 900ms ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes particleFloat {
+  0%   { transform: translateY(0) scale(0.5); opacity: 0.7; }
+  100% { transform: translateY(-40px) scale(1); opacity: 0; }
+}
+
 .landing-description {
   position: relative;
   z-index: 20;
-  margin-top: 8rem;
+  margin-top: 7rem;  /* adjust as needed */
   margin-bottom: 0px;
   text-align: center;
-}
-
-.polaroid {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.polaroid img {
-  display: block;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-}
-
-.polaroid.clicked {
-  animation: snapForward 250ms ease;
-}
-
-@keyframes snapForward {
-  0% { transform: scale(1) rotate(0deg); }
-  40% { transform: scale(1.05) rotate(1deg); }
-  100% { transform: scale(1) rotate(0deg); }
 }
 
 /* .icon-at-bottom {

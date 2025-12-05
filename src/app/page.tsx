@@ -8,7 +8,6 @@ import weddingIcon1 from './images/wedding-icon-1.png';
 import weddingIcon2 from './images/wedding-icon-2.png';
 import weddingIcon3 from './images/wedding-icon-3.png';
 import weddingIcon7 from './images/wedding-icon-7.png';
-// import weddingIcon8 from './images/wedding-icon-8.png';
 import blackWhiteSoccerBall from './images/black-white-soccer-ball.png';
 import Footer from './components/Footer';
 import InstallPrompt from './components/InstallPrompt';
@@ -36,22 +35,16 @@ interface BallWrapperElement extends HTMLElement {
 
 export default function Home() {
   useEffect(() => {
-    // === Soccer Balls ===
+    // === SOCCER BALLS (unchanged) ===
     const numBalls = 2;
     const container = document.querySelector('.landing-container') as HTMLElement;
     if (!container) return;
 
     const weddingColors = [
-      '#eb3b39', // red
-      '#fd9642', // orange
-      '#fde44d', // yellow
-      '#4b8f48', // green
-      '#3F66F3', // blue
-      '#902E95'  // purple
+      '#eb3b39', '#fd9642', '#fde44d', '#4b8f48', '#3F66F3', '#902E95'
     ];
 
     const ballWrappers: BallWrapperElement[] = [];
-
     const secondPolaroid = document.querySelector('.icon-below-wedding1') as HTMLElement;
     const maxDropY = secondPolaroid
       ? secondPolaroid.getBoundingClientRect().bottom + 20
@@ -136,22 +129,43 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // === Polaroid Click-to-Front ===
-    const cards = document.querySelectorAll(".polaroid-stack .polaroid");
-    let currentZ = 10;
+    // === POLAROID SHUFFLE LOGIC WITH NATURAL ROTATION ===
+    const navCard = document.querySelector('.icon-below-nav') as HTMLElement;
+    const weddingCard = document.querySelector('.icon-below-wedding1') as HTMLElement;
 
-     cards.forEach((card) => {
-    card.addEventListener("click", () => {
-      // Bring the clicked card to front
-      currentZ++;
-      card.style.zIndex = currentZ.toString();
+    const bringToFront = (clicked: HTMLElement, other: HTMLElement) => {
+      const clickedIsTop = clicked.style.zIndex === '2';
+      if (!clickedIsTop) {
+        clicked.style.zIndex = '2';
+        other.style.zIndex = '1';
 
-      // Add snap animation
-      card.classList.add("clicked");
-      setTimeout(() => card.classList.remove("clicked"), 250);
-    });
-  });
-}, []);
+        // Apply a small random rotation and vertical shift
+        const rotateDeg = (Math.random() * 4 - 2); // -2 to 2 degrees
+        const translateY = Math.random() * 10; // 0 to 10px
+        clicked.style.transform = `rotate(${rotateDeg}deg) translateY(${translateY}px)`;
+
+        // Restart animation reliably
+        clicked.classList.remove('clicked');
+        void clicked.offsetWidth; // force reflow
+        clicked.classList.add('clicked');
+
+        // Soft romantic particles
+        for (let i = 0; i < 5; i++) {
+          const p = document.createElement('div');
+          p.className = 'particle';
+          p.innerText = ['❀', '✦', '✧'][Math.floor(Math.random() * 3)];
+          p.style.left = 40 + Math.random() * 180 + 'px';
+          p.style.top = 40 + Math.random() * 40 + 'px';
+          p.style.color = `rgba(255, 148, 170, ${0.4 + Math.random() * 0.4})`;
+          clicked.appendChild(p);
+          setTimeout(() => p.remove(), 900);
+        }
+      }
+    };
+
+    navCard?.addEventListener('click', () => bringToFront(navCard, weddingCard));
+    weddingCard?.addEventListener('click', () => bringToFront(weddingCard, navCard));
+  }, []);
 
   return (
     <main className="landing-container">
@@ -159,7 +173,6 @@ export default function Home() {
       <div className="hanging-wattle-left">
         <Image src={nativeFlower1} alt="Hanging Wattle" width={180} height={550} />
       </div>
-
       <div className="hanging-wattle-right">
         <Image src={nativeFlower2} alt="Hanging Wattle Right" width={180} height={550} />
       </div>
@@ -178,11 +191,11 @@ export default function Home() {
         Wedding Guestbook
       </h1>
 
-      {/* 👋 Welcome Message */}
       <div className="welcome-message">
         <p>
           <strong>Welcome! </strong> 
-          Join us in celebrating Becko & Ava by <br /> leaving your heartfelt messages, beautiful photos <br />and memorable videos.
+          Join us in celebrating Becko & Ava by <br />
+          leaving your heartfelt messages, beautiful photos <br />and memorable videos.
         </p>
       </div>
 
@@ -190,19 +203,15 @@ export default function Home() {
       <nav className="landing-navigation">
         <ul>
           <li>
-            <a href="/upload">
-              <HeartIcon /> Leave a Message
-            </a>
+            <a href="/upload"><HeartIcon /> Leave a Message</a>
           </li>
           <li>
-            <a href="/gallery">
-              <HeartIcon /> View Guestbook
-            </a>
+            <a href="/gallery"><HeartIcon /> View Guestbook</a>
           </li>
         </ul>
       </nav>
 
-      {/* 🎴 Polaroid Icons */}
+      {/* 🎴 Polaroid Stack */}
       <div className="polaroid-stack-container">
         <div className="polaroid-stack">
           <div className="polaroid icon-below-nav">
@@ -214,14 +223,10 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Wedding icon below paragraph */}
+      {/* 🎴 Wedding icon below paragraph */}
       <div className="landing-description">
-        <Image src={weddingIcon1} alt="Wedding icon below paragraph" width={150} height={200} />
+        <Image src={weddingIcon1} alt="Wedding icon below paragraph" width={200} height={250} />
       </div>
-
-      {/* <div className="icon-at-bottom">
-        <Image src={weddingIcon8} alt="Wedding Icon 8" height={40} />
-      </div> */}
 
       <Footer />
       <InstallPrompt />
