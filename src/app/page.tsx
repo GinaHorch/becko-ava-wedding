@@ -13,7 +13,7 @@ import blackWhiteSoccerBall from './images/black-white-soccer-ball.png';
 import Footer from './components/Footer';
 import InstallPrompt from './components/InstallPrompt';
 
-const HeartIcon = ({ color = '#ef471f', size = 16 }) => (
+const HeartIcon = ({ color = '#f06148', size = 16 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}

@@ -168,6 +168,7 @@ body {
   line-height: 1.2;
   text-align: center;
   margin: 1rem 1rem 0.5rem 1rem;
+  color: #f06148;
 }
 
 .landing-navigation ul {
@@ -182,7 +183,7 @@ body {
 
 .landing-navigation a {
   text-decoration: none;
-  color: #ef471f;
+  color: #516c45;
   font-family: 'Playfair Display', serif;
   font-size: clamp(1rem, 4vw, 1.2rem);
   font-weight: bold;
