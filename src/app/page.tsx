@@ -8,7 +8,7 @@ import weddingIcon1 from './images/wedding-icon-1.png';
 import weddingIcon2 from './images/wedding-icon-2.png';
 import weddingIcon3 from './images/wedding-icon-3.png';
 import weddingIcon7 from './images/wedding-icon-7.png';
-import weddingIcon8 from './images/wedding-icon-8.png';
+// import weddingIcon8 from './images/wedding-icon-8.png';
 import blackWhiteSoccerBall from './images/black-white-soccer-ball.png';
 import Footer from './components/Footer';
 import InstallPrompt from './components/InstallPrompt';
@@ -36,18 +36,19 @@ interface BallWrapperElement extends HTMLElement {
 
 export default function Home() {
   useEffect(() => {
+    // === Soccer Balls ===
     const numBalls = 2;
     const container = document.querySelector('.landing-container') as HTMLElement;
     if (!container) return;
 
     const weddingColors = [
-    '#eb3b39', // red
-    '#fd9642', // orange
-    '#fde44d', // yellow
-    '#4b8f48', // green
-    '#3F66F3', // blue
-    '#902E95'  // purple
-];
+      '#eb3b39', // red
+      '#fd9642', // orange
+      '#fde44d', // yellow
+      '#4b8f48', // green
+      '#3F66F3', // blue
+      '#902E95'  // purple
+    ];
 
     const ballWrappers: BallWrapperElement[] = [];
 
@@ -134,6 +135,24 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    // === Polaroid Click-to-Front ===
+    const cards = document.querySelectorAll(".polaroid-stack .polaroid");
+    let currentZ = 10;
+
+     cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      // Bring the clicked card to front
+      currentZ++;
+      card.style.zIndex = currentZ.toString();
+
+      // Add snap animation
+      card.classList.add("clicked");
+      setTimeout(() => card.classList.remove("clicked"), 250);
+    });
+  });
+}, []);
+
   return (
     <main className="landing-container">
       {/* 🌿 Native Flowers */}
@@ -160,14 +179,12 @@ export default function Home() {
       </h1>
 
       {/* 👋 Welcome Message */}
-     <div className="welcome-message">
-     <p>
-      Welcome! <br />
-      Join us in celebrating <strong>Becko & Ava</strong> by leaving your <br />
-      heartfelt messages, beautiful photos and memorable videos.
-     </p>
-     </div>
-
+      <div className="welcome-message">
+        <p>
+          <strong>Welcome! </strong> 
+          Join us in celebrating Becko & Ava by <br /> leaving your heartfelt messages, beautiful photos <br />and memorable videos.
+        </p>
+      </div>
 
       {/* 🧭 Navigation */}
       <nav className="landing-navigation">
@@ -186,21 +203,25 @@ export default function Home() {
       </nav>
 
       {/* 🎴 Polaroid Icons */}
-      <div className="polaroid icon-below-nav">
-        <Image src={weddingIcon2} alt="Wedding icon below navigation" height={350} />
+      <div className="polaroid-stack-container">
+        <div className="polaroid-stack">
+          <div className="polaroid icon-below-nav">
+            <Image src={weddingIcon2} alt="Wedding icon below navigation" height={350} />
+          </div>
+          <div className="polaroid icon-below-wedding1">
+            <Image src={weddingIcon7} alt="Wedding Icon 7" height={350} />
+          </div>
+        </div>
       </div>
 
+      {/* Wedding icon below paragraph */}
       <div className="landing-description">
-        <Image src={weddingIcon1} alt="Wedding icon below paragraph" width={250} height={300} />
+        <Image src={weddingIcon1} alt="Wedding icon below paragraph" width={150} height={200} />
       </div>
 
-      <div className="polaroid icon-below-wedding1">
-        <Image src={weddingIcon7} alt="Wedding Icon 7" height={350} />
-      </div>
-
-      <div className="icon-at-bottom">
+      {/* <div className="icon-at-bottom">
         <Image src={weddingIcon8} alt="Wedding Icon 8" height={40} />
-      </div>
+      </div> */}
 
       <Footer />
       <InstallPrompt />

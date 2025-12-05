@@ -174,11 +174,12 @@ body {
 .landing-navigation ul {
   list-style: none;
   display: flex;
-  flex-direction: column; /* stack on mobile */
-  gap: 1rem;
+  flex-direction: row;   /* always side-by-side */
+  gap: 1.5rem;           /* spacing between items */
   padding: 0;
   margin: 0 auto 2rem auto;
   align-items: center;
+  justify-content: center;
 }
 
 .landing-navigation a {
@@ -199,21 +200,19 @@ body {
 
 .landing-description {
   margin-top: 45px;
-  margin-bottom: -9px;
   font-size: 1rem;
-  padding-bottom: 190px;
+  padding-bottom: 0px;
   color: rgba(0, 0, 0, 0.8);
 
 }
 
 .welcome-message p {
   font-family: 'Playfair Display', serif;
-  line-height: 1.6;
+  font-size: 1.2rem;
+  line-height: 1.1;
   text-align: center;
-  color: rgba(0, 0, 0, 0.8);
-  background-color: white; 
-  padding: 20px;
-  border: 1px solid #ccc;
+  padding-top: 10px;
+  color: #435839;
   border-radius: 8px;   /* ⬅️ Rounded corners */
   margin: 0.5rem auto 1.5rem auto;
   max-width: 600px;       /* gives structure WITHOUT squeezing too tight */
@@ -222,6 +221,9 @@ body {
   overflow-wrap: normal;  /* also prevents forced breaks */
 }
 
+.names-red {
+    color: #f06148;
+}
 
 .icon-below-nav {
   display: flex;
@@ -233,38 +235,97 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: -140px;    
+  margin-top: 20px; /* adjust as needed */ 
   margin-bottom: -10px;
 } 
 
 .icon-at-bottom {
-  margin-top: 80px;
+  margin-top: 0px;
   margin-bottom: -50px;
 }
 
-.polaroid {
+/* Container for stacked polaroids */
+/* === Polaroid Section === */
+
+.polaroid-stack-container {
   position: relative;
-  perspective: 1000px;    
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.polaroid-stack {
+  position: relative;
+  width: 250px;
+  height: 380px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Polaroid wrappers */
+.polaroid-stack .polaroid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  background: transparent !important;
   cursor: pointer;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
 }
 
-.polaroid:hover {
-  transform: rotate(-5deg) rotateX(10deg) scale(1.05);
+/* Polaroid images */
+.polaroid-stack .polaroid img {
+  display: block;
+  width: 250px;
+  height: auto;
+  border-radius: 8px;
 }
 
-.polaroid:hover {
-  box-shadow:
-    0 20px 30px rgba(0, 0, 0, 0.25),
-    0 0 15px rgba(239, 71, 31, 0.5),
-    0 0 25px rgba(255, 238, 3, 0.3);
+/* Rotations for natural stack */
+.icon-below-nav {
+  transform: rotate(-2deg);
 }
 
-.polaroid,
-.landing-description,
-.icon-at-bottom {
+.icon-below-wedding1 {
+  transform: rotate(2deg) translateY(20px);
+}
+
+/* Wedding icon below paragraph */
+.landing-description {
+  position: relative;
+  z-index: 20;
+  margin-top: 8rem;
+  margin-bottom: 0px;
+  text-align: center;
+}
+
+.polaroid {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.polaroid img {
+  display: block;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+}
+
+.polaroid.clicked {
+  animation: snapForward 250ms ease;
+}
+
+@keyframes snapForward {
+  0% { transform: scale(1) rotate(0deg); }
+  40% { transform: scale(1.05) rotate(1deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+/* .icon-at-bottom {
   position: relative;
   z-index: 10;
-}
+} */
 
 .ball-wrapper {
   position: absolute;
@@ -1627,7 +1688,7 @@ form.guest-message-form textarea,
   padding-bottom: 0.2rem;
   padding-left: 2.8rem;
   padding-right: 2.8rem;
-  margin-top: 4rem;
+  margin-top: 2rem;
   margin-bottom: 0.2rem;
   position: relative;
   border-radius: 12px;
