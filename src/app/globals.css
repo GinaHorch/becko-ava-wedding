@@ -211,6 +211,10 @@ body {
   line-height: 1.6;
   text-align: center;
   color: rgba(0, 0, 0, 0.8);
+  background-color: white; 
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;   /* ⬅️ Rounded corners */
   margin: 0.5rem auto 1.5rem auto;
   max-width: 600px;       /* gives structure WITHOUT squeezing too tight */
   white-space: normal;    /* prevents strange wrapping */

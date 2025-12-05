@@ -160,12 +160,13 @@ export default function Home() {
       </h1>
 
       {/* 👋 Welcome Message */}
-      <div className="welcome-message">
-      <p>
-      Welcome! <br /> Join us in celebrating <strong>Becko & Ava</strong> by leaving your <br />
+     <div className="welcome-message">
+     <p>
+      Welcome! <br />
+      Join us in celebrating <strong>Becko & Ava</strong> by leaving your <br />
       heartfelt messages, beautiful photos and memorable videos.
-      </p>
-      </div>
+     </p>
+     </div>
 
 
       {/* 🧭 Navigation */}
