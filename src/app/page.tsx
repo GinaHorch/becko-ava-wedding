@@ -59,7 +59,7 @@ export default function Home() {
       ball.className = 'petal black-white';
       ball.alt = 'Soccer ball decoration';
 
-      let topPosition = i === 0 ? 0.85 + Math.random() * 0.05 : 0.95 + Math.random() * 0.05;
+      let topPosition = 1 + Math.random() * 0.04;
       const baseTop = topPosition;
       const dropAmount = 40;
 
