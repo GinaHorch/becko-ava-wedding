@@ -134,34 +134,53 @@ export default function Home() {
     const weddingCard = document.querySelector('.icon-below-wedding1') as HTMLElement;
 
     const bringToFront = (clicked: HTMLElement, other: HTMLElement) => {
-      const clickedIsTop = clicked.style.zIndex === '2';
-      if (!clickedIsTop) {
-        clicked.style.zIndex = '2';
-        other.style.zIndex = '1';
+  const clickedIsTop = clicked.style.zIndex === '2';
+  if (!clickedIsTop) {
+    clicked.style.zIndex = '2';
+    other.style.zIndex = '1';
 
-        // Apply a small random rotation and vertical shift
-        const rotateDeg = (Math.random() * 4 - 2); // -2 to 2 degrees
-        const translateY = Math.random() * 10; // 0 to 10px
-        clicked.style.transform = `rotate(${rotateDeg}deg) translateY(${translateY}px)`;
+    // --- Natural rotation ---
+    const rotateDeg = Math.random() * 4 - 2; // -2 to 2 degrees
+    const translateY = Math.random() * 10;   // 0 to 10px
 
-        // Restart animation reliably
-        clicked.classList.remove('clicked');
-        void clicked.offsetWidth; // force reflow
-        clicked.classList.add('clicked');
+    // --- Keep cards ALWAYS separated horizontally ---
+    const baseOffset = clicked.classList.contains('icon-below-nav') ? -40 : 40;
+    const wobble = Math.random() * 14 - 7; // -7 to +7 px randomness
+    const translateX = baseOffset + wobble;
 
-        // Soft romantic particles
-        for (let i = 0; i < 5; i++) {
-          const p = document.createElement('div');
-          p.className = 'particle';
-          p.innerText = ['❀', '✦', '✧'][Math.floor(Math.random() * 3)];
-          p.style.left = 40 + Math.random() * 180 + 'px';
-          p.style.top = 40 + Math.random() * 40 + 'px';
-          p.style.color = `rgba(255, 148, 170, ${0.4 + Math.random() * 0.4})`;
-          clicked.appendChild(p);
-          setTimeout(() => p.remove(), 900);
-        }
-      }
-    };
+    clicked.style.transform =
+      `rotate(${rotateDeg}deg) translate(${translateX}px, ${translateY}px)`;
+
+    // Restart animation
+    clicked.classList.remove('clicked');
+    void clicked.offsetWidth;
+    clicked.classList.add('clicked');
+
+    // Romantic particles (unchanged)
+    for (let i = 0; i < 5; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.innerText = ['❀', '✦', '✧'][Math.floor(Math.random() * 3)];
+      p.style.left = 40 + Math.random() * 180 + 'px';
+      p.style.top = 40 + Math.random() * 40 + 'px';
+      p.style.color = `rgba(255, 148, 170, ${0.4 + Math.random() * 0.4})`;
+      clicked.appendChild(p);
+      setTimeout(() => p.remove(), 900);
+    }
+  }
+};
+
+// --- Initial separation on page load ---
+if (navCard && weddingCard) {
+  const wobbleA = Math.random() * 12 - 6; // -6 to +6px
+  const wobbleB = Math.random() * 12 - 6;
+
+  navCard.style.transform = `rotate(-2deg) translate(${ -40 + wobbleA }px, 5px)`;
+  weddingCard.style.transform = `rotate(2deg) translate(${ 40 + wobbleB }px, 15px)`;
+
+  navCard.style.zIndex = '2';
+  weddingCard.style.zIndex = '1';
+}
 
     navCard?.addEventListener('click', () => bringToFront(navCard, weddingCard));
     weddingCard?.addEventListener('click', () => bringToFront(weddingCard, navCard));

@@ -229,6 +229,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;  
+  transform: rotate(-2deg) translateY(-8px);
 }
 
 .icon-below-wedding1 {
@@ -237,6 +238,7 @@ body {
   align-items: center;
   margin-top: 20px; /* adjust as needed */ 
   margin-bottom: -10px;
+  transform: rotate(2deg) translateY(50px);
 } 
 
 .icon-at-bottom {
