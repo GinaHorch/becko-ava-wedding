@@ -161,7 +161,7 @@ export default function GuestMessageForm() {
       }
       
       // If rate limited, wait and retry
-      if (error.message?.includes('rate') || error.message?.includes('429') || error.statusCode === 429) {
+      if (error.message?.includes('rate') || error.message?.includes('429') || (error as any).statusCode === 429) {
         console.log(`Rate limited, retrying (${attempt}/${maxRetries})...`);
         await new Promise(resolve => setTimeout(resolve, 1000 * attempt)); // Exponential backoff
         continue;
