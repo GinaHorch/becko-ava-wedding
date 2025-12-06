@@ -1,6 +1,7 @@
 /* Font imports */
 @import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Alice&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
 
 :root {
   --radius: 0.625rem;
@@ -44,11 +45,8 @@ body {
   position: relative;
   overflow-x: hidden;
 
-  /* Main double border (outermost two lines) */
   border: double 4px #f0c3ce;
-  /* 👇 First inner line */
   outline: 2px solid #ef471f;
-  /* 👇 Second inner line, inset using box-shadow */
   box-shadow: inset 0 0 0 4px #ef471f;
 
   border-radius: 12px;
@@ -77,9 +75,86 @@ body {
   overflow: hidden;
 }
 
+/* === Layer text above flowers === */
+.landing-title,
+.welcome-message,
+.landing-navigation {
+  position: relative; /* ensures z-index works */
+  z-index: 10;
+}
+
+/* 🌿 Hanging Wattle - Responsive */
+.hanging-wattle-left,
+.hanging-wattle-right {
+  position: absolute;
+  top: 110px;
+  z-index: 5;
+  transform-origin: top center;
+  animation: swayWattle 4s ease-in-out infinite;
+}
+
+.hanging-wattle-left {
+  left: 2%; /* relative to viewport width */
+}
+
+.hanging-wattle-right {
+  right: 2%;
+}
+
+/* Ensure images scale properly */
+.hanging-wattle-left img,
+.hanging-wattle-right img {
+  width: 15vw; /* scale relative to viewport width */
+  max-width: 180px;
+  height: auto; /* maintain aspect ratio */
+}
+
+/* Media query for very small screens */
+@media (max-width: 480px) {
+  .hanging-wattle-left,
+  .hanging-wattle-right {
+    display: none; /* hide flowers on tiny screens to avoid blocking text */
+  }
+  .landing-title {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+  }
+  .welcome-message {
+    font-size: clamp(0.9rem, 4vw, 1.1rem);
+  }
+  .landing-navigation ul {
+    gap: 0.5rem;
+  }
+}
+
+/* Keep sway animation */
+@keyframes swayWattle {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(2deg); }
+  50% { transform: rotate(-2deg); }
+  75% { transform: rotate(1deg); }
+  100% { transform: rotate(0deg); }
+}
+
 .icon-at-top {
-  margin-top: -4px;
-  padding-bottom: 15px;
+  position: relative; /* ensure pseudo-element is positioned relative to this container */
+}
+
+.icon-at-top::after {
+  content: "✨";
+  position: absolute;
+  top: 72px; /* adjust vertical placement */
+  left: 38%; /* center horizontally */
+  transform: translateX(-50%); /* truly center the sparkle */
+  font-size: 1rem;
+  opacity: 0;
+  animation: sparkleTwinkle 2.2s ease-in-out infinite;
+}
+
+@keyframes sparkleTwinkle {
+  0% { opacity: 0; transform: scale(0.5) rotate(0deg); }
+  40% { opacity: 1; transform: scale(1.1) rotate(20deg); }
+  70% { opacity: 0.8; transform: scale(0.9) rotate(-20deg); }
+  100% { opacity: 0; transform: scale(0.4) rotate(0deg); }
 }
 
 .icon-at-top img {
@@ -88,22 +163,30 @@ body {
 }
 
 .landing-title {
-  font-size: 2rem;  
-  margin-bottom: 1rem;
-  line-height: 3rem;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 6vw, 3rem); /* scales nicely on mobile */
+  line-height: 1.2;
+  text-align: center;
+  margin: 1rem 1rem 0.5rem 1rem;
+  color: #f06148;
 }
 
 .landing-navigation ul {
   list-style: none;
-  padding: 0;
   display: flex;
-  gap: 1rem;
-  font-size: 1.2rem;
+  flex-direction: row;   /* always side-by-side */
+  gap: 1.5rem;           /* spacing between items */
+  padding: 0;
+  margin: 0 auto 2rem auto;
+  align-items: center;
+  justify-content: center;
 }
 
 .landing-navigation a {
   text-decoration: none;
-  color: #ef471f;
+  color: #516c45;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1rem, 4vw, 1.2rem);
   font-weight: bold;
   display: inline-flex;
   align-items: center;
@@ -116,33 +199,175 @@ body {
 }
 
 .landing-description {
-  margin-top: 2rem;
+  margin-top: 45px;
   font-size: 1rem;
-  padding-bottom: 10rem;
-  color: black;
+  padding-bottom: 0px;
+  color: rgba(0, 0, 0, 0.8);
+
 }
 
-.welcome-message {
-  font-family: 'Alice', serif;
-  font-size: 1.1rem;
-  color: black;
-  line-height: 1.2;
-  margin-top: -12px;
-  margin-bottom: -10px;
+.welcome-message p {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  line-height: 1.1;
   text-align: center;
+  padding-top: 10px;
+  color: #435839;
+  border-radius: 8px;   /* ⬅️ Rounded corners */
+  margin: 0.5rem auto 1.5rem auto;
+  max-width: 600px;       /* gives structure WITHOUT squeezing too tight */
+  white-space: normal;    /* prevents strange wrapping */
+  word-wrap: normal;      /* stops forced breaks */
+  overflow-wrap: normal;  /* also prevents forced breaks */
+}
+
+.names-red {
+    color: #f06148;
 }
 
 .icon-below-nav {
-  padding-top: 1rem;
-  margin-bottom: -28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  transform: rotate(-2deg) translateY(-8px);
+}
+
+.icon-below-wedding1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; /* adjust as needed */ 
+  margin-bottom: -10px;
+  transform: rotate(2deg) translateY(50px);
+} 
+
+.icon-at-bottom {
+  margin-top: 0px;
+  margin-bottom: -50px;
+}
+
+/* === Polaroid Section === */
+/* ================== Polaroid Stack ================== */
+.polaroid-stack-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.polaroid-stack {
+  position: relative;
+  width: 250px;
+  height: 380px;
+}
+
+/* Polaroid wrappers */
+.polaroid-stack .polaroid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  background: transparent !important;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: visible !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 1;
+}
+
+.polaroid-stack .polaroid img {
+  display: block;
+  width: 250px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* Initial tilt for natural stack */
+.icon-below-nav {
+  transform: rotate(-2deg);
+  z-index: 2; /* Start on top */
+}
+
+.icon-below-wedding1 {
+  transform: rotate(2deg) translateY(20px);
+  z-index: 1;
+}
+
+/* Hover lift effect */
+.polaroid:hover {
+  transform: translateY(-8px) rotate(0deg);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* ================== Romantic Shuffle Animation ================== */
+/* Kept for fallback if needed */
+.polaroid.clicked {
+  animation: romanticShuffle 450ms cubic-bezier(0.25, 0.85, 0.35, 1) forwards;
+}
+
+@keyframes romanticShuffle {
+  0%   { transform: translateY(0) scale(1) !important; }
+  25%  { transform: translateY(-14px) scale(1.04) !important; }
+  55%  { transform: translateY(-6px) scale(1.015) !important; }
+  100% { transform: translateY(-3px) scale(1) !important; }
+}
+
+/* Glow pulse during shuffle */
+.polaroid.clicked::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  pointer-events: none;
+  animation: glowPulse 450ms ease-out;
+}
+
+@keyframes glowPulse {
+  0%   { box-shadow: 0 0 0 rgba(255,148,170,0); }
+  40%  { box-shadow: 0 0 22px rgba(255,148,170,0.35); }
+  100% { box-shadow: 0 0 0 rgba(255,148,170,0); }
+}
+
+/* ================== Soft Particles ================== */
+.particle {
+  position: absolute;
+  font-size: 10px;
+  opacity: 0;
+  animation: particleFloat 900ms ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes particleFloat {
+  0%   { transform: translateY(0) scale(0.5); opacity: 0.7; }
+  100% { transform: translateY(-40px) scale(1); opacity: 0; }
+}
+
+.landing-description {
+  position: relative;
+  z-index: 20;
+  margin-top: 7rem;
+  margin-bottom: 0px;
   text-align: center;
 }
 
-/* Ball wrapper */
+.landing-description {
+  position: relative;
+  z-index: 20;
+  margin-top: 7rem;  /* adjust as needed */
+  margin-bottom: 0px;
+  text-align: center;
+}
+
+/* .icon-at-bottom {
+  position: relative;
+  z-index: 10;
+} */
+
 .ball-wrapper {
   position: absolute;
   left: -80px;
-  top: calc(100vh * var(--random-top));
   border-radius: 50%;
   overflow: hidden;
   animation: bounceRight linear infinite;
@@ -150,33 +375,43 @@ body {
   z-index: 10000;
 }
 
-/* Base image for balls */
+.ball-wrapper img {
+  filter: drop-shadow(0 0 6px rgba(239, 71, 31, 0.5));
+  border-radius: 50%;
+  transform: scale(0.9); /* slightly smaller for elegance */
+  transition: transform 0.3s ease;
+  opacity: 0.9; 
+}
+
+.ball-wrapper img:hover {
+  transform: scale(1);
+}
+
+/* Not petal styling - soccer ball styling */
 .petal {
-  width: 100%;
-  height: 100%;
+  width: 95%;
+  height: 95%;
   display: block;
   object-fit: cover;
   border-radius: 50%;
 }
 
-/* ✅ NEW: Style for black-white soccer ball */
 .black-white {
   background-color: white;
 }
 
-/* 🎊 Confetti Text Effect */
 .confetti-text {
   position: relative;
   display: inline-block;
   font-weight: bold;
   background: linear-gradient(
     45deg,
-    #E60001,
-    #FF8D01,
-    #FFEE03,
-    #008220,
-    #004DFD,
-    #760088 
+    rgba(230, 0, 1, 0.8),
+    rgba(255, 141, 1, 0.8),
+    rgba(255, 238, 3, 0.8),
+    rgba(0, 130, 32, 0.8),
+    rgba(0, 77, 253, 0.8),
+    rgba(118, 0, 136, 0.8)
   );
   background-size: 400% 400%;
   background-clip: text;
@@ -295,7 +530,6 @@ body {
   100% { filter: hue-rotate(360deg); }
 }
 
-/* Guestbook/Upload Page Mobile */
 @media (max-width: 480px) {
   .guestbook-title {
     font-size: 1.8rem;
@@ -322,7 +556,6 @@ body {
   }
 }
 
-/* GuestMessageForm styling */
 form.guest-message-form {
   display: flex;
   flex-direction: column;
@@ -340,7 +573,7 @@ form.guest-message-form label {
   font-weight: bold;
   display: block;
   text-align: left;
-  width: 18rem; /* same width as input */
+  width: 18rem; 
   margin-bottom: 4px;
   font-family: 'Alice', serif;
   position: relative;
@@ -1489,11 +1722,16 @@ form.guest-message-form textarea,
 /* Site Footer */
 .site-footer {
   background: linear-gradient(to bottom, #f0c3ce 0%, #e8b3bf 100%);
-  padding: 2rem;
-  margin-top: 4rem;
-  box-shadow: 0 -4px 12px rgba(239, 71, 31, 0.1);
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  padding-left: 2.8rem;
+  padding-right: 2.8rem;
+  margin-top: 2rem;
+  margin-bottom: 0.2rem;
   position: relative;
   border-radius: 12px;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.3); /* ← Add this here */
+
 }
 
 .footer-content {
@@ -1511,7 +1749,14 @@ form.guest-message-form textarea,
 .footer-right {
   font-family: 'Alice', serif;
   font-size: 0.85rem;
-  color: #333;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+/* Add it right below */
+.footer-left,
+.footer-center,
+.footer-right {
+  letter-spacing: 0.3px;
 }
 
 .footer-center {
@@ -1544,6 +1789,7 @@ form.guest-message-form textarea,
   color: #ef471f;
   font-weight: normal;
   transition: all 0.3s ease;
+  letter-spacing: 0.5px;
 }
 
 .footer-heart {

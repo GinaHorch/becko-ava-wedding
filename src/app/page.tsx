@@ -2,14 +2,17 @@
 
 import { useEffect } from 'react';
 import Image from 'next/image';
+import nativeFlower1 from './images/native-flower-1.png';
+import nativeFlower2 from './images/native-flower-2.png';
 import weddingIcon1 from './images/wedding-icon-1.png';
 import weddingIcon2 from './images/wedding-icon-2.png';
 import weddingIcon3 from './images/wedding-icon-3.png';
+import weddingIcon7 from './images/wedding-icon-7.png';
 import blackWhiteSoccerBall from './images/black-white-soccer-ball.png';
 import Footer from './components/Footer';
 import InstallPrompt from './components/InstallPrompt';
 
-const HeartIcon = ({ color = '#ef471f', size = 16 }) => (
+const HeartIcon = ({ color = '#f06148', size = 16 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
@@ -26,19 +29,26 @@ const HeartIcon = ({ color = '#ef471f', size = 16 }) => (
   </svg>
 );
 
-// Add interface for wrapper elements with interval property
 interface BallWrapperElement extends HTMLElement {
   _trailInterval?: NodeJS.Timeout;
 }
 
 export default function Home() {
   useEffect(() => {
+    // === SOCCER BALLS (unchanged) ===
     const numBalls = 2;
     const container = document.querySelector('.landing-container') as HTMLElement;
     if (!container) return;
 
-    const rainbowColors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3'];
+    const weddingColors = [
+      '#eb3b39', '#fd9642', '#fde44d', '#4b8f48', '#3F66F3', '#902E95'
+    ];
+
     const ballWrappers: BallWrapperElement[] = [];
+    const secondPolaroid = document.querySelector('.icon-below-wedding1') as HTMLElement;
+    const maxDropY = secondPolaroid
+      ? secondPolaroid.getBoundingClientRect().bottom + 20
+      : window.innerHeight - 50;
 
     for (let i = 0; i < numBalls; i++) {
       const wrapper = document.createElement('div') as BallWrapperElement;
@@ -49,17 +59,19 @@ export default function Home() {
       ball.className = 'petal black-white';
       ball.alt = 'Soccer ball decoration';
 
-      // Position balls to interact with the cake - one along bottom, one below
-      let topPosition;
-      if (i === 0) {
-        // First ball bounces along the bottom edge of the cake (where second ball currently is)
-        topPosition = 0.85 + Math.random() * 0.05; // 85%-90%
-      } else {
-        // Second ball bounces below the cake
-        topPosition = 0.95 + Math.random() * 0.05; // 95%-100%
-      }
-      
-      wrapper.style.setProperty('--random-top', topPosition.toString());
+      let topPosition = 1 + Math.random() * 0.04;
+      const baseTop = topPosition;
+      const dropAmount = 40;
+
+      wrapper.style.top = baseTop * window.innerHeight + 'px';
+
+      wrapper.addEventListener('animationiteration', () => {
+        const currentY = parseFloat(wrapper.style.top);
+        let newY = currentY + dropAmount;
+        if (newY >= maxDropY) newY = baseTop * window.innerHeight;
+        wrapper.style.top = newY + 'px';
+      });
+
       wrapper.style.width = '50px';
       wrapper.style.height = '50px';
       wrapper.style.animationDuration = `${5 + Math.random() * 5}s`;
@@ -73,127 +85,166 @@ export default function Home() {
       const trailInterval = setInterval(() => {
         const rect = wrapper.getBoundingClientRect();
         const containerRect = container.getBoundingClientRect();
-
         const trailLeft = rect.left - containerRect.left + rect.width / 2 - 6;
-
-        const trailTops = [
-          rect.top - containerRect.top + rect.height / 2 + 4,
-          rect.top - containerRect.top + rect.height / 2 + 12,
-        ];
+        const trailTops = [rect.top - containerRect.top + rect.height / 2 + 4, rect.top - containerRect.top + rect.height / 2 + 12];
 
         trailTops.forEach((trailTop) => {
-          // Create a div for the ✨ emoji trail
           const trail = document.createElement('div');
-          trail.className = 'color-trail';
+          trail.className = 'emoji-trail';
           trail.style.position = 'absolute';
           trail.style.left = `${trailLeft}px`;
           trail.style.top = `${trailTop}px`;
-          trail.style.fontSize = '16px';
-          trail.style.opacity = '0.8';
           trail.style.pointerEvents = 'none';
           trail.style.userSelect = 'none';
           trail.style.zIndex = '999';
 
-          // Random color for the text shadow/glow effect
-          const randomColor = rainbowColors[Math.floor(Math.random() * rainbowColors.length)];
+          const randomColor = weddingColors[Math.floor(Math.random() * weddingColors.length)];
           trail.style.color = randomColor;
-          trail.style.textShadow = `
-            0 0 4px ${randomColor},
-            0 0 8px ${randomColor},
-            0 0 12px ${randomColor}
-          `;
+          trail.style.textShadow = `0 0 8px ${randomColor}, 0 0 16px ${randomColor}, 0 0 24px ${randomColor}`;
 
-          trail.textContent = '✨';
+          trail.textContent = '❀';
+          trail.style.fontSize = `${10 + Math.random() * 10}px`;
 
           container.appendChild(trail);
 
-          // Animate fade out and removal
           trail.animate(
-            [
-              { opacity: 0.8, transform: 'translateY(0)' },
-              { opacity: 0, transform: 'translateY(-10px)' }
-            ],
-            {
-              duration: 1000,
-              easing: 'ease-out',
-              fill: 'forwards'
-            }
+            [{ opacity: 0.8, transform: 'translateY(0)' }, { opacity: 0, transform: 'translateY(-10px)' }],
+            { duration: 1000, easing: 'ease-out', fill: 'forwards' }
           );
 
           setTimeout(() => trail.remove(), 1000);
         });
       }, 80);
 
-      wrapper._trailInterval = trailInterval; // Remove the (wrapper as any)
+      wrapper._trailInterval = trailInterval;
     }
 
     return () => {
       ballWrappers.forEach((wrapper) => {
-        if (wrapper._trailInterval) { // Add null check
-          clearInterval(wrapper._trailInterval);
-        }
+        if (wrapper._trailInterval) clearInterval(wrapper._trailInterval);
         wrapper.remove();
       });
-      const oldTrails = document.querySelectorAll('.color-trail');
-      oldTrails.forEach((t) => t.remove());
+      document.querySelectorAll('.emoji-trail').forEach((t) => t.remove());
     };
+  }, []);
+
+  useEffect(() => {
+    // === POLAROID SHUFFLE LOGIC WITH NATURAL ROTATION ===
+    const navCard = document.querySelector('.icon-below-nav') as HTMLElement;
+    const weddingCard = document.querySelector('.icon-below-wedding1') as HTMLElement;
+
+    const bringToFront = (clicked: HTMLElement, other: HTMLElement) => {
+  const clickedIsTop = clicked.style.zIndex === '2';
+  if (!clickedIsTop) {
+    clicked.style.zIndex = '2';
+    other.style.zIndex = '1';
+
+    // --- Natural rotation ---
+    const rotateDeg = Math.random() * 4 - 2; // -2 to 2 degrees
+    const translateY = Math.random() * 10;   // 0 to 10px
+
+    // --- Keep cards ALWAYS separated horizontally ---
+    const baseOffset = clicked.classList.contains('icon-below-nav') ? -40 : 40;
+    const wobble = Math.random() * 14 - 7; // -7 to +7 px randomness
+    const translateX = baseOffset + wobble;
+
+    clicked.style.transform =
+      `rotate(${rotateDeg}deg) translate(${translateX}px, ${translateY}px)`;
+
+    // Restart animation
+    clicked.classList.remove('clicked');
+    void clicked.offsetWidth;
+    clicked.classList.add('clicked');
+
+    // Romantic particles (unchanged)
+    for (let i = 0; i < 5; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.innerText = ['❀', '✦', '✧'][Math.floor(Math.random() * 3)];
+      p.style.left = 40 + Math.random() * 180 + 'px';
+      p.style.top = 40 + Math.random() * 40 + 'px';
+      p.style.color = `rgba(255, 148, 170, ${0.4 + Math.random() * 0.4})`;
+      clicked.appendChild(p);
+      setTimeout(() => p.remove(), 900);
+    }
+  }
+};
+
+// --- Initial separation on page load ---
+if (navCard && weddingCard) {
+  const wobbleA = Math.random() * 12 - 6; // -6 to +6px
+  const wobbleB = Math.random() * 12 - 6;
+
+  navCard.style.transform = `rotate(-2deg) translate(${ -40 + wobbleA }px, 5px)`;
+  weddingCard.style.transform = `rotate(2deg) translate(${ 40 + wobbleB }px, 15px)`;
+
+  navCard.style.zIndex = '2';
+  weddingCard.style.zIndex = '1';
+}
+
+    navCard?.addEventListener('click', () => bringToFront(navCard, weddingCard));
+    weddingCard?.addEventListener('click', () => bringToFront(weddingCard, navCard));
   }, []);
 
   return (
     <main className="landing-container">
-      {/* Top wedding icon */}
+      {/* 🌿 Native Flowers */}
+      <div className="hanging-wattle-left">
+        <Image src={nativeFlower1} alt="Hanging Wattle" width={180} height={550} />
+      </div>
+      <div className="hanging-wattle-right">
+        <Image src={nativeFlower2} alt="Hanging Wattle Right" width={180} height={550} />
+      </div>
+
+      {/* 🎉 Top Wedding Icon */}
       <div className="icon-at-top">
         <Image src={weddingIcon3} alt="Wedding Icon at Top of Page" />
       </div>
 
-      {/* Title */}
+      {/* 🏷️ Landing Title */}
       <h1 className="landing-title">
         <span className="sacramento">
           <span className="confetti-text">Becko</span> & <span className="confetti-text">Ava’s</span>
         </span>
         <br />
-        Wedding Guestbook <br />
+        Wedding Guestbook
       </h1>
 
-      {/* Welcome message */}
       <div className="welcome-message">
         <p>
-          Welcome! Join us in celebrating Becko & Ava by leaving your
-          <br />
-          heartfelt messages and beautiful photos and memorable videos.
+          <strong>Welcome! </strong> 
+          Join us in celebrating Becko & Ava by <br />
+          leaving your heartfelt messages, beautiful photos <br />and memorable videos.
         </p>
       </div>
 
-      {/* Navigation */}
+      {/* 🧭 Navigation */}
       <nav className="landing-navigation">
         <ul>
           <li>
-            <a href="/upload">
-              <HeartIcon /> Leave a Message
-            </a>
+            <a href="/upload"><HeartIcon /> Leave a Message</a>
           </li>
           <li>
-            <a href="/gallery">
-              <HeartIcon /> View Guestbook
-            </a>
+            <a href="/gallery"><HeartIcon /> View Guestbook</a>
           </li>
         </ul>
       </nav>
 
-      {/* Decorative wedding icon below nav */}
-      <div className="icon-below-nav">
-        <Image src={weddingIcon2} alt="Wedding icon below navigation" height={350} />
+      {/* 🎴 Polaroid Stack */}
+      <div className="polaroid-stack-container">
+        <div className="polaroid-stack">
+          <div className="polaroid icon-below-nav">
+            <Image src={weddingIcon2} alt="Wedding icon below navigation" height={350} />
+          </div>
+          <div className="polaroid icon-below-wedding1">
+            <Image src={weddingIcon7} alt="Wedding Icon 7" height={350} />
+          </div>
+        </div>
       </div>
 
-      {/* Larger image near the bottom */}
+      {/* 🎴 Wedding icon below paragraph */}
       <div className="landing-description">
-        <Image
-          src={weddingIcon1}
-          alt="Wedding icon below paragraph"
-          width={250}
-          height={300}
-          style={{ paddingTop: '2rem', paddingBottom: '2rem' }}
-        />
+        <Image src={weddingIcon1} alt="Wedding icon below paragraph" width={200} height={250} />
       </div>
 
       <Footer />
@@ -201,4 +252,3 @@ export default function Home() {
     </main>
   );
 }
-
