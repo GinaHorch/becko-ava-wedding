@@ -19,9 +19,49 @@ const nextConfig: NextConfig = {
     return `build-${Date.now()}`;
   },
   
-  /* Headers for PWA */
+  /* Headers for PWA + cache behaviour*/
   async headers() {
     return [
+      // 1️⃣ HTML: always fetch fresh (prevents stale/corrupted shells)
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "header",
+            key: "accept",
+            value: "text/html",
+          },
+        ],
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store, must-revalidate",
+          },
+        ],
+      },
+
+      // 2️⃣ Next.js static assets: cache forever (filenames are hashed per build)
+      {
+        source: "/_next/static/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+
+      // 3️⃣ Public images: also safe to cache long-term
+      {
+        source: "/:all*(svg|png|jpg|jpeg|gif|webp|avif)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+
       {
         source: '/manifest.json',
         headers: [
@@ -31,6 +71,7 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+
       {
         source: '/sw.js',
         headers: [
@@ -41,6 +82,11 @@ const nextConfig: NextConfig = {
           {
             key: 'Service-Worker-Allowed',
             value: '/',
+          },
+          // optional: avoid SW itself being weirdly cached
+          {
+            key: "Cache-Control",
+            value: "no-store",
           },
         ],
       },
