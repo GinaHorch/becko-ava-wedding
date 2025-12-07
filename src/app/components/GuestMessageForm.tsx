@@ -273,7 +273,11 @@ export default function GuestMessageForm() {
           const { error: uploadError } = await uploadWithRetry(filePath, fileToUpload);
 
           if (uploadError) {
-            console.error('Upload error:', uploadError);
+            console.error('Upload error details:', {
+              message: uploadError.message,
+              name: uploadError.name,
+              status: (uploadError as any).statusCode ?? (uploadError as any).status,
+            });
             throw uploadError;
           }
 
