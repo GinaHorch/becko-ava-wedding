@@ -53,7 +53,7 @@ const nextConfig: NextConfig = {
 
       // 3️⃣ Public images: also safe to cache long-term
       {
-        source: "/:all*(svg|png|jpg|jpeg|gif|webp|avif)",
+        source: "/:path*.:ext(svg|png|jpg|jpeg|gif|webp|avif)",
         headers: [
           {
             key: "Cache-Control",
