@@ -162,13 +162,95 @@ body {
   width: auto;
 }
 
+/* Shared icon size rule */
+.wedding-top-left img,
+.wedding-top-right img,
+.wedding-bottom-left img,
+.wedding-bottom-right img {
+  width: clamp(80px, 18vw, 260px); /* Mobile = 80px, desktop grows to 260px */
+  height: auto;
+  display: block;
+}
+
+.wedding-top-left {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.wedding-top-left img {
+  display: block;
+  transform: scale(1.5); /* 1.0 = normal size, 1.5 = 150%, 2 = double */
+  transform-origin: top left;
+}
+
+.wedding-top-right {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.wedding-top-right img {
+  display: block;
+  transform: scale(1.5); /* 1.0 = normal size, 1.5 = 150%, 2 = double */
+  transform-origin: top right;
+}
+
+.wedding-bottom-left {
+  position: absolute;
+  bottom: 130px;
+  left: 20px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.wedding-bottom-left img {
+  display: block;
+  transform: scale(1.5); /* 1.0 = normal size, 1.5 = 150%, 2 = double */
+  transform-origin: bottom left;
+}
+
+.wedding-bottom-right {
+  position: absolute;
+  bottom: 130px;
+  right: 20px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.wedding-bottom-right img {
+  display: block;
+  transform: scale(1.5); /* 1.0 = normal size, 1.5 = 150%, 2 = double */
+  transform-origin: bottom right;
+}
+
 .landing-title {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(1.8rem, 6vw, 3rem); /* scales nicely on mobile */
+  font-size: 34px;
   line-height: 1.2;
   text-align: center;
-  margin: 1rem 1rem 0.5rem 1rem;
+  margin: 1rem 1rem 1rem 1rem;
   color: #f06148;
+}
+
+.landing-title-flourish img {
+  width: 30px;  /* previously 50px */
+  height: 30px; /* previously 50px */
+}
+
+.title-lines {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1; /* adjusts spacing between lines */
+  text-align: center; /* keeps everything centered */
+}
+
+.title-lines .confetti-text:last-child {
+  margin-bottom: -20px; /* fine tuning */
 }
 
 .landing-navigation ul {
@@ -190,6 +272,7 @@ body {
   font-weight: bold;
   display: inline-flex;
   align-items: center;
+  padding-bottom: 0px;
 }
 
 .landing-navigation a:hover {
@@ -212,6 +295,7 @@ body {
   line-height: 1.1;
   text-align: center;
   padding-top: 10px;
+  padding-bottom: 10px;
   color: #435839;
   border-radius: 8px;   /* ⬅️ Rounded corners */
   margin: 0.5rem auto 1.5rem auto;
@@ -253,7 +337,8 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 10rem;
 }
 
 .polaroid-stack {
@@ -403,7 +488,7 @@ body {
 .confetti-text {
   position: relative;
   display: inline-block;
-  font-weight: bold;
+  line-height: 3.5rem;
   background: linear-gradient(
     45deg,
     rgba(230, 0, 1, 0.8),
@@ -430,6 +515,21 @@ body {
   100% {
     background-position: 0% 50%;
   }
+}
+
+.wedding-bottom-center {
+  position: absolute; /* sit relative to landing-container */
+  bottom: 8.2rem;      /* adjust this to sit just above the footer */
+  left: 50%;          /* horizontally center */
+  transform: translateX(-50%); /* perfect centering */
+  z-index: 9999;      /* on top of other content */
+  pointer-events: none;
+}
+
+.wedding-bottom-center img {
+  display: block;
+  height: 45px; /* maintain aspect ratio */
+  width: auto;
 }
 
 .button {
@@ -470,7 +570,7 @@ body {
 }
 
 .guestbook-title {
-  color: #ef471f;
+  color: #f06148;
   font-family: 'Alice', serif;
   font-size: 2.5rem;
   text-align: center;
@@ -486,7 +586,7 @@ body {
 .instructions {
   font-family: 'Alice', serif;
   font-size: 1.1rem;
-  color: black;
+  color: #435839;
   line-height: 1.2;
   margin-top: -20px;
   margin-bottom: 9px;
@@ -496,7 +596,7 @@ body {
 .message-form-section h2 {
   font-family: 'Alice', serif;
   font-size: 1.6rem;
-  color: black;
+  color: #435839;
   margin-bottom: 20px;
   text-align: center;
 }
@@ -569,7 +669,7 @@ form.guest-message-form {
 }
 
 form.guest-message-form label {
-  color: black;
+  color: #435839;
   font-weight: bold;
   display: block;
   text-align: left;
@@ -594,7 +694,7 @@ form.guest-message-form textarea {
 form.guest-message-form input:focus,
 form.guest-message-form textarea:focus {
   outline: none;
-  border-color: #ef471f;
+  border-color: #f06148;
   box-shadow: 0 0 8px rgba(239, 71, 31, 0.3);
   transform: translateY(-1px);
 }
@@ -610,7 +710,7 @@ form.guest-message-form button.hoverme {
   cursor: pointer;
   padding: 12px 24px;
   border: none;
-  background-color: #ef471f;
+  background-color: #f06148;
   border-radius: 6px;
   font-weight: bold;
   font-size: 1rem;
@@ -805,7 +905,7 @@ form.guest-message-form button.hoverme:active {
 }
 
 .gallery-title {
-  color: #ef471f;
+  color: #f06148;
   font-family: 'Alice', serif;
   font-size: 2.5rem;
   text-align: center;
@@ -824,7 +924,7 @@ form.guest-message-form button.hoverme:active {
 
 .gallery-description {
   font-size: 1.1rem;
-  color: black;
+  color: #435839;
   font-family: 'Alice', serif;
   margin-bottom: -5px;
 }
@@ -931,7 +1031,8 @@ form.guest-message-form button.hoverme:active {
   right: 0;
 }
 
-/* Scaled-down individual ray styles for 200px rainbow */
+/* Ray 1 — leave as background pink */
+/* Ray 1 — inner filler (pink) */
 .ray-1 {
   height: 31px;
   width: 31px;
@@ -940,52 +1041,58 @@ form.guest-message-form button.hoverme:active {
   background: linear-gradient(#f0c3ce, #f0c3ce 50%, #f0c3ce 50%, #f0c3ce 50%);
 }
 
+/* Ray 2 — #902E95 */
 .ray-2 {
   height: 61px;
   width: 61px;
   z-index: 6;
   animation: spin 5s forwards 2s;
-  background: linear-gradient(#760088, #760088 50%, #f0c3ce 50%, #f0c3ce 50%);
+  background: linear-gradient(#902E95, #902E95 50%, #f0c3ce 50%, #f0c3ce 50%);
 }
 
+/* Ray 3 — #3F66F3 */
 .ray-3 {
   height: 91px;
   width: 91px;
   z-index: 5;
   animation: spin 5s forwards 1.5s;
-  background: linear-gradient(#004DFD, #004DFD 50%, #f0c3ce 50%, #f0c3ce 50%);
+  background: linear-gradient(#3F66F3, #3F66F3 50%, #f0c3ce 50%, #f0c3ce 50%);
 }
 
+/* Ray 4 — #4b8f48 */
 .ray-4 {
   height: 121px;
   width: 121px;
   z-index: 4;
   animation: spin 5s forwards 1s;
-  background: linear-gradient(#008220, #008220 50%, #f0c3ce 50%, #f0c3ce 50%);
+  background: linear-gradient(#4b8f48, #4b8f48 50%, #f0c3ce 50%, #f0c3ce 50%);
 }
 
+/* Ray 5 — #fde44d */
 .ray-5 {
   height: 151px;
   width: 151px;
   z-index: 3;
   animation: spin 5s forwards 0.5s;
-  background: linear-gradient(#FFEE03, #FFEE03 50%, #f0c3ce 50%, #f0c3ce 50%);
+  background: linear-gradient(#fde44d, #fde44d 50%, #f0c3ce 50%, #f0c3ce 50%);
 }
 
+/* Ray 6 — #fd9642 */
 .ray-6 {
   height: 181px;
   width: 181px;
   z-index: 2;
   animation: spin 5s forwards 0s;
-  background: linear-gradient(#FF8D01, #FF8D01 50%, #f0c3ce 50%, #f0c3ce 50%);
+  background: linear-gradient(#fd9642, #fd9642 50%, #f0c3ce 50%, #f0c3ce 50%);
 }
 
+/* Ray 7 — #eb3b39 (outermost / top) */
 .ray-7 {
   height: 211px;
   width: 211px;
   z-index: 1;
   animation: spin 5s forwards 0s;
-  background: linear-gradient(#E60001, #E60001 50%, #f0c3ce 50%, #f0c3ce 50%);
+  background: linear-gradient(#eb3b39, #eb3b39 50%, #f0c3ce 50%, #f0c3ce 50%);
 }
 
 /* Spin animation */
@@ -1681,7 +1788,7 @@ form.guest-message-form textarea,
 .page-navigation a {
   font-family: 'Alice', serif;
   font-size: 1rem;
-  color: #ef471f;
+  color: #f06148;
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
@@ -1700,6 +1807,7 @@ form.guest-message-form textarea,
   background: linear-gradient(to bottom, #fff5f7 0%, #fef9fa 100%);
   border: 2px solid rgba(239, 71, 31, 0.3);
   font-weight: bold;
+  color: #f06148;
 }
 
 /* Page Navigation Mobile */
@@ -1716,6 +1824,7 @@ form.guest-message-form textarea,
   .page-navigation a {
     padding: 0.4rem 0.75rem;
     font-size: 0.9rem;
+    color: #f06148;
   }
 }
 
@@ -1726,12 +1835,11 @@ form.guest-message-form textarea,
   padding-bottom: 0.2rem;
   padding-left: 2.8rem;
   padding-right: 2.8rem;
-  margin-top: 2rem;
+  margin-top: 4rem; /* ↑ increased from 12rem */
   margin-bottom: 0.2rem;
   position: relative;
   border-radius: 12px;
-  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.3); /* ← Add this here */
-
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
 .footer-content {
