@@ -228,18 +228,31 @@ body {
   transform-origin: bottom right;
 }
 
+.landing-title-container {
+  display: flex;
+  align-items: flex-end; /* aligns text and images to the bottom */
+  justify-content: center;
+  gap: 12px; /* spacing between title and flourishes */
+  margin: 1rem;
+}
+
 .landing-title {
   font-family: 'Playfair Display', serif;
-  font-size: 34px;
+  font-size: 31px;
   line-height: 1.2;
-  text-align: center;
-  margin: 1rem 1rem 1rem 1rem;
   color: #f06148;
+  margin-bottom: 1rem;
 }
 
 .landing-title-flourish img {
-  width: 30px;  /* previously 50px */
-  height: 30px; /* previously 50px */
+  width: 60px;
+  height: 40px;
+  vertical-align: bottom; /* ensures the bottom of images align with text */
+}
+
+.landing-title-flourish img {
+  width: 60px;  /* previously 50px */
+  height: 40px; /* previously 50px */
 }
 
 .title-lines {
@@ -572,9 +585,21 @@ body {
 .guestbook-title {
   color: #f06148;
   font-family: 'Alice', serif;
-  font-size: 2.5rem;
+  font-size: 32px;
   text-align: center;
   line-height: 1;
+}
+
+.guestbook-title-flourish {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px; /* spacing between icons and text */
+}
+
+.guestbook-title-flourish img {
+  width: 60px;  /* previously 50px */
+  height: 40px; /* previously 50px */
 }
 
 .emoji-colored {
@@ -907,11 +932,28 @@ form.guest-message-form button.hoverme:active {
 .gallery-title {
   color: #f06148;
   font-family: 'Alice', serif;
-  font-size: 2.5rem;
+  font-size: 34px;
   text-align: center;
   line-height: 1;
   margin-top: 10px;
   margin-bottom: 12px;
+}
+
+.gallery-title-flourish {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px; /* spacing between icons and text */
+}
+
+.gallery-title-flourish img {
+    width: 60px;
+    height: 40px;
+}
+
+.gallery-title-text {
+  font-size: inherit; /* matches your h1 styling */
+  white-space: nowrap;
 }
 
 .swiper-container {

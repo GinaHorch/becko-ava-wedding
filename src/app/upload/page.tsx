@@ -1,11 +1,11 @@
-'use client';
-
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import GuestMessageForm from '../components/GuestMessageForm';
 import weddingIcon4 from '../images/wedding-icon-4.png';
 import weddingIcon5 from '../images/wedding-icon-5.png';
+import weddingIcon13 from '../images/wedding-icon-13.png';
+import weddingIcon14 from '../images/wedding-icon-14.png';
 import Footer from '../components/Footer';
 import InstallPrompt from '../components/InstallPrompt';
 
@@ -58,13 +58,27 @@ export default function Guestbook() {
           alt="Wedding icon 4"
           className="wedding-icon-4"
         />
-      </div>
+      </div>  
 
-      {/* Title */}
-      <h1 className="guestbook-title">
-        Leave Your <br />
-        Message and Media
-      </h1>
+      {/* Title with flourishes only around "Message & Media" */}
+<h1 className="guestbook-title">
+  <span className="guestbook-title-flourish">
+    <Image
+      src={weddingIcon13}
+      alt="Left Wedding Flourish"
+      width={50}
+      height={50}
+    />
+    <span className="flourish-text">Messages & Media</span>
+    <Image
+      src={weddingIcon14}
+      alt="Right Wedding Flourish"
+      width={50}
+      height={50}
+    />
+  </span>
+</h1>
+
 
       {/* Instructions */}
       <div className="instructions">
@@ -86,7 +100,7 @@ export default function Guestbook() {
       {/* Unified Message and Photo/Video Form */}
       <section className="message-form-section">
         <h2>
-          <span className="emoji-colored">✨</span> Write Your Message <span className="emoji-colored">✨</span>
+          Write Your Message
         </h2>
         <GuestMessageForm />
       </section>
