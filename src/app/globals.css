@@ -202,7 +202,7 @@ body {
 
 .wedding-bottom-left {
   position: absolute;
-  bottom: 130px;
+  bottom: 230px;
   left: 20px;
   z-index: 9999;
   pointer-events: none;
@@ -216,7 +216,7 @@ body {
 
 .wedding-bottom-right {
   position: absolute;
-  bottom: 130px;
+  bottom: 230px;
   right: 20px;
   z-index: 9999;
   pointer-events: none;
@@ -351,7 +351,7 @@ body {
   display: flex;
   justify-content: center;
   margin-top: 1rem;
-  margin-bottom: 10rem;
+  margin-bottom: 12rem;
 }
 
 .polaroid-stack {
@@ -532,7 +532,7 @@ body {
 
 .wedding-bottom-center {
   position: absolute; /* sit relative to landing-container */
-  bottom: 8.2rem;      /* adjust this to sit just above the footer */
+  bottom: 230px;      /* adjust this to sit just above the footer */
   left: 50%;          /* horizontally center */
   transform: translateX(-50%); /* perfect centering */
   z-index: 9999;      /* on top of other content */
