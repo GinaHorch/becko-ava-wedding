@@ -86,8 +86,8 @@ export default function Gallery() {
       </div>
 
       <h1 className="gallery-title">
-  <div className="gallery-title-flourish">
-    <Image
+      <div className="gallery-title-flourish">
+      <Image
       src={weddingIcon13}
       alt="Left Wedding Flourish"
       width={50}
@@ -102,6 +102,7 @@ export default function Gallery() {
     />
   </div>
 </h1>
+
 
       <div className="gallery-description">
         <p>
