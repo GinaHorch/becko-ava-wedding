@@ -274,8 +274,8 @@ export default function GuestMessageForm() {
 
           if (uploadError) {
             console.error('Upload error details:', {
-              message: uploadError.message,
-              name: uploadError.name,
+              message: uploadError?.message,
+              name: uploadError?.name,
               status: (uploadError as any).statusCode ?? (uploadError as any).status,
             });
             throw uploadError;
