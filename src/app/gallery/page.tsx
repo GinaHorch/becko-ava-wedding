@@ -5,6 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import GallerySwiper from '../components/GallerySwiper';
 import weddingIcon6 from '../images/wedding-icon-6.png';
+import weddingIcon13 from '../images/wedding-icon-13.png';
+import weddingIcon14 from '../images/wedding-icon-14.png';
 import Footer from '../components/Footer';
 import InstallPrompt from '../components/InstallPrompt';
 
@@ -83,7 +85,24 @@ export default function Gallery() {
         />
       </div>
 
-      <h1 className="gallery-title">Guestbook Gallery</h1>
+      <h1 className="gallery-title">
+      <div className="gallery-title-flourish">
+      <Image
+      src={weddingIcon13}
+      alt="Left Wedding Flourish"
+      width={50}
+      height={50}
+    />
+    <span className="gallery-title-text">Guestbook Gallery</span>
+    <Image
+      src={weddingIcon14}
+      alt="Right Wedding Flourish"
+      width={50}
+      height={50}
+    />
+  </div>
+</h1>
+
 
       <div className="gallery-description">
         <p>

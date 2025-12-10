@@ -2,12 +2,15 @@
 
 import { useEffect } from 'react';
 import Image from 'next/image';
-import nativeFlower1 from './images/native-flower-1.png';
-import nativeFlower2 from './images/native-flower-2.png';
-import weddingIcon1 from './images/wedding-icon-1.png';
 import weddingIcon2 from './images/wedding-icon-2.png';
-import weddingIcon3 from './images/wedding-icon-3.png';
 import weddingIcon7 from './images/wedding-icon-7.png';
+import weddingIcon9 from './images/wedding-icon-9.png';
+import weddingIcon10 from './images/wedding-icon-10.png';
+import weddingIcon11 from './images/wedding-icon-11.png';
+import weddingIcon12 from './images/wedding-icon-12.png';
+import weddingIcon13 from './images/wedding-icon-13.png';
+import weddingIcon14 from './images/wedding-icon-14.png';
+import weddingIcon15 from './images/wedding-icon-15.png';
 import blackWhiteSoccerBall from './images/black-white-soccer-ball.png';
 import Footer from './components/Footer';
 import InstallPrompt from './components/InstallPrompt';
@@ -35,7 +38,7 @@ interface BallWrapperElement extends HTMLElement {
 
 export default function Home() {
   useEffect(() => {
-    // === SOCCER BALLS (unchanged) ===
+    // === SOCCER BALLS ===
     const numBalls = 2;
     const container = document.querySelector('.landing-container') as HTMLElement;
     if (!container) return;
@@ -46,9 +49,16 @@ export default function Home() {
 
     const ballWrappers: BallWrapperElement[] = [];
     const secondPolaroid = document.querySelector('.icon-below-wedding1') as HTMLElement;
+
+    // Max drop Y (unchanged)
     const maxDropY = secondPolaroid
       ? secondPolaroid.getBoundingClientRect().bottom + 20
       : window.innerHeight - 50;
+
+    // Top of polaroids for starting position
+    const polaroidTop = secondPolaroid
+      ? secondPolaroid.getBoundingClientRect().top
+      : window.innerHeight / 3; // fallback
 
     for (let i = 0; i < numBalls; i++) {
       const wrapper = document.createElement('div') as BallWrapperElement;
@@ -59,18 +69,11 @@ export default function Home() {
       ball.className = 'petal black-white';
       ball.alt = 'Soccer ball decoration';
 
-      let topPosition = 1 + Math.random() * 0.04;
-      const baseTop = topPosition;
-      const dropAmount = 40;
-
-      wrapper.style.top = baseTop * window.innerHeight + 'px';
-
-      wrapper.addEventListener('animationiteration', () => {
-        const currentY = parseFloat(wrapper.style.top);
-        let newY = currentY + dropAmount;
-        if (newY >= maxDropY) newY = baseTop * window.innerHeight;
-        wrapper.style.top = newY + 'px';
-      });
+      // === NEW: start higher, near polaroids ===
+      const startOffset = polaroidTop - 50; // 100px above polaroids
+      const randomStart = startOffset + Math.random() * 40; // small random variation
+      wrapper.style.top = randomStart + 'px';
+      // === END NEW ===
 
       wrapper.style.width = '50px';
       wrapper.style.height = '50px';
@@ -117,6 +120,15 @@ export default function Home() {
       }, 80);
 
       wrapper._trailInterval = trailInterval;
+
+      // === Maintain bouncing animation ===
+      wrapper.addEventListener('animationiteration', () => {
+        const currentY = parseFloat(wrapper.style.top);
+        const dropAmount = 40;
+        let newY = currentY + dropAmount;
+        if (newY >= maxDropY) newY = randomStart; // reset to initial starting height
+        wrapper.style.top = newY + 'px';
+      });
     }
 
     return () => {
@@ -129,58 +141,50 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // === POLAROID SHUFFLE LOGIC WITH NATURAL ROTATION ===
+    // === POLAROID SHUFFLE LOGIC ===
     const navCard = document.querySelector('.icon-below-nav') as HTMLElement;
     const weddingCard = document.querySelector('.icon-below-wedding1') as HTMLElement;
 
     const bringToFront = (clicked: HTMLElement, other: HTMLElement) => {
-  const clickedIsTop = clicked.style.zIndex === '2';
-  if (!clickedIsTop) {
-    clicked.style.zIndex = '2';
-    other.style.zIndex = '1';
+      const clickedIsTop = clicked.style.zIndex === '2';
+      if (!clickedIsTop) {
+        clicked.style.zIndex = '2';
+        other.style.zIndex = '1';
 
-    // --- Natural rotation ---
-    const rotateDeg = Math.random() * 4 - 2; // -2 to 2 degrees
-    const translateY = Math.random() * 10;   // 0 to 10px
+        const rotateDeg = Math.random() * 4 - 2;
+        const translateY = Math.random() * 10;
+        const baseOffset = clicked.classList.contains('icon-below-nav') ? -40 : 40;
+        const wobble = Math.random() * 14 - 7;
+        const translateX = baseOffset + wobble;
 
-    // --- Keep cards ALWAYS separated horizontally ---
-    const baseOffset = clicked.classList.contains('icon-below-nav') ? -40 : 40;
-    const wobble = Math.random() * 14 - 7; // -7 to +7 px randomness
-    const translateX = baseOffset + wobble;
+        clicked.style.transform =
+          `rotate(${rotateDeg}deg) translate(${translateX}px, ${translateY}px)`;
 
-    clicked.style.transform =
-      `rotate(${rotateDeg}deg) translate(${translateX}px, ${translateY}px)`;
+        clicked.classList.remove('clicked');
+        void clicked.offsetWidth;
+        clicked.classList.add('clicked');
 
-    // Restart animation
-    clicked.classList.remove('clicked');
-    void clicked.offsetWidth;
-    clicked.classList.add('clicked');
+        for (let i = 0; i < 5; i++) {
+          const p = document.createElement('div');
+          p.className = 'particle';
+          p.innerText = ['❀', '✦', '✧'][Math.floor(Math.random() * 3)];
+          p.style.left = 40 + Math.random() * 180 + 'px';
+          p.style.top = 40 + Math.random() * 40 + 'px';
+          p.style.color = `rgba(255, 148, 170, ${0.4 + Math.random() * 0.4})`;
+          clicked.appendChild(p);
+          setTimeout(() => p.remove(), 900);
+        }
+      }
+    };
 
-    // Romantic particles (unchanged)
-    for (let i = 0; i < 5; i++) {
-      const p = document.createElement('div');
-      p.className = 'particle';
-      p.innerText = ['❀', '✦', '✧'][Math.floor(Math.random() * 3)];
-      p.style.left = 40 + Math.random() * 180 + 'px';
-      p.style.top = 40 + Math.random() * 40 + 'px';
-      p.style.color = `rgba(255, 148, 170, ${0.4 + Math.random() * 0.4})`;
-      clicked.appendChild(p);
-      setTimeout(() => p.remove(), 900);
+    if (navCard && weddingCard) {
+      const wobbleA = Math.random() * 12 - 6;
+      const wobbleB = Math.random() * 12 - 6;
+      navCard.style.transform = `rotate(-2deg) translate(${-40 + wobbleA}px, 5px)`;
+      weddingCard.style.transform = `rotate(2deg) translate(${40 + wobbleB}px, 15px)`;
+      navCard.style.zIndex = '2';
+      weddingCard.style.zIndex = '1';
     }
-  }
-};
-
-// --- Initial separation on page load ---
-if (navCard && weddingCard) {
-  const wobbleA = Math.random() * 12 - 6; // -6 to +6px
-  const wobbleB = Math.random() * 12 - 6;
-
-  navCard.style.transform = `rotate(-2deg) translate(${ -40 + wobbleA }px, 5px)`;
-  weddingCard.style.transform = `rotate(2deg) translate(${ 40 + wobbleB }px, 15px)`;
-
-  navCard.style.zIndex = '2';
-  weddingCard.style.zIndex = '1';
-}
 
     navCard?.addEventListener('click', () => bringToFront(navCard, weddingCard));
     weddingCard?.addEventListener('click', () => bringToFront(weddingCard, navCard));
@@ -188,26 +192,30 @@ if (navCard && weddingCard) {
 
   return (
     <main className="landing-container">
-      {/* 🌿 Native Flowers */}
-      <div className="hanging-wattle-left">
-        <Image src={nativeFlower1} alt="Hanging Wattle" width={180} height={550} />
-      </div>
-      <div className="hanging-wattle-right">
-        <Image src={nativeFlower2} alt="Hanging Wattle Right" width={180} height={550} />
+
+      {/* Top-left Wedding Icon */}
+      <div className="wedding-top-left">
+        <Image src={weddingIcon9} alt="Wedding Icon Top Left" width={100} height={100} />
       </div>
 
-      {/* 🎉 Top Wedding Icon */}
-      <div className="icon-at-top">
-        <Image src={weddingIcon3} alt="Wedding Icon at Top of Page" />
+      <div className="wedding-top-right">
+        <Image src={weddingIcon10} alt="Wedding Icon Top Right" width={100} height={100} />
       </div>
 
-      {/* 🏷️ Landing Title */}
       <h1 className="landing-title">
-        <span className="sacramento">
-          <span className="confetti-text">Becko</span> & <span className="confetti-text">Ava’s</span>
+        <span className="sacramento title-lines">
+          <span className="confetti-text">Becko</span>
+          <span className="confetti-text">&</span>
+          <span className="confetti-text">Ava’s</span>
         </span>
-        <br />
-        Wedding Guestbook
+      </h1>
+
+      <h1 className="landing-title">
+        <div className="landing-title-flourish">
+          <Image src={weddingIcon13} alt="Left Wedding Flourish" width={50} height={50} />
+          <span className="landing-title-text"> Wedding Guestbook </span>
+          <Image src={weddingIcon14} alt="Right Wedding Flourish" width={50} height={50} />
+        </div>
       </h1>
 
       <div className="welcome-message">
@@ -218,19 +226,13 @@ if (navCard && weddingCard) {
         </p>
       </div>
 
-      {/* 🧭 Navigation */}
       <nav className="landing-navigation">
         <ul>
-          <li>
-            <a href="/upload"><HeartIcon /> Leave a Message</a>
-          </li>
-          <li>
-            <a href="/gallery"><HeartIcon /> View Guestbook</a>
-          </li>
+          <li><a href="/upload"><HeartIcon /> Leave a Message</a></li>
+          <li><a href="/gallery"><HeartIcon /> View Guestbook</a></li>
         </ul>
       </nav>
 
-      {/* 🎴 Polaroid Stack */}
       <div className="polaroid-stack-container">
         <div className="polaroid-stack">
           <div className="polaroid icon-below-nav">
@@ -242,9 +244,16 @@ if (navCard && weddingCard) {
         </div>
       </div>
 
-      {/* 🎴 Wedding icon below paragraph */}
-      <div className="landing-description">
-        <Image src={weddingIcon1} alt="Wedding icon below paragraph" width={200} height={250} />
+      <div className="wedding-bottom-left">
+        <Image src={weddingIcon11} alt="Wedding Icon Bottom Left" width={100} height={100} />
+      </div>
+
+      <div className="wedding-bottom-right">
+        <Image src={weddingIcon12} alt="Wedding Icon Bottom Right" width={100} height={100} />
+      </div>
+
+      <div className="wedding-bottom-center">
+        <Image src={weddingIcon15} alt="Wedding Icon Bottom Center" width={120} height={120} />
       </div>
 
       <Footer />
