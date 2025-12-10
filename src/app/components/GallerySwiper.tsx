@@ -144,12 +144,17 @@ export default function GallerySwiper() {
             ? item.media_files 
             : (item.media_url ? [item.media_url] : []);
 
+            // Dynamic sizing based on count
+          const isSingleMedia = mediaUrls.length === 1;
+          const mediaWidth = isSingleMedia ? 400 : 200;
+          const mediaHeight = isSingleMedia ? 300 : 150;
+
           return (
             <SwiperSlide key={item.id} className="gallery-slide">
               <div className="gallery-slide-content">
                 {/* Multiple Media Display */}
                 {mediaUrls.length > 0 && (
-                  <div className="gallery-thumbnail-grid">
+                  <div className={`gallery-thumbnail-grid ${isSingleMedia ? 'single-media' : 'multi-media'}`}>
                     {mediaUrls.map((url, index) => {
                       const isVideo = url.match(/\.(mp4|mov|webm)$/);
                       return (
@@ -173,8 +178,8 @@ export default function GallerySwiper() {
                             <Image
                               src={url}
                               alt={`Photo ${index + 1} by ${item.guest_name}`}
-                              width={100}
-                              height={100}
+                              width={mediaWidth}
+                              height={mediaHeight}
                               className="gallery-thumbnail"
                               style={{ objectFit: 'cover' }}
                               unoptimized={true}

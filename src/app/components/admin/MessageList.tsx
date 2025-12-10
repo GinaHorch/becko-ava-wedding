@@ -385,20 +385,25 @@ export default function MessageList() {
                   ? msg.media_files 
                   : (msg.media_url ? [msg.media_url] : []);
 
+                  // Dynamic sizing based on count
+                const isSingleMedia = mediaUrls.length === 1;
+                const mediaWidth = isSingleMedia ? 400 : 200;
+                const mediaHeight = isSingleMedia ? 300 : 150;
+
                 return mediaUrls.length > 0 && (
-                  <div className="admin-message-media">
+                  <div className={`admin-message-media ${isSingleMedia ? 'single-media' : 'multi-media'}`}>
                     {mediaUrls.map((url, index) => {
                       const isVideo = url.match(/\.(mp4|mov|webm)$/);
                       return (
                         <div key={index} className="admin-media-item">
                           {isVideo ? (
-                            <video src={url} controls style={{ maxWidth: '200px', borderRadius: '4px' }} />
+                            <video src={url} controls style={{ maxWidth: `${mediaWidth}px`, borderRadius: '4px' }} />
                           ) : (
                             <Image
                               src={url}
                               alt={`Upload ${index + 1}`}
-                              width={200}
-                              height={150}
+                              width={mediaWidth}
+                              height={mediaHeight}
                               style={{ objectFit: 'cover', borderRadius: '4px' }}
                               unoptimized={true}
                             />

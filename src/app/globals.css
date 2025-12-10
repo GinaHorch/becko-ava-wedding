@@ -3390,23 +3390,47 @@ form.guest-message-form textarea,
   line-height: 1.4;
 }
 
-/* Gallery Thumbnail Grid (Option A) */
+/* Gallery Thumbnail Grid - Base styles */
 .gallery-thumbnail-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  gap: 0.5rem;
   margin-bottom: 1rem;
   max-width: 100%;
+  gap: 0.5rem;
+}
+
+/* Multiple media - keep grid layout */
+.gallery-thumbnail-grid.multi-media {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 0.5rem;
+}
+
+/* Single media - center it with flexbox */
+.gallery-thumbnail-grid.single-media {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  overflow: hidden; /* Prevent overflow */
 }
 
 .gallery-thumbnail-item {
   position: relative;
-  aspect-ratio: 1;
   border-radius: 6px;
   overflow: hidden;
   border: 2px solid #f0c3ce;
   cursor: pointer;
   transition: all 0.3s ease;
+}
+
+/* Maintain aspect ratio for multi-media */
+.gallery-thumbnail-grid.multi-media .gallery-thumbnail-item {
+  aspect-ratio: 4/3; /* Matches your 200x150 ratio */
+}
+
+/* Single media gets natural dimensions from Image component */
+.gallery-thumbnail-grid.single-media .gallery-thumbnail-item {
+  width: fit-content;
+  max-width: 100%;
 }
 
 .gallery-thumbnail-item:hover {
@@ -3420,7 +3444,10 @@ form.guest-message-form textarea,
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block; /* Removes any inline spacing */
 }
+
+
 
 /* Lightbox Modal */
 .lightbox-overlay {
