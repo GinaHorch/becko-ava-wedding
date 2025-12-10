@@ -26,7 +26,7 @@ export default function Footer() {
         
         <div className="footer-right">
           <a href="/admin/login" className="admin-link">
-            <span className="lock-icon">🔒</span> Admin
+            <span className="lock-icon">🔒</span> For the Brides
           </a>
         </div>
       </div>
