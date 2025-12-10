@@ -97,8 +97,8 @@ export default function GuestMessageForm() {
 
       // Image validation
       if (isImage) {
-        if (currentImages + 1 > 5) {
-          alert('You can only upload up to 5 images per message');
+        if (currentImages + 1 > 10) {
+          alert('You can only upload up to 10 images per message');
           break;
         }
       }
@@ -352,7 +352,7 @@ export default function GuestMessageForm() {
         <input {...getInputProps()} id="media-upload"/>
         <div className="upload-placeholder">
           <p>📸 Drag & drop or click to select</p>
-          <small>Up to 5 photos + 1 video (60 sec max, MP4/MOV only)</small>
+          <small>Up to 10 photos + 1 video (60 sec max, MP4/MOV only)</small>
         </div>
       </div>
 
