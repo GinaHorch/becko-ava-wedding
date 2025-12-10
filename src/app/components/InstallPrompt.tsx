@@ -113,23 +113,36 @@ export default function InstallPrompt() {
         <h3 className="install-prompt-title">Add to Home Screen</h3>
         
         {isIOS ? (
-          <div className="install-prompt-ios-instructions">
-            <p className="install-prompt-text" style={{ marginBottom: '1rem' }}>
-              Install our app for quick access during the wedding!
-            </p>
-            <div className="install-icon-share-container">
-              <div className="install-icon-share">
-                <span className="share-box">
-                  <span className="share-arrow">↑</span>
-                </span>
-              </div>
+        <div className="install-prompt-ios-instructions">
+          <p className="install-prompt-text" style={{ marginBottom: '1rem' }}>
+            Install our app for quick access during the wedding!
+          </p>
+          <div className="install-icon-share-container">
+            <div className="install-icon-share">
+              {/* iOS Share Button Icon */}
+              <svg 
+                width="30" 
+                height="36" 
+                viewBox="0 0 30 36" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ margin: '0 auto' }}
+              >
+                {/* Box */}
+                <rect x="3" y="12" width="24" height="20" rx="3" stroke="#007AFF" strokeWidth="2" fill="none"/>
+                {/* Arrow shaft */}
+                <line x1="15" y1="4" x2="15" y2="18" stroke="#007AFF" strokeWidth="2" strokeLinecap="round"/>
+                {/* Arrow head */}
+                <polyline points="10,9 15,4 20,9" stroke="#007AFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+              </svg>
             </div>
-            <p className="install-prompt-text install-steps">
-              1. Tap the <strong>Share button</strong> (shown above) of your browser<br/>
-              2. Scroll down and select <strong>&quot;Add to Home Screen&quot;</strong><br/>
-              3. Tap <strong>&quot;Add&quot;</strong> to install!
-            </p>
           </div>
+          <p className="install-prompt-text install-steps">
+            1. Tap the <strong>Share button</strong> <span style={{ fontSize: '0.9em', color: '#666' }}>(shown above)</span> in the navigation bar at the bottom of your screen<br/>
+            2. Scroll down and select <strong>&quot;Add to Home Screen&quot;</strong><br/>
+            3. Tap <strong>&quot;Add&quot;</strong> to install!
+          </p>
+        </div>
         ) : (
           <>
             <p className="install-prompt-text">

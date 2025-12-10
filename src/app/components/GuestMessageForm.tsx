@@ -5,6 +5,7 @@ import { supabase } from '../utils/supabaseClient';
 import { useDropzone } from 'react-dropzone';
 import Image from 'next/image';
 import imageCompression from 'browser-image-compression';
+import { useRouter } from 'next/navigation';
 
 interface MediaFile {
   file: File;
@@ -20,6 +21,7 @@ export default function GuestMessageForm() {
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({});
   const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const router = useRouter();  // ADD THIS LINE
 
    // Add sparkles effect
   useEffect(() => {
@@ -63,6 +65,7 @@ export default function GuestMessageForm() {
   const onDrop = async (acceptedFiles: File[]) => {
     const currentImages = mediaFiles.filter(f => f.type === 'image').length;
     const currentVideo = mediaFiles.find(f => f.type === 'video');
+    let imagesAddedThisSession = 0; // NEW: Track images being added
 
     for (const file of acceptedFiles) {
       const isVideo = file.type.startsWith('video/');
@@ -95,12 +98,13 @@ export default function GuestMessageForm() {
         }
       }
 
-      // Image validation
+      // Image validation - FIXED
       if (isImage) {
-        if (currentImages + 1 > 10) {
+        if (currentImages + imagesAddedThisSession + 1 > 10) {  // Check current + new count
           alert('You can only upload up to 10 images per message');
-          break;
+          break; // Stop processing more files
         }
+        imagesAddedThisSession++; // Increment counter
       }
 
       // Add file to state
@@ -328,7 +332,13 @@ export default function GuestMessageForm() {
     } finally {
       setUploading(false);
     }
+
+     // Redirect to home page after short delay
+     setTimeout(() => {
+      router.push('/');
+    }, 1500);  // 1.5 second delay so user sees the success message
   };
+
 
   return (
     <form onSubmit={handleSubmit} className="guest-message-form">
