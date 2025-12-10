@@ -501,7 +501,7 @@ body {
 .confetti-text {
   position: relative;
   display: inline-block;
-  line-height: 3.5rem;
+  line-height: 4.5rem;
   background: linear-gradient(
     45deg,
     rgba(230, 0, 1, 0.8),

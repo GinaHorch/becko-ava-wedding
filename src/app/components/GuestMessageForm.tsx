@@ -268,8 +268,26 @@ export default function GuestMessageForm() {
           }
 
           // Upload to Supabase
-          const fileExt = file.name.split('.').pop();
+          // Get extension from filename, fallback to MIME type
+          let fileExt = file.name.split('.').pop();
+
+          // If no extension or suspicious, derive from MIME type
+          if (!fileExt || fileExt === file.name || fileExt.length > 5) {
+            if (type === 'video') {
+              // Derive from MIME type
+              if (file.type.includes('mp4')) {
+                fileExt = 'mp4';
+              } else if (file.type.includes('quicktime') || file.type.includes('mov')) {
+                fileExt = 'mov';
+              } else {
+                fileExt = 'mp4'; // Default fallback
+              }
+              console.log(`No valid extension found, using MIME type: .${fileExt}`);
+            }
+          }
+
           const filePath = `guest_uploads/${messageId}/${type}-${Date.now()}.${fileExt}`;
+          console.log(`Upload details - Name: ${file.name}, Type: ${file.type}, Size: ${file.size}, Extension: ${fileExt}`);
 
           console.log(`Uploading ${type}: ${filePath}`);
           setUploadProgress(prev => ({ ...prev, [id]: 50 }));
@@ -326,17 +344,19 @@ export default function GuestMessageForm() {
       setMessage('');
       setMediaFiles([]);
       setUploadProgress({});
+      
+      // Redirect to home page after short delay - MOVED INSIDE SUCCESS PATH
+      setTimeout(() => {
+        router.push('/');
+      }, 1500);
+      
     } catch (error) {
       console.error('Unexpected error:', error);
       alert('An unexpected error occurred. Please try again.');
+      // NO REDIRECT on error - user stays on form to retry
     } finally {
       setUploading(false);
     }
-
-     // Redirect to home page after short delay
-     setTimeout(() => {
-      router.push('/');
-    }, 1500);  // 1.5 second delay so user sees the success message
   };
 
 
