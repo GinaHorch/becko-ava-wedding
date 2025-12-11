@@ -172,7 +172,15 @@ export default function GuestMessageForm() {
       'video/quicktime': [],
     },
     multiple: true,
+    noClick: false,
+    noKeyboard: false,
+    // NEW: Prevent capture attribute from being added
+    noDrag: false,
   });
+
+  // Modify getInputProps to remove capture
+  const inputProps = getInputProps();
+  delete inputProps.capture; // Remove capture attribute if present
 
 // Upload with retry logic for rate limiting
   const uploadWithRetry = async (
@@ -404,7 +412,7 @@ export default function GuestMessageForm() {
 
       <label htmlFor="media-upload">Upload Photos & Video (Optional):</label>
       <div {...getRootProps()} className="image-upload-container">
-        <input {...getInputProps()} id="media-upload"/>
+        <input {...inputProps} id="media-upload"/>
         <div className="upload-placeholder">
           <p>📸 Drag & drop or click to select</p>
           <small>Up to 10 photos + 1 video (60 sec max, MP4/MOV only)
