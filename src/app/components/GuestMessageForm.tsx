@@ -87,6 +87,15 @@ export default function GuestMessageForm() {
           alert('Only MP4 and MOV videos are supported');
           continue;
         }
+
+        // NEW: Check if file is suspiciously small (likely a thumbnail, not video)
+        const minVideoSize = 100 * 1024; // 100KB minimum
+        if (file.size < minVideoSize) {
+          console.error('Video file too small:', file.size, 'bytes - likely a thumbnail');
+          alert('⚠️ Video capture error: Please select your video from your Camera Roll/Gallery instead of using the camera directly.');
+          continue;
+        }
+
         if (file.size > 50 * 1024 * 1024) {
           alert('Video must be less than 50MB');
           continue;
@@ -94,6 +103,22 @@ export default function GuestMessageForm() {
         const isValidDuration = await checkVideoDuration(file);
         if (!isValidDuration) {
           alert('Video must be 60 seconds or less');
+          continue;
+        }
+      
+
+      // NEW: Additional verification - try to read a chunk of the file
+        try {
+          const fileReader = new FileReader();
+          const blob = file.slice(0, 1024); // Read first 1KB
+          await new Promise((resolve, reject) => {
+            fileReader.onload = resolve;
+            fileReader.onerror = reject;
+            fileReader.readAsArrayBuffer(blob);
+          });
+        } catch (error) {
+          console.error('Cannot read video file:', error);
+          alert('⚠️ Video file error: Please select your video from your Camera Roll/Gallery instead of using the camera directly.');
           continue;
         }
       }
@@ -382,7 +407,8 @@ export default function GuestMessageForm() {
         <input {...getInputProps()} id="media-upload"/>
         <div className="upload-placeholder">
           <p>📸 Drag & drop or click to select</p>
-          <small>Up to 10 photos + 1 video (60 sec max, MP4/MOV only)</small>
+          <small>Up to 10 photos + 1 video (60 sec max, MP4/MOV only)
+          💡 For videos: Please select from Camera Roll/Gallery</small>
         </div>
       </div>
 
